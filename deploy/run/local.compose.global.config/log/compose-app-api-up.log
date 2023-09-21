@@ -1,0 +1,606 @@
+Env file: /g/Projects/go/meta_api/deploy/run/local.compose.global.config/.env
+Current directory:
+/g/Projects/go/meta_api/deploy/run
+Go to working directory:
+/g/Projects/go/meta_api /g/Projects/go/meta_api/deploy/run
+Create folder for bind_mounts
+Run compose
+#1 [app-api internal] load .dockerignore
+#1 transferring context: 182B 0.0s done
+#1 DONE 0.0s
+
+#2 [app-api internal] load build definition from app-api.Dockerfile
+#2 transferring dockerfile: 2.39kB 0.0s done
+#2 DONE 0.0s
+
+#3 [app-api internal] load metadata for gcr.io/distroless/base-debian10:latest
+#3 DONE 0.7s
+
+#4 [app-api auth] library/golang:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#5 [app-api internal] load metadata for docker.io/library/golang:1.21
+#5 DONE 2.0s
+
+#6 [app-api stage-1 1/3] FROM gcr.io/distroless/base-debian10@sha256:101798a3b76599762d3528635113f0466dc9655ecba82e8e33d410e2bf5cd319
+#6 DONE 0.0s
+
+#7 [app-api build  1/11] FROM docker.io/library/golang:1.21@sha256:b490ae1f0ece153648dd3c5d25be59a63f966b5f9e1311245c947de4506981aa
+#7 resolve docker.io/library/golang:1.21@sha256:b490ae1f0ece153648dd3c5d25be59a63f966b5f9e1311245c947de4506981aa 0.0s done
+#7 sha256:12359f96c43077803959dab88ce60c87cd2543f3b907bf54a34a5104270f404f 1.58kB / 1.58kB done
+#7 sha256:434a1905832963ddddafdfb5a8f329a0c0b78a3529c99d57259f0888e0feb973 7.06kB / 7.06kB done
+#7 sha256:de4cac68b6165c40cf6f8b30417948c31be03a968e233e55ee40221553a5e570 0B / 49.56MB 0.1s
+#7 sha256:d31b0195ec5f04dfc78eca9d73b5d223fc36a29f54ee888bc4e0615b5839e692 0B / 24.03MB 0.1s
+#7 sha256:9b1fd34c30b75e7edb20c2fd09a9862697f302ef9ae357e521ef3c84d5534e3f 0B / 64.11MB 0.1s
+#7 sha256:b490ae1f0ece153648dd3c5d25be59a63f966b5f9e1311245c947de4506981aa 2.36kB / 2.36kB done
+#7 sha256:d31b0195ec5f04dfc78eca9d73b5d223fc36a29f54ee888bc4e0615b5839e692 2.10MB / 24.03MB 0.7s
+#7 sha256:de4cac68b6165c40cf6f8b30417948c31be03a968e233e55ee40221553a5e570 3.15MB / 49.56MB 1.0s
+#7 sha256:9b1fd34c30b75e7edb20c2fd09a9862697f302ef9ae357e521ef3c84d5534e3f 4.19MB / 64.11MB 1.0s
+#7 ...
+
+#8 [app-api internal] load build context
+#8 transferring context: 47.82MB 1.0s done
+#8 DONE 1.0s
+
+#7 [app-api build  1/11] FROM docker.io/library/golang:1.21@sha256:b490ae1f0ece153648dd3c5d25be59a63f966b5f9e1311245c947de4506981aa
+#7 sha256:d31b0195ec5f04dfc78eca9d73b5d223fc36a29f54ee888bc4e0615b5839e692 4.19MB / 24.03MB 1.5s
+#7 sha256:de4cac68b6165c40cf6f8b30417948c31be03a968e233e55ee40221553a5e570 6.29MB / 49.56MB 2.2s
+#7 sha256:d31b0195ec5f04dfc78eca9d73b5d223fc36a29f54ee888bc4e0615b5839e692 6.29MB / 24.03MB 2.5s
+#7 sha256:d31b0195ec5f04dfc78eca9d73b5d223fc36a29f54ee888bc4e0615b5839e692 8.39MB / 24.03MB 3.3s
+#7 sha256:9b1fd34c30b75e7edb20c2fd09a9862697f302ef9ae357e521ef3c84d5534e3f 8.39MB / 64.11MB 3.4s
+#7 sha256:de4cac68b6165c40cf6f8b30417948c31be03a968e233e55ee40221553a5e570 9.44MB / 49.56MB 3.7s
+#7 sha256:d31b0195ec5f04dfc78eca9d73b5d223fc36a29f54ee888bc4e0615b5839e692 10.49MB / 24.03MB 4.1s
+#7 sha256:de4cac68b6165c40cf6f8b30417948c31be03a968e233e55ee40221553a5e570 12.58MB / 49.56MB 5.1s
+#7 sha256:d31b0195ec5f04dfc78eca9d73b5d223fc36a29f54ee888bc4e0615b5839e692 12.58MB / 24.03MB 5.1s
+#7 sha256:9b1fd34c30b75e7edb20c2fd09a9862697f302ef9ae357e521ef3c84d5534e3f 12.58MB / 64.11MB 5.2s
+#7 sha256:d31b0195ec5f04dfc78eca9d73b5d223fc36a29f54ee888bc4e0615b5839e692 14.68MB / 24.03MB 5.9s
+#7 sha256:de4cac68b6165c40cf6f8b30417948c31be03a968e233e55ee40221553a5e570 15.73MB / 49.56MB 6.6s
+#7 sha256:d31b0195ec5f04dfc78eca9d73b5d223fc36a29f54ee888bc4e0615b5839e692 16.78MB / 24.03MB 6.8s
+#7 sha256:9b1fd34c30b75e7edb20c2fd09a9862697f302ef9ae357e521ef3c84d5534e3f 16.78MB / 64.11MB 6.9s
+#7 sha256:d31b0195ec5f04dfc78eca9d73b5d223fc36a29f54ee888bc4e0615b5839e692 18.87MB / 24.03MB 7.7s
+#7 sha256:9b1fd34c30b75e7edb20c2fd09a9862697f302ef9ae357e521ef3c84d5534e3f 20.97MB / 64.11MB 8.4s
+#7 sha256:de4cac68b6165c40cf6f8b30417948c31be03a968e233e55ee40221553a5e570 18.87MB / 49.56MB 8.5s
+#7 sha256:d31b0195ec5f04dfc78eca9d73b5d223fc36a29f54ee888bc4e0615b5839e692 20.97MB / 24.03MB 8.5s
+#7 sha256:d31b0195ec5f04dfc78eca9d73b5d223fc36a29f54ee888bc4e0615b5839e692 23.07MB / 24.03MB 9.6s
+#7 sha256:9b1fd34c30b75e7edb20c2fd09a9862697f302ef9ae357e521ef3c84d5534e3f 25.17MB / 64.11MB 10.1s
+#7 sha256:d31b0195ec5f04dfc78eca9d73b5d223fc36a29f54ee888bc4e0615b5839e692 24.03MB / 24.03MB 10.1s done
+#7 sha256:2f744fb50e06fe7e56d42f6f0776b4b6041b65ef9435c1982e66d5a477047682 0B / 92.27MB 10.2s
+#7 sha256:de4cac68b6165c40cf6f8b30417948c31be03a968e233e55ee40221553a5e570 22.02MB / 49.56MB 10.4s
+#7 sha256:de4cac68b6165c40cf6f8b30417948c31be03a968e233e55ee40221553a5e570 25.17MB / 49.56MB 11.2s
+#7 sha256:9b1fd34c30b75e7edb20c2fd09a9862697f302ef9ae357e521ef3c84d5534e3f 29.36MB / 64.11MB 12.9s
+#7 sha256:de4cac68b6165c40cf6f8b30417948c31be03a968e233e55ee40221553a5e570 28.31MB / 49.56MB 13.5s
+#7 sha256:2f744fb50e06fe7e56d42f6f0776b4b6041b65ef9435c1982e66d5a477047682 5.24MB / 92.27MB 14.2s
+#7 sha256:9b1fd34c30b75e7edb20c2fd09a9862697f302ef9ae357e521ef3c84d5534e3f 33.55MB / 64.11MB 14.7s
+#7 sha256:de4cac68b6165c40cf6f8b30417948c31be03a968e233e55ee40221553a5e570 31.46MB / 49.56MB 15.0s
+#7 sha256:9b1fd34c30b75e7edb20c2fd09a9862697f302ef9ae357e521ef3c84d5534e3f 37.75MB / 64.11MB 16.3s
+#7 sha256:de4cac68b6165c40cf6f8b30417948c31be03a968e233e55ee40221553a5e570 34.60MB / 49.56MB 16.6s
+#7 sha256:2f744fb50e06fe7e56d42f6f0776b4b6041b65ef9435c1982e66d5a477047682 10.49MB / 92.27MB 16.7s
+#7 sha256:de4cac68b6165c40cf6f8b30417948c31be03a968e233e55ee40221553a5e570 37.75MB / 49.56MB 17.9s
+#7 sha256:9b1fd34c30b75e7edb20c2fd09a9862697f302ef9ae357e521ef3c84d5534e3f 41.94MB / 64.11MB 17.9s
+#7 sha256:2f744fb50e06fe7e56d42f6f0776b4b6041b65ef9435c1982e66d5a477047682 15.73MB / 92.27MB 19.4s
+#7 sha256:de4cac68b6165c40cf6f8b30417948c31be03a968e233e55ee40221553a5e570 40.89MB / 49.56MB 19.9s
+#7 sha256:9b1fd34c30b75e7edb20c2fd09a9862697f302ef9ae357e521ef3c84d5534e3f 46.14MB / 64.11MB 20.1s
+#7 sha256:2f744fb50e06fe7e56d42f6f0776b4b6041b65ef9435c1982e66d5a477047682 20.97MB / 92.27MB 21.5s
+#7 sha256:9b1fd34c30b75e7edb20c2fd09a9862697f302ef9ae357e521ef3c84d5534e3f 50.33MB / 64.11MB 21.7s
+#7 sha256:de4cac68b6165c40cf6f8b30417948c31be03a968e233e55ee40221553a5e570 44.04MB / 49.56MB 22.6s
+#7 sha256:9b1fd34c30b75e7edb20c2fd09a9862697f302ef9ae357e521ef3c84d5534e3f 54.53MB / 64.11MB 23.3s
+#7 sha256:2f744fb50e06fe7e56d42f6f0776b4b6041b65ef9435c1982e66d5a477047682 26.21MB / 92.27MB 23.7s
+#7 sha256:de4cac68b6165c40cf6f8b30417948c31be03a968e233e55ee40221553a5e570 47.19MB / 49.56MB 23.9s
+#7 sha256:9b1fd34c30b75e7edb20c2fd09a9862697f302ef9ae357e521ef3c84d5534e3f 58.72MB / 64.11MB 25.0s
+#7 sha256:de4cac68b6165c40cf6f8b30417948c31be03a968e233e55ee40221553a5e570 49.56MB / 49.56MB 25.0s done
+#7 sha256:661ee9827c7b967875eb48447f68fc66ca426a6067f385d1ce553a927a20c8ff 0B / 66.87MB 25.1s
+#7 extracting sha256:de4cac68b6165c40cf6f8b30417948c31be03a968e233e55ee40221553a5e570
+#7 sha256:2f744fb50e06fe7e56d42f6f0776b4b6041b65ef9435c1982e66d5a477047682 31.46MB / 92.27MB 25.9s
+#7 sha256:661ee9827c7b967875eb48447f68fc66ca426a6067f385d1ce553a927a20c8ff 4.19MB / 66.87MB 26.7s
+#7 sha256:9b1fd34c30b75e7edb20c2fd09a9862697f302ef9ae357e521ef3c84d5534e3f 62.91MB / 64.11MB 27.0s
+#7 sha256:9b1fd34c30b75e7edb20c2fd09a9862697f302ef9ae357e521ef3c84d5534e3f 64.11MB / 64.11MB 27.7s done
+#7 sha256:fa5c1764d69475fa335ef99e53c3a89552eabb243701101eed02eb42d90220df 0B / 155B 27.7s
+#7 sha256:661ee9827c7b967875eb48447f68fc66ca426a6067f385d1ce553a927a20c8ff 8.39MB / 66.87MB 27.9s
+#7 sha256:fa5c1764d69475fa335ef99e53c3a89552eabb243701101eed02eb42d90220df 155B / 155B 27.9s done
+#7 sha256:2f744fb50e06fe7e56d42f6f0776b4b6041b65ef9435c1982e66d5a477047682 36.70MB / 92.27MB 28.3s
+#7 extracting sha256:de4cac68b6165c40cf6f8b30417948c31be03a968e233e55ee40221553a5e570 3.7s done
+#7 extracting sha256:d31b0195ec5f04dfc78eca9d73b5d223fc36a29f54ee888bc4e0615b5839e692
+#7 sha256:661ee9827c7b967875eb48447f68fc66ca426a6067f385d1ce553a927a20c8ff 12.58MB / 66.87MB 29.4s
+#7 sha256:2f744fb50e06fe7e56d42f6f0776b4b6041b65ef9435c1982e66d5a477047682 41.94MB / 92.27MB 29.6s
+#7 extracting sha256:d31b0195ec5f04dfc78eca9d73b5d223fc36a29f54ee888bc4e0615b5839e692 1.0s done
+#7 extracting sha256:9b1fd34c30b75e7edb20c2fd09a9862697f302ef9ae357e521ef3c84d5534e3f
+#7 sha256:661ee9827c7b967875eb48447f68fc66ca426a6067f385d1ce553a927a20c8ff 16.78MB / 66.87MB 30.8s
+#7 sha256:2f744fb50e06fe7e56d42f6f0776b4b6041b65ef9435c1982e66d5a477047682 47.19MB / 92.27MB 31.0s
+#7 sha256:661ee9827c7b967875eb48447f68fc66ca426a6067f385d1ce553a927a20c8ff 20.97MB / 66.87MB 32.1s
+#7 sha256:2f744fb50e06fe7e56d42f6f0776b4b6041b65ef9435c1982e66d5a477047682 52.43MB / 92.27MB 32.5s
+#7 sha256:661ee9827c7b967875eb48447f68fc66ca426a6067f385d1ce553a927a20c8ff 25.17MB / 66.87MB 33.3s
+#7 sha256:2f744fb50e06fe7e56d42f6f0776b4b6041b65ef9435c1982e66d5a477047682 57.67MB / 92.27MB 34.3s
+#7 sha256:661ee9827c7b967875eb48447f68fc66ca426a6067f385d1ce553a927a20c8ff 29.36MB / 66.87MB 34.5s
+#7 extracting sha256:9b1fd34c30b75e7edb20c2fd09a9862697f302ef9ae357e521ef3c84d5534e3f 4.4s done
+#7 sha256:2f744fb50e06fe7e56d42f6f0776b4b6041b65ef9435c1982e66d5a477047682 62.91MB / 92.27MB 35.8s
+#7 sha256:661ee9827c7b967875eb48447f68fc66ca426a6067f385d1ce553a927a20c8ff 33.55MB / 66.87MB 35.8s
+#7 sha256:661ee9827c7b967875eb48447f68fc66ca426a6067f385d1ce553a927a20c8ff 37.75MB / 66.87MB 36.9s
+#7 sha256:2f744fb50e06fe7e56d42f6f0776b4b6041b65ef9435c1982e66d5a477047682 68.16MB / 92.27MB 37.4s
+#7 sha256:661ee9827c7b967875eb48447f68fc66ca426a6067f385d1ce553a927a20c8ff 41.94MB / 66.87MB 38.0s
+#7 sha256:2f744fb50e06fe7e56d42f6f0776b4b6041b65ef9435c1982e66d5a477047682 73.40MB / 92.27MB 39.2s
+#7 sha256:661ee9827c7b967875eb48447f68fc66ca426a6067f385d1ce553a927a20c8ff 46.14MB / 66.87MB 39.2s
+#7 sha256:661ee9827c7b967875eb48447f68fc66ca426a6067f385d1ce553a927a20c8ff 50.33MB / 66.87MB 40.5s
+#7 sha256:2f744fb50e06fe7e56d42f6f0776b4b6041b65ef9435c1982e66d5a477047682 78.64MB / 92.27MB 40.6s
+#7 sha256:661ee9827c7b967875eb48447f68fc66ca426a6067f385d1ce553a927a20c8ff 54.53MB / 66.87MB 41.8s
+#7 sha256:2f744fb50e06fe7e56d42f6f0776b4b6041b65ef9435c1982e66d5a477047682 83.89MB / 92.27MB 42.2s
+#7 sha256:661ee9827c7b967875eb48447f68fc66ca426a6067f385d1ce553a927a20c8ff 58.72MB / 66.87MB 42.7s
+#7 sha256:2f744fb50e06fe7e56d42f6f0776b4b6041b65ef9435c1982e66d5a477047682 89.13MB / 92.27MB 43.8s
+#7 sha256:661ee9827c7b967875eb48447f68fc66ca426a6067f385d1ce553a927a20c8ff 62.91MB / 66.87MB 44.3s
+#7 sha256:2f744fb50e06fe7e56d42f6f0776b4b6041b65ef9435c1982e66d5a477047682 92.27MB / 92.27MB 44.5s done
+#7 extracting sha256:2f744fb50e06fe7e56d42f6f0776b4b6041b65ef9435c1982e66d5a477047682 0.1s
+#7 sha256:661ee9827c7b967875eb48447f68fc66ca426a6067f385d1ce553a927a20c8ff 66.87MB / 66.87MB 45.0s done
+#7 extracting sha256:2f744fb50e06fe7e56d42f6f0776b4b6041b65ef9435c1982e66d5a477047682 3.8s done
+#7 extracting sha256:661ee9827c7b967875eb48447f68fc66ca426a6067f385d1ce553a927a20c8ff
+#7 extracting sha256:661ee9827c7b967875eb48447f68fc66ca426a6067f385d1ce553a927a20c8ff 5.0s
+#7 extracting sha256:661ee9827c7b967875eb48447f68fc66ca426a6067f385d1ce553a927a20c8ff 6.7s done
+#7 extracting sha256:fa5c1764d69475fa335ef99e53c3a89552eabb243701101eed02eb42d90220df done
+#7 DONE 55.6s
+
+#9 [app-api build  2/11] WORKDIR /app
+#9 DONE 1.3s
+
+#10 [app-api build  3/11] RUN mkdir ./run && mkdir ./run/defcfg && mkdir ./run/log && mkdir ./run/cfg
+#10 DONE 0.6s
+
+#11 [app-api build  4/11] COPY ./go.mod ./go.mod
+#11 DONE 0.0s
+
+#12 [app-api build  5/11] COPY ./go.sum ./go.sum
+#12 DONE 0.0s
+
+#13 [app-api build  6/11] COPY ./pkg ./pkg
+#13 DONE 0.1s
+
+#14 [app-api build  7/11] COPY ./cmd/app/main.go ./cmd/app/main.go
+#14 DONE 0.0s
+
+#15 [app-api build  8/11] COPY ./vendor ./vendor
+#15 DONE 0.4s
+
+#16 [app-api build  9/11] COPY ./deploy/config/. ./run/defcfg/
+#16 DONE 0.0s
+
+#17 [app-api build 10/11] RUN CGO_ENABLED=0 go build -v -mod vendor -ldflags "-X main.commit=3327af4 -X main.buildTime=2023-08-31_10:56:31 -X main.version=2.1.1" -o ./run/main ./cmd/app/main.go
+#17 0.667 internal/coverage/rtcov
+#17 0.668 internal/godebugs
+#17 0.668 internal/goarch
+#17 0.668 internal/unsafeheader
+#17 0.671 internal/goexperiment
+#17 0.674 internal/cpu
+#17 0.676 internal/goos
+#17 0.679 runtime/internal/atomic
+#17 0.681 internal/abi
+#17 0.681 runtime/internal/math
+#17 0.682 runtime/internal/syscall
+#17 0.687 runtime/internal/sys
+#17 0.692 internal/race
+#17 0.717 internal/itoa
+#17 0.718 sync/atomic
+#17 0.723 unicode
+#17 0.735 unicode/utf8
+#17 0.765 encoding
+#17 0.766 math/bits
+#17 0.779 internal/bytealg
+#17 0.780 unicode/utf16
+#17 0.783 container/list
+#17 0.820 crypto/internal/alias
+#17 0.822 math
+#17 0.855 crypto/subtle
+#17 0.856 crypto/internal/boring/sig
+#17 0.894 vendor/golang.org/x/crypto/cryptobyte/asn1
+#17 0.895 internal/nettrace
+#17 0.902 vendor/golang.org/x/crypto/internal/alias
+#17 0.909 log/internal
+#17 0.917 google.golang.org/protobuf/internal/flags
+#17 0.925 google.golang.org/protobuf/internal/set
+#17 0.941 golang.org/x/text/encoding/internal/identifier
+#17 0.943 golang.org/x/text/internal/utf8internal
+#17 0.947 github.com/twitchyliquid64/golang-asm/unsafeheader
+#17 0.950 github.com/bytedance/sonic/option
+#17 0.956 github.com/antonmedv/expr/parser/operator
+#17 0.963 github.com/antonmedv/expr/parser/utils
+#17 0.970 github.com/go-playground/locales/currency
+#17 0.972 golang.org/x/net/html/atom
+#17 0.977 image/color
+#17 0.978 runtime
+#17 1.015 github.com/tidwall/match
+#17 1.019 github.com/lib/pq/oid
+#17 1.026 internal/goversion
+#17 1.086 math/cmplx
+#17 3.524 internal/reflectlite
+#17 3.524 runtime/metrics
+#17 3.524 sync
+#17 3.624 internal/testlog
+#17 3.624 internal/singleflight
+#17 3.625 go.uber.org/zap/internal/pool
+#17 3.626 internal/bisect
+#17 3.627 google.golang.org/protobuf/internal/pragma
+#17 3.690 internal/godebug
+#17 3.691 errors
+#17 3.691 sort
+#17 3.711 io
+#17 3.713 internal/safefilepath
+#17 3.715 strconv
+#17 3.716 internal/oserror
+#17 3.734 path
+#17 3.736 syscall
+#17 3.738 math/rand
+#17 3.783 crypto/internal/nistec/fiat
+#17 3.786 vendor/golang.org/x/net/dns/dnsmessage
+#17 3.810 bytes
+#17 3.849 strings
+#17 4.015 hash
+#17 4.032 reflect
+#17 4.062 hash/crc32
+#17 4.076 bufio
+#17 4.125 crypto
+#17 4.166 crypto/internal/randutil
+#17 4.181 crypto/rc4
+#17 4.181 internal/intern
+#17 4.183 vendor/golang.org/x/text/transform
+#17 4.227 net/netip
+#17 4.236 net/http/internal/ascii
+#17 4.265 regexp/syntax
+#17 4.311 github.com/beorn7/perks/quantile
+#17 4.422 hash/fnv
+#17 4.489 github.com/prometheus/common/internal/bitbucket.org/ww/goautoneg
+#17 4.497 html
+#17 4.500 golang.org/x/text/transform
+#17 4.523 time
+#17 4.546 internal/syscall/unix
+#17 4.599 internal/syscall/execenv
+#17 4.603 text/tabwriter
+#17 4.610 hash/adler32
+#17 4.643 golang.org/x/text/internal/tag
+#17 4.670 golang.org/x/text/encoding
+#17 4.682 regexp
+#17 4.701 golang.org/x/text/runes
+#17 4.703 github.com/xuri/nfp
+#17 4.771 golang.org/x/text/encoding/internal
+#17 4.784 golang.org/x/crypto/md4
+#17 4.846 golang.org/x/text/encoding/unicode
+#17 4.884 golang.org/x/crypto/ripemd160
+#17 4.949 github.com/xuri/efp
+#17 4.955 golang.org/x/text/encoding/charmap
+#17 4.966 golang.org/x/text/encoding/japanese
+#17 4.989 golang.org/x/text/encoding/korean
+#17 5.109 context
+#17 5.235 internal/poll
+#17 5.273 io/fs
+#17 5.352 encoding/binary
+#17 5.377 internal/fmtsort
+#17 5.420 embed
+#17 5.468 github.com/jmoiron/sqlx/reflectx
+#17 5.469 os
+#17 5.542 go.uber.org/zap/buffer
+#17 5.556 github.com/go-playground/locales
+#17 5.576 encoding/base64
+#17 5.599 crypto/cipher
+#17 5.604 crypto/internal/edwards25519/field
+#17 5.635 crypto/internal/nistec
+#17 5.679 crypto/md5
+#17 5.714 crypto/sha1
+#17 5.732 crypto/internal/boring
+#17 5.752 crypto/des
+#17 5.779 crypto/aes
+#17 5.780 crypto/sha512
+#17 5.805 fmt
+#17 5.809 crypto/internal/edwards25519
+#17 5.887 crypto/hmac
+#17 5.909 crypto/sha256
+#17 5.912 encoding/pem
+#17 5.921 net
+#17 5.949 crypto/ecdh
+#17 5.968 path/filepath
+#17 5.996 vendor/golang.org/x/crypto/chacha20
+#17 6.004 vendor/golang.org/x/crypto/internal/poly1305
+#17 6.023 io/ioutil
+#17 6.073 vendor/golang.org/x/crypto/hkdf
+#17 6.074 vendor/golang.org/x/sys/cpu
+#17 6.089 go.uber.org/zap/internal/bufferpool
+#17 6.109 go.uber.org/zap/internal/exit
+#17 6.117 github.com/cespare/xxhash/v2
+#17 6.124 google.golang.org/protobuf/internal/detrand
+#17 6.154 github.com/prometheus/procfs/internal/util
+#17 6.166 golang.org/x/sys/unix
+#17 6.189 vendor/golang.org/x/crypto/chacha20poly1305
+#17 6.204 encoding/json
+#17 6.206 compress/flate
+#17 6.209 math/big
+#17 6.294 encoding/hex
+#17 6.367 net/url
+#17 6.371 compress/gzip
+#17 6.463 log
+#17 6.555 vendor/golang.org/x/text/unicode/norm
+#17 6.617 vendor/golang.org/x/text/unicode/bidi
+#17 6.744 vendor/golang.org/x/net/http2/hpack
+#17 7.051 mime
+#17 7.098 vendor/golang.org/x/text/secure/bidirule
+#17 7.222 mime/quotedprintable
+#17 7.238 net/http/internal
+#17 7.278 crypto/rand
+#17 7.301 crypto/elliptic
+#17 7.304 crypto/internal/bigmod
+#17 7.325 crypto/internal/boring/bbig
+#17 7.338 encoding/asn1
+#17 7.362 crypto/ed25519
+#17 7.417 crypto/dsa
+#17 7.428 vendor/golang.org/x/net/idna
+#17 7.455 net/textproto
+#17 7.462 crypto/rsa
+#17 7.467 database/sql/driver
+#17 7.485 github.com/pkg/errors
+#17 7.554 vendor/golang.org/x/crypto/cryptobyte
+#17 7.573 crypto/x509/pkix
+#17 7.606 flag
+#17 7.609 mime/multipart
+#17 7.661 go.uber.org/multierr
+#17 7.666 database/sql
+#17 7.730 go.uber.org/zap/internal/color
+#17 7.745 vendor/golang.org/x/net/http/httpguts
+#17 7.766 vendor/golang.org/x/net/http/httpproxy
+#17 7.799 gopkg.in/natefinch/lumberjack.v2
+#17 7.810 go.uber.org/zap/zapcore
+#17 7.812 crypto/ecdsa
+#17 7.820 encoding/xml
+#17 7.821 google.golang.org/protobuf/internal/errors
+#17 7.848 google.golang.org/protobuf/encoding/protowire
+#17 7.887 go/token
+#17 7.906 google.golang.org/protobuf/reflect/protoreflect
+#17 7.993 google.golang.org/protobuf/internal/version
+#17 8.000 crypto/x509
+#17 8.065 github.com/prometheus/common/model
+#17 8.200 github.com/jmoiron/sqlx
+#17 8.332 google.golang.org/protobuf/internal/descfmt
+#17 8.382 go.uber.org/zap/internal
+#17 8.446 google.golang.org/protobuf/internal/descopts
+#17 8.494 google.golang.org/protobuf/internal/strs
+#17 8.506 google.golang.org/protobuf/internal/encoding/messageset
+#17 8.539 google.golang.org/protobuf/internal/genid
+#17 8.551 google.golang.org/protobuf/internal/order
+#17 8.554 google.golang.org/protobuf/internal/encoding/text
+#17 8.575 google.golang.org/protobuf/reflect/protoregistry
+#17 8.585 google.golang.org/protobuf/runtime/protoiface
+#17 8.600 github.com/prometheus/procfs/internal/fs
+#17 8.621 runtime/debug
+#17 8.670 github.com/prometheus/procfs
+#17 8.707 google.golang.org/protobuf/proto
+#17 8.728 github.com/romapres2010/meta_api/pkg/common/ctx
+#17 8.807 crypto/tls
+#17 8.807 github.com/dgrijalva/jwt-go
+#17 8.812 text/template/parse
+#17 8.819 google.golang.org/protobuf/internal/encoding/defval
+#17 8.857 gopkg.in/asn1-ber.v1
+#17 8.958 net/mail
+#17 8.970 google.golang.org/protobuf/internal/filedesc
+#17 8.975 google.golang.org/protobuf/encoding/prototext
+#17 9.064 gopkg.in/yaml.v3
+#17 9.195 golang.org/x/arch/x86/x86asm
+#17 9.222 text/template
+#17 9.965 google.golang.org/protobuf/internal/encoding/tag
+#17 10.07 google.golang.org/protobuf/internal/impl
+#17 10.13 html/template
+#17 10.17 github.com/klauspost/cpuid/v2
+#17 10.22 github.com/bytedance/sonic/internal/rt
+#17 10.32 net/http/httptrace
+#17 10.38 net/http
+#17 10.41 gopkg.in/ldap.v3
+#17 10.42 github.com/bytedance/sonic/internal/caching
+#17 10.47 github.com/chenzhuoyu/iasm/expr
+#17 10.49 github.com/twitchyliquid64/golang-asm/bio
+#17 10.61 github.com/twitchyliquid64/golang-asm/objabi
+#17 10.62 github.com/chenzhuoyu/iasm/x86_64
+#17 10.68 github.com/bytedance/sonic/internal/cpu
+#17 10.70 os/exec
+#17 10.70 gopkg.in/korylprince/go-ad-auth.v2
+#17 10.71 github.com/twitchyliquid64/golang-asm/goobj
+#17 10.77 github.com/twitchyliquid64/golang-asm/src
+#17 10.90 github.com/twitchyliquid64/golang-asm/dwarf
+#17 10.94 github.com/twitchyliquid64/golang-asm/sys
+#17 10.94 github.com/bytedance/sonic/internal/native/types
+#17 10.98 github.com/bytedance/sonic/internal/resolver
+#17 11.03 github.com/antonmedv/expr/vm/runtime
+#17 11.09 github.com/antonmedv/expr/file
+#17 11.10 github.com/twitchyliquid64/golang-asm/obj
+#17 11.17 github.com/antonmedv/expr/parser/lexer
+#17 11.32 github.com/google/uuid
+#17 11.54 gopkg.in/guregu/null.v4
+#17 11.54 github.com/antonmedv/expr/builtin
+#17 11.64 github.com/go-playground/locales/en
+#17 11.74 github.com/antonmedv/expr/ast
+#17 11.79 github.com/twitchyliquid64/golang-asm/obj/arm
+#17 11.82 github.com/twitchyliquid64/golang-asm/obj/arm64
+#17 11.93 github.com/twitchyliquid64/golang-asm/obj/mips
+#17 11.94 google.golang.org/protobuf/internal/filetype
+#17 12.18 google.golang.org/protobuf/runtime/protoimpl
+#17 12.20 github.com/twitchyliquid64/golang-asm/obj/ppc64
+#17 12.22 google.golang.org/protobuf/types/known/timestamppb
+#17 12.29 github.com/prometheus/client_model/go
+#17 12.43 google.golang.org/protobuf/types/descriptorpb
+#17 12.56 github.com/prometheus/client_golang/prometheus/internal
+#17 12.82 github.com/twitchyliquid64/golang-asm/obj/riscv
+#17 12.84 google.golang.org/protobuf/reflect/protodesc
+#17 13.13 github.com/twitchyliquid64/golang-asm/obj/s390x
+#17 13.15 github.com/twitchyliquid64/golang-asm/obj/wasm
+#17 13.37 github.com/golang/protobuf/proto
+#17 13.49 github.com/twitchyliquid64/golang-asm/obj/x86
+#17 13.51 github.com/antonmedv/expr/conf
+#17 13.58 github.com/antonmedv/expr/parser
+#17 13.70 github.com/antonmedv/expr/vm
+#17 13.76 github.com/gorilla/mux
+#17 13.80 go.uber.org/zap
+#17 13.89 net/http/httputil
+#17 14.04 expvar
+#17 14.11 github.com/matttproud/golang_protobuf_extensions/pbutil
+#17 14.14 github.com/antonmedv/expr/checker
+#17 14.17 github.com/prometheus/common/expfmt
+#17 14.29 github.com/antonmedv/expr/compiler
+#17 14.37 github.com/antonmedv/expr/optimizer
+#17 14.45 github.com/go-playground/universal-translator
+#17 14.46 github.com/twitchyliquid64/golang-asm/asm/arch
+#17 14.49 github.com/antonmedv/expr
+#17 14.50 github.com/prometheus/client_golang/prometheus
+#17 14.52 github.com/romapres2010/meta_api/pkg/common/logger
+#17 14.55 golang.org/x/net/html
+#17 14.57 compress/zlib
+#17 14.63 internal/saferio
+#17 14.64 debug/dwarf
+#17 14.67 github.com/romapres2010/meta_api/pkg/common/error
+#17 14.68 encoding/csv
+#17 14.74 github.com/romapres2010/meta_api/pkg/common/bytespool
+#17 14.74 github.com/romapres2010/meta_api/pkg/common/httplog
+#17 14.76 github.com/romapres2010/meta_api/pkg/common/jwt
+#17 14.83 github.com/romapres2010/meta_api/pkg/common/recover
+#17 14.91 github.com/romapres2010/meta_api/pkg/common/message
+#17 14.93 github.com/gabriel-vasile/mimetype/internal/json
+#17 15.03 github.com/leodido/go-urn
+#17 15.05 golang.org/x/crypto/sha3
+#17 15.18 debug/macho
+#17 15.21 golang.org/x/text/internal/language
+#17 15.22 github.com/gabriel-vasile/mimetype/internal/charset
+#17 15.25 archive/zip
+#17 15.34 github.com/mohae/deepcopy
+#17 15.38 github.com/povilasv/prommod
+#17 15.38 github.com/prometheus/client_golang/prometheus/collectors
+#17 15.38 github.com/prometheus/client_golang/prometheus/promauto
+#17 15.41 github.com/gabriel-vasile/mimetype/internal/magic
+#17 15.46 github.com/richardlehane/msoleps/types
+#17 15.56 github.com/romapres2010/meta_api/pkg/common/metrics
+#17 15.57 golang.org/x/text/internal/language/compact
+#17 15.58 github.com/richardlehane/mscfb
+#17 15.62 golang.org/x/text/encoding/simplifiedchinese
+#17 15.68 golang.org/x/text/language
+#17 15.71 github.com/romapres2010/meta_api/pkg/common/httpservice
+#17 15.71 github.com/romapres2010/meta_api/pkg/common/workerpool
+#17 15.82 github.com/romapres2010/meta_api/pkg/common/workerpoolservice
+#17 15.89 github.com/romapres2010/meta_api/pkg/common/meta
+#17 15.90 github.com/gabriel-vasile/mimetype
+#17 15.94 golang.org/x/text/encoding/traditionalchinese
+#17 15.95 golang.org/x/text/internal/catmsg
+#17 16.14 golang.org/x/text/internal/stringset
+#17 16.17 golang.org/x/text/internal/number
+#17 16.19 github.com/go-playground/validator/v10
+#17 16.42 golang.org/x/text/internal
+#17 16.46 golang.org/x/text/message/catalog
+#17 16.53 golang.org/x/text/feature/plural
+#17 16.53 golang.org/x/text/internal/format
+#17 16.61 golang.org/x/text/encoding/htmlindex
+#17 16.62 image
+#17 16.65 golang.org/x/text/message
+#17 16.72 golang.org/x/net/html/charset
+#17 16.79 github.com/tidwall/pretty
+#17 16.91 encoding/gob
+#17 16.91 github.com/tidwall/gjson
+#17 17.03 github.com/xuri/excelize/v2
+#17 17.06 github.com/romapres2010/meta_api/pkg/meta_api/cacheservice
+#17 17.10 github.com/romapres2010/meta_api/pkg/meta_api/storageservice
+#17 17.15 github.com/prometheus/client_golang/prometheus/promhttp
+#17 17.36 internal/lazyregexp
+#17 17.43 internal/profile
+#17 17.67 github.com/go-playground/validator/v10/translations/en
+#17 17.69 net/rpc
+#17 17.83 runtime/pprof
+#17 17.94 github.com/ugorji/go/codec
+#17 17.94 github.com/romapres2010/meta_api/pkg/common/validator
+#17 17.98 runtime/trace
+#17 18.02 github.com/dgraph-io/ristretto/z/simd
+#17 18.04 github.com/dustin/go-humanize
+#17 18.20 github.com/golang/glog/internal/stackdump
+#17 18.21 os/user
+#17 18.23 net/http/pprof
+#17 18.24 github.com/golang/glog/internal/logsink
+#17 18.28 github.com/jackc/pgx/internal/sanitize
+#17 18.32 github.com/jackc/pgx/pgio
+#17 18.33 github.com/romapres2010/meta_api/pkg/common/httpserver
+#17 18.34 github.com/golang/glog
+#17 18.36 github.com/jackc/pgx/chunkreader
+#17 18.40 github.com/jackc/pgx/pgproto3
+#17 18.43 github.com/jackc/pgx/pgtype
+#17 18.54 github.com/dgraph-io/ristretto/z
+#17 18.81 golang.org/x/crypto/pbkdf2
+#17 18.84 golang.org/x/text/unicode/norm
+#17 18.93 github.com/dgraph-io/ristretto
+#17 19.11 github.com/romapres2010/meta_api/pkg/meta_api/cacheristretto
+#17 19.22 golang.org/x/text/unicode/bidi
+#17 19.35 golang.org/x/text/cases
+#17 19.51 golang.org/x/text/secure/bidirule
+#17 19.59 golang.org/x/text/width
+#17 19.87 github.com/lib/pq/scram
+#17 20.01 github.com/lib/pq
+#17 20.02 golang.org/x/text/secure/precis
+#17 20.48 github.com/sijms/go-ora/v2/network/security/md4
+#17 20.60 github.com/sijms/go-ora/v2/advanced_nego/ntlmssp
+#17 20.62 github.com/jackc/pgx
+#17 20.87 github.com/sijms/go-ora/v2/converters
+#17 21.09 github.com/sijms/go-ora/v2/network/security
+#17 21.20 github.com/sijms/go-ora/v2/trace
+#17 21.28 container/heap
+#17 21.32 go/scanner
+#17 21.44 go/ast
+#17 21.96 go/constant
+#17 22.01 github.com/jackc/pgx/stdlib
+#17 22.26 go/internal/typeparams
+#17 22.34 go/build/constraint
+#17 22.36 internal/types/errors
+#17 22.39 os/signal
+#17 22.42 go/parser
+#17 22.47 github.com/romapres2010/meta_api/pkg/common/version
+#17 22.51 github.com/russross/blackfriday/v2
+#17 22.88 go/types
+#17 23.09 github.com/cpuguy83/go-md2man/v2/md2man
+#17 23.13 github.com/urfave/cli
+#17 23.17 github.com/romapres2010/meta_api/pkg/common/xlsx
+#17 25.59 github.com/sijms/go-ora/v2/network
+#17 25.81 github.com/sijms/go-ora/v2/advanced_nego
+#17 25.91 github.com/sijms/go-ora/v2
+#17 26.68 github.com/romapres2010/meta_api/pkg/common/sqlxx
+#17 26.83 github.com/romapres2010/meta_api/pkg/meta_api/storagedb
+#17 40.59 github.com/bytedance/sonic/internal/abi
+#17 40.69 github.com/bytedance/sonic/loader
+#17 40.76 github.com/bytedance/sonic/internal/jit
+#17 40.76 github.com/chenzhuoyu/base64x
+#17 40.76 github.com/bytedance/sonic/internal/native/avx
+#17 40.76 github.com/bytedance/sonic/internal/native/sse
+#17 40.76 github.com/bytedance/sonic/internal/native/avx2
+#17 41.10 github.com/bytedance/sonic/internal/native
+#17 41.12 github.com/bytedance/sonic/utf8
+#17 41.12 github.com/bytedance/sonic/unquote
+#17 41.13 github.com/bytedance/sonic/internal/encoder
+#17 41.13 github.com/bytedance/sonic/internal/decoder
+#17 41.57 github.com/bytedance/sonic/encoder
+#17 41.59 github.com/bytedance/sonic/ast
+#17 41.79 github.com/bytedance/sonic/decoder
+#17 41.87 github.com/bytedance/sonic
+#17 41.91 github.com/romapres2010/meta_api/pkg/meta_api/apiservice
+#17 42.32 github.com/romapres2010/meta_api/pkg/app/httphandler
+#17 42.41 github.com/romapres2010/meta_api/pkg/app/config
+#17 42.45 github.com/romapres2010/meta_api/pkg/app/daemon
+#17 42.59 command-line-arguments
+#17 DONE 44.5s
+
+#18 [app-api build 11/11] RUN echo "Based on commit: 3327af4" && echo "Build Time: 2023-08-31_10:56:31" && echo "Version: 2.1.1"
+#18 0.374 Based on commit: 3327af4
+#18 0.374 Build Time: 2023-08-31_10:56:31
+#18 0.374 Version: 2.1.1
+#18 DONE 0.4s
+
+#19 [app-api stage-1 2/3] WORKDIR /app
+#19 CACHED
+
+#20 [app-api stage-1 3/3] COPY --from=build /app/run/. .
+#20 DONE 0.2s
+
+#21 [app-api] exporting to image
+#21 exporting layers
+#21 exporting layers 0.4s done
+#21 writing image sha256:f7c0ddf48dc93da54692392a234386df2d7063c4bcec2d599cd63493d865a46b done
+#21 naming to docker.io/library/compose-app-api done
+#21 naming to docker.io/romapres2010/app-api:2.1.1 done
+#21 DONE 0.4s
+time="2023-08-31T10:58:19+03:00" level=warning msg="Found orphan containers ([utce-liquibase utce-db utce-api]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container app-api  Creating
+ Container app-api  Created
+ Container app-api  Starting
+ Container app-api  Started
+Go to current directory:
+/g/Projects/go/meta_api/deploy/run

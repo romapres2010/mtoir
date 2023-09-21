@@ -1,0 +1,289 @@
+{
+    "status": "ENABLED",
+    "name": "CronRuleCondition",
+	"storage_name": "Msutoir",
+    "inherit_from": "NamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Cron Rule Condition",
+        "full_name": "Cron Rule Condition (Правила cron)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "cron_rule_condition",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "cron_rule_condition",
+        "xml": "cron_rule_condition",
+        "xls": "Правила cron",
+        "xls_sheet": "Правила cron"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },
+    "references": [
+        {
+            "status": "ENABLED",
+            "name": "ServiceRule",
+            "required": false,
+            "to_entity": "ServiceRule",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ServiceRuleId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Service Rule",
+                "full_name": "Service Rule (Правило ППР)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "service_rule,omitempty",
+                "xml": "service_rule",
+                "xls": "Правило ППР"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "ServiceType",
+            "required": false,
+            "to_entity": "ServiceType",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ServiceTypeId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Service Type",
+                "full_name": "Service Type (Вид воздействия)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "service_type,omitempty",
+                "xml": "service_type",
+                "xls": "Вид воздействия"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "ParentCronRuleCondition",
+            "required": false,
+            "to_entity": "CronRuleCondition",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ParentId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Parent Cron Rule Condition",
+                "full_name": "Parent Cron Rule Condition (Наследованный cron)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "parent_cron,omitempty",
+                "xml": "parent_cron",
+                "xls": "Наследованный cron"
+            }
+        }
+    ],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ServiceTypeId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "ServiceTypeId",
+                "full_name": "ServiceTypeId (Id вида воздействия)"
+            },
+            "db_storage": {
+                "column_name": "service_type_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "service_type_id",
+                "json": "service_type_id",
+                "xml": "service_type_id",
+                "xls": "Id вида воздействия",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'ServiceTypeId' from association 'ServiceType'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "ServiceTypeId != nil ? ServiceTypeId : (ServiceType?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "ServiceTypeId",
+                        "ServiceType"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ServiceRuleId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Service Rule Id",
+                "full_name": "Service Rule Id (Id правила ППР)"
+            },
+            "db_storage": {
+                "column_name": "service_rule_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "service_rule_id",
+                "json": "service_rule_id",
+                "xml": "service_rule_id",
+                "xls": "Id правила ППР",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'ServiceRuleId' from association 'ServiceRule'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "ServiceRuleId != nil ? ServiceRuleId : (ServiceRule?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "ServiceRuleId",
+                        "ServiceRule"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ParentId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Parent Id",
+                "full_name": "Parent Id (Id наследуемого cron)"
+            },
+            "db_storage": {
+                "column_name": "parent_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "parent_id",
+                "json": "parent_id",
+                "xml": "parent_id",
+                "xls": "Id наследуемого cron",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'ParentId' from association 'ParentCronRuleCondition'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "ParentId != nil ? ParentId : (ParentCronRuleCondition?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "ParentId",
+                        "ParentCronRuleCondition"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Duration",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Duration",
+                "full_name": "Duration (Длительность)"
+            },
+            "db_storage": {
+                "column_name": "duration",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "duration",
+                "json": "duration",
+                "xml": "duration",
+                "xls": "Длительность"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Priority",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Priority",
+                "full_name": "Priority (Приоритет)"
+            },
+            "db_storage": {
+                "column_name": "priority",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "priority",
+                "json": "priority",
+                "xml": "priority",
+                "xls": "Приоритет"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "CronExpression",
+            "internal_type": "null.Time",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Cron Expression",
+                "full_name": "Cron Expression (Выражение cron)"
+            },
+            "db_storage": {
+                "column_name": "cron_expression",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "cron_expression",
+                "json": "cron_expression",
+                "xml": "cron_expression",
+                "xls": "Выражение cron"
+            },
+            "modify": {
+                "update_restrict": true
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Unlinked",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Unlinked",
+                "full_name": "Unlinked (Не связанная)"
+            },
+            "db_storage": {
+                "column_name": "unlinked",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "unlinked",
+                "json": "unlinked",
+                "xml": "unlinked",
+                "xls": "Не связанная"
+            }
+        }
+
+    ]
+}

@@ -1,0 +1,37 @@
+{
+    "status": "ENABLED",
+    "name": "AssetFilter",
+    "storage_name": "Msutoir",
+    "inherit_from": "Asset",
+    "skip_cache": true,
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "IsParent",
+            "internal_type": "bool",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "is_parent",
+                "full_name": "is_parent"
+            },
+            "tag": {
+                "json": "is_parent",
+                "xml": "is_parent",
+                "xls": "-"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "IsParent",
+                    "type": "Calculate",
+                    "action": "POST_FETCH",
+                    "code": "ParentId == nil ? true : false",
+                    "fields": [
+                        "ParentId"
+                    ]
+                }
+            ]
+        }
+    ]
+}

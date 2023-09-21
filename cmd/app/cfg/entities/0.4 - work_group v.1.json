@@ -1,0 +1,26 @@
+{
+    "status": "ENABLED",
+    "name": "WorkGroup",
+	"storage_name": "Msutoir",
+    "inherit_from": "NamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Work Group",
+        "full_name": "Work Group (Рабочая группа)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "work_group",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "work_group",
+        "xml": "work_group",
+        "xls": "Рабочая группа",
+		"xls_sheet": "Рабочая группа"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    }   
+}

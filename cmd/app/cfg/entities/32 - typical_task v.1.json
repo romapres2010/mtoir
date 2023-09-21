@@ -1,0 +1,696 @@
+{
+    "status": "ENABLED",
+    "name": "TypicalTask",
+	"storage_name": "Msutoir",
+    "inherit_from": "NamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Typical Task",
+        "full_name": "Typical Task (Типовые задания)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "typical_task",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "typical_task",
+        "xml": "typical_task",
+        "xls": "Типовые задания",
+        "xls_sheet": "Типовые задания"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },
+    "references": [
+        {
+            "status": "ENABLED",
+            "name": "WorkerUser",
+            "required": false,
+            "to_entity": "Users",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "WorkerId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Worker User",
+                "full_name": "Worker User (Исполнитель)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "measure_unit,omitempty",
+                "xml": "measure_unit",
+                "xls": "Исполнитель"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "Approver",
+            "required": false,
+            "to_entity": "Users",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ApproverId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Approver User",
+                "full_name": "Approver User (Утверждающий)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "approver,omitempty",
+                "xml": "approver",
+                "xls": "Утверждающий"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "WorkGroup",
+            "required": false,
+            "to_entity": "WorkGroup",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "WorkGroupId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Work Group",
+                "full_name": "Work Group (Рабочая группа)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "work_group,omitempty",
+                "xml": "work_group",
+                "xls": "Рабочая группа"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "AdditionalFeature",
+            "required": false,
+            "to_entity": "AdditionalFeature",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "AdditionalFeatureId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Additional Feature",
+                "full_name": "Additional Feature (Дополнительный признак)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "additional_feature,omitempty",
+                "xml": "additional_feature",
+                "xls": "Дополнительный признак"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "Division",
+            "required": false,
+            "to_entity": "Division",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "DivisionId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Division",
+                "full_name": "Division (Подразделение)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "division,omitempty",
+                "xml": "division",
+                "xls": "Подразделение"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "Currency",
+            "required": false,
+            "to_entity": "Currency",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "CurrencyId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Currency",
+                "full_name": "Currency (Валюта)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "currency,omitempty",
+                "xml": "currency",
+                "xls": "Валюта"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "Asset",
+            "required": false,
+            "to_entity": "Asset",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "AssetId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Asset",
+                "full_name": "Asset (Объект контроля)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "asset,omitempty",
+                "xml": "asset",
+                "xls": "Объект контроля"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "ServiceType",
+            "required": false,
+            "to_entity": "ServiceType",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ServiceTypeId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Service Type",
+                "full_name": "Service Type (Вид воздействия)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "service_type,omitempty",
+                "xml": "service_type",
+                "xls": "Вид воздействия"
+            }
+        }
+    ],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "WorkerId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Worker Id",
+                "full_name": "Worker Id (Id Исполнителя)"
+            },
+            "db_storage": {
+                "column_name": "worker_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "worker_id",
+                "json": "worker_id",
+                "xml": "worker_id",
+                "xls": "Id Исполнителя",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'WorkerId' from association 'WorkerUser'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "WorkerId != nil ? WorkerId : (WorkerUser?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "WorkerId",
+                        "WorkerUser"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "WorkGroupId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "WorkGroupId",
+                "full_name": "WorkGroupId (Id рабочей группы)"
+            },
+            "db_storage": {
+                "column_name": "work_group_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "work_group_id",
+                "json": "work_group_id",
+                "xml": "work_group_id",
+                "xls": "Id рабочей группы",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'WorkGroupId' from association 'WorkGroup'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "WorkGroupId != nil ? WorkGroupId : (WorkGroup?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "WorkGroupId",
+                        "WorkGroup"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "AdditionalFeatureId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Additional Feature Id",
+                "full_name": "Additional Feature Id (Id дополнительного признака)"
+            },
+            "db_storage": {
+                "column_name": "additional_feature_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "additional_feature_id",
+                "json": "additional_feature_id",
+                "xml": "additional_feature_id",
+                "xls": "Id дополнительного признака",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'AdditionalFeatureId' from association 'AdditionalFeature'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "AdditionalFeatureId != nil ? AdditionalFeatureId : (AdditionalFeature?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "AdditionalFeatureId",
+                        "AdditionalFeature"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "DivisionId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Division Id",
+                "full_name": "Division Id (Id подразделения)"
+            },
+            "db_storage": {
+                "column_name": "division_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "division_id",
+                "json": "division_id",
+                "xml": "division_id",
+                "xls": "Id подразделения",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'DivisionId' from association 'Division'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "DivisionId != nil ? DivisionId : (Division?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "DivisionId",
+                        "Division"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "CurrencyId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Currency Id",
+                "full_name": "Currency Id (Id валюты)"
+            },
+            "db_storage": {
+                "column_name": "currency_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "currency_id",
+                "json": "currency_id",
+                "xml": "currency_id",
+                "xls": "Id валюты",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'CurrencyId' from association 'Currency'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "CurrencyId != nil ? CurrencyId : (Currency?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "CurrencyId",
+                        "Currency"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "AssetId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Asset Id",
+                "full_name": "Asset Id (Id объекта контроля)"
+            },
+            "db_storage": {
+                "column_name": "asset_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "asset_id",
+                "json": "asset_id",
+                "xml": "asset_id",
+                "xls": "Id объекта контроля",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'AssetId' from association 'Asset'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "AssetId != nil ? AssetId : (Asset?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "AssetId",
+                        "Asset"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ServiceTypeId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "ServiceTypeId",
+                "full_name": "ServiceTypeId (Id вида воздействия)"
+            },
+            "db_storage": {
+                "column_name": "service_type_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "service_type_id",
+                "json": "service_type_id",
+                "xml": "service_type_id",
+                "xls": "Id вида воздействия",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'ServiceTypeId' from association 'ServiceType'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "ServiceTypeId != nil ? ServiceTypeId : (ServiceType?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "ServiceTypeId",
+                        "ServiceType"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ApproverId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Approver Id",
+                "full_name": "Approver Id (Id Cron)"
+            },
+            "db_storage": {
+                "column_name": "approver_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "approver_id",
+                "json": "approver_id",
+                "xml": "approver_id",
+                "xls": "Id Cron",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'ApproverId' from association 'Approver'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "ApproverId != nil ? ApproverId : (Approver?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "ApproverId",
+                        "Approver"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ExecutionPoint",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Execution Point",
+                "full_name": "Execution Point (Выполняется)"
+            },
+            "db_storage": {
+                "column_name": "execution_point",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "execution_point",
+                "json": "execution_point",
+                "xml": "execution_point",
+                "xls": "Выполняется"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ExecutionMethod",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Execution Method",
+                "full_name": "Execution Method (Способ выполнения)"
+            },
+            "db_storage": {
+                "column_name": "execution_method",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "execution_method",
+                "json": "execution_method",
+                "xml": "execution_method",
+                "xls": "Способ выполнения"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Status",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Status",
+                "full_name": "Status (Статус)"
+            },
+            "db_storage": {
+                "column_name": "status",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "status",
+                "json": "status",
+                "xml": "status",
+                "xls": "Статус"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Duration",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Duration",
+                "full_name": "Duration (Длительность)"
+            },
+            "db_storage": {
+                "column_name": "duration",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "duration",
+                "json": "duration",
+                "xml": "duration",
+                "xls": "Длительность"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "DurationDays",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Duration Days",
+                "full_name": "Duration Days (Длительность дней)"
+            },
+            "db_storage": {
+                "column_name": "duration_days",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "duration_days",
+                "json": "duration_days",
+                "xml": "duration_days",
+                "xls": "Длительность дней"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "DurationHours",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Duration Hours",
+                "full_name": "Duration Hours (Длительность часов)"
+            },
+            "db_storage": {
+                "column_name": "duration_hours",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "duration_hours",
+                "json": "duration_hours",
+                "xml": "duration_hours",
+                "xls": "Длительность часов"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "DurationMinutes",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Duration Minutes",
+                "full_name": "Duration Minutes (Длительность минут)"
+            },
+            "db_storage": {
+                "column_name": "duration_minutes",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "duration_minutes",
+                "json": "duration_minutes",
+                "xml": "duration_minutes",
+                "xls": "Длительность минут"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Autogeneration",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Autogeneration",
+                "full_name": "Autogeneration (Автогенерация)"
+            },
+            "db_storage": {
+                "column_name": "autogeneration",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "autogeneration",
+                "json": "autogeneration",
+                "xml": "autogeneration",
+                "xls": "Автогенерация"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "AutogenerationPeriod",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Autogeneration Period",
+                "full_name": "Autogeneration Period (Период автогенерации)"
+            },
+            "db_storage": {
+                "column_name": "autogeneration_period",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "autogeneration_period",
+                "json": "autogeneration_period",
+                "xml": "autogeneration_period",
+                "xls": "Период автогенерации"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "InitialGenerationStatus",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Initial Generation Status",
+                "full_name": "Initial Generation Status (Статус начала генерации)"
+            },
+            "db_storage": {
+                "column_name": "initial_generation_status",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "initial_generation_status",
+                "json": "initial_generation_status",
+                "xml": "initial_generation_status",
+                "xls": "Статус начала генерации"
+            }
+        }
+    ]
+}

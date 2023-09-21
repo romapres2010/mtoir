@@ -1,0 +1,609 @@
+{
+    "status": "ENABLED",
+    "name": "Defect",
+	"storage_name": "Msutoir",
+    "inherit_from": "NamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Defect",
+        "full_name": "Defect (Журнал нарушений)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "defect",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "defect",
+        "xml": "defect",
+        "xls": "Журнал заданий",
+        "xls_sheet": "Журнал нарушений"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },
+    "references": [
+        {
+            "status": "ENABLED",
+            "name": "WorkTask",
+            "required": false,
+            "to_entity": "WorkTask",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "WorkTaskId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Work TaskId",
+                "full_name": "Work TaskId (Задание)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "work_task,omitempty",
+                "xml": "work_task",
+                "xls": "Задание"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "WorkTaskOrder",
+            "required": false,
+            "to_entity": "WorkTaskOrder",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "WorkTaskOrderId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Work Task Order",
+                "full_name": "Work Task Order (Заказ задания)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "work_task_order,omitempty",
+                "xml": "work_task_order",
+                "xls": "Заказ задания"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "WorkTaskOrderOperation",
+            "required": false,
+            "to_entity": "WorkTaskOrderOperation",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "WorkTaskOrderOperationId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Work Task Order Operation",
+                "full_name": "Work Task Order Operation (Операция заказа)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "work_task_order_operation,omitempty",
+                "xml": "work_task_order_operation",
+                "xls": "Операция заказа"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "Owner",
+            "required": false,
+            "to_entity": "Asset",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "OwnerId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Owner",
+                "full_name": "Owner (Владелец)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "owner,omitempty",
+                "xml": "owner",
+                "xls": "Владелец"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "RegisteredBy",
+            "required": false,
+            "to_entity": "Users",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "RegisteredById"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "RegisteredBy",
+                "full_name": "RegisteredBy (Зарегистрировано)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "registered_by,omitempty",
+                "xml": "registered_by",
+                "xls": "Зарегистрировано"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "TypicalDefect",
+            "required": false,
+            "to_entity": "TypicalDefect",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "TypicalDefectId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Typical Defect",
+                "full_name": "Typical Defect (Типовое несоответствие)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "typical_defect,omitempty",
+                "xml": "typical_defect",
+                "xls": "Типовое несоответствие"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "Asset",
+            "required": false,
+            "to_entity": "Asset",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "AssetId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Asset",
+                "full_name": "Asset (Объект контроля)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "asset,omitempty",
+                "xml": "asset",
+                "xls": "Объект контроля"
+            }
+        }
+    ],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "WorkTaskId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Work Task Id",
+                "full_name": "Work Task Id (Id задания)"
+            },
+            "db_storage": {
+                "column_name": "work_task_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "work_task_id",
+                "json": "work_task_id",
+                "xml": "work_task_id",
+                "xls": "Id задания",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'WorkTaskId' from association 'WorkTask'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "WorkTaskId != nil ? WorkTaskId : (WorkTask?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "WorkTaskId",
+                        "WorkTask"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "WorkTaskOrderId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Work Task Order Id",
+                "full_name": "Work Task Order Id (Id заказа)"
+            },
+            "db_storage": {
+                "column_name": "work_task_order_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "work_task_order_id",
+                "json": "work_task_order_id",
+                "xml": "work_task_order_id",
+                "xls": "Id заказа",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'WorkTaskOrderId' from association 'WorkTaskOrder'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "WorkTaskOrderId != nil ? WorkTaskOrderId : (WorkTaskOrder?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "WorkTaskOrderId",
+                        "WorkTaskOrder"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "WorkTaskOrderOperationId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Work Task Order Operation Id",
+                "full_name": "Work Task Order Operation Id (Id операции заказа)"
+            },
+            "db_storage": {
+                "column_name": "work_task_order_operation_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "work_task_order_operation_id",
+                "json": "work_task_order_operation_id",
+                "xml": "work_task_order_operation_id",
+                "xls": "Id операции заказа",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'WorkTaskOrderOperationId' from association 'WorkTaskOrderOperation'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "WorkTaskOrderOperationId != nil ? WorkTaskOrderOperationId : (WorkTaskOrderOperation?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "WorkTaskOrderOperationId",
+                        "WorkTaskOrderOperation"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "OwnerId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Owner Id",
+                "full_name": "Owner Id (Id владельца)"
+            },
+            "db_storage": {
+                "column_name": "owner_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "owner_id",
+                "json": "owner_id",
+                "xml": "owner_id",
+                "xls": "Id владельца",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'OwnerId' from association 'Owner'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "OwnerId != nil ? OwnerId : (Owner?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "OwnerId",
+                        "Owner"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "RegisteredById",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Registered By Id",
+                "full_name": "Registered By Id (Id регистрирующего)"
+            },
+            "db_storage": {
+                "column_name": "registered_by_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "registered_by_id",
+                "json": "registered_by_id",
+                "xml": "registered_by_id",
+                "xls": "Id регистрирующего",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'RegisteredById' from association 'RegisteredBy'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "RegisteredById != nil ? RegisteredById : (RegisteredBy?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "RegisteredById",
+                        "RegisteredBy"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "TypicalDefectId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Typical Defect Id",
+                "full_name": "Typical Defect Id (Id типового несоответствия)"
+            },
+            "db_storage": {
+                "column_name": "typical_defect_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "typical_defect_id",
+                "json": "typical_defect_id",
+                "xml": "typical_defect_id",
+                "xls": "Id типового несоответствия",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'TypicalDefectId' from association 'TypicalDefect'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "TypicalDefectId != nil ? TypicalDefectId : (TypicalDefect?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "TypicalDefectId",
+                        "TypicalDefect"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "AssetId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Asset Id",
+                "full_name": "Asset Id (Id объекта контроля)"
+            },
+            "db_storage": {
+                "column_name": "asset_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "asset_id",
+                "json": "asset_id",
+                "xml": "asset_id",
+                "xls": "Id объекта контроля",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'AssetId' from association 'Asset'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "AssetId != nil ? AssetId : (Asset?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "AssetId",
+                        "Asset"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Uncontrolled",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Uncontrolled",
+                "full_name": "Uncontrolled (Без контроля)"
+            },
+            "db_storage": {
+                "column_name": "uncontrolled",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "uncontrolled",
+                "json": "uncontrolled",
+                "xml": "uncontrolled",
+                "xls": "Без контроля"
+            },
+            "modify": {
+                "update_restrict": true
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "DefectNumber",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Defect Number",
+                "full_name": "Defect Number (Номер несоответствия)"
+            },
+            "db_storage": {
+                "column_name": "defect_number",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "defect_number",
+                "json": "defect_number",
+                "xml": "defect_number",
+                "xls": "Номер несоответствия"
+            },
+            "modify": {
+                "update_restrict": true
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "RegistrationDate",
+            "internal_type": "null.Time",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Registration Date",
+                "full_name": "Registration Date (Дата регистрации)"
+            },
+            "db_storage": {
+                "column_name": "registration_date",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "registration_date",
+                "json": "registration_date",
+                "xml": "registration_date",
+                "xls": "Дата регистрации"
+            },
+            "modify": {
+                "update_restrict": true
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "DefectStatus",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Defect Status",
+                "full_name": "Defect Status (Статус несоответствия)"
+            },
+            "db_storage": {
+                "column_name": "defect_status",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "defect_status",
+                "json": "defect_status",
+                "xml": "defect_status",
+                "xls": "Статус несоответствия"
+            },
+            "modify": {
+                "update_restrict": true
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "DefectType",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Defect Type",
+                "full_name": "Defect Type (Тип несоответствия)"
+            },
+            "db_storage": {
+                "column_name": "defect_type",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "defect_type",
+                "json": "defect_type",
+                "xml": "defect_type",
+                "xls": "Тип несоответствия"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "DefectCriticality",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Defect Criticality",
+                "full_name": "Defect Criticality (Критичность несоответствия)"
+            },
+            "db_storage": {
+                "column_name": "defect_criticality",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "defect_criticality",
+                "json": "defect_criticality",
+                "xml": "defect_criticality",
+                "xls": "Критичность несоответствия"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "FromAnswer",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "From Answer",
+                "full_name": "From Answer (Ответ)"
+            },
+            "db_storage": {
+                "column_name": "from_answer",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "from_answer",
+                "json": "from_answer",
+                "xml": "from_answer",
+                "xls": "Ответ"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Status",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Status",
+                "full_name": "Status (Скрыто)"
+            },
+            "db_storage": {
+                "column_name": "hidden",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "hidden",
+                "json": "hidden",
+                "xml": "hidden",
+                "xls": "Скрыто"
+            }
+        }
+    ]
+}

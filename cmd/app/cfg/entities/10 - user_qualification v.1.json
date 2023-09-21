@@ -1,0 +1,255 @@
+{
+    "status": "ENABLED",
+    "name": "UserQualification",
+	"storage_name": "Msutoir",
+    "inherit_from": "NamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "User Qualification",
+        "full_name": "User Qualification (Квалификации пользователей)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "user_qualification",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "user_qualification",
+        "xml": "user_qualification",
+        "xls": "Квалификации пользователей",
+		"xls_sheet": "Квалификации пользователей"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },
+    "references": [
+        {
+            "status": "ENABLED",
+            "name": "Qualification",
+            "required": false,
+            "to_entity": "Qualification",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "QualificationId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Qualification",
+                "full_name": "Qualification (Квалификации)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "qualification,omitempty",
+                "xml": "qualification",
+                "xls": "Квалификации"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "Users",
+            "required": false,
+            "to_entity": "Users",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "CurrentUserId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Current User Id",
+                "full_name": "Current User Id (Пользователь)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "user_,omitempty",
+                "xml": "user_",
+                "xls": "Пользователь"
+            }
+        }
+    ],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "QualificationId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Qualification Id",
+                "full_name": "Qualification Id (Id квалификации)"
+            },
+            "db_storage": {
+                "column_name": "qualification_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "qualification_id",
+                "json": "qualification_id",
+                "xml": "qualification_id",
+                "xls": "Id квалификации",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'QualificationId' from association 'Qualification'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "QualificationId != nil ? QualificationId : (Qualification?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "QualificationId",
+                        "Qualification"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "DocumentNumber",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Document Number",
+                "full_name": "Document Number (Номер документа)"
+            },
+            "db_storage": {
+                "column_name": "document_number",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "document_number",
+                "json": "document_number",
+                "xml": "document_number",
+                "xls": "Номер документа"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Issued",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Issued",
+                "full_name": "Issued (Выдан)"
+            },
+            "db_storage": {
+                "column_name": "issued",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "issued",
+                "json": "issued",
+                "xml": "issued",
+                "xls": "Выдан"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ValidFrom",
+            "internal_type": "null.Time",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Valid From",
+                "full_name": "Valid From (Действителен с)"
+            },
+            "db_storage": {
+                "column_name": "valid_from",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "valid_from",
+                "json": "valid_from",
+                "xml": "valid_from",
+                "xls": "Действительно с"
+            },
+            "modify": {
+                "update_restrict": true
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ValidBy",
+            "internal_type": "null.Time",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Valid By",
+                "full_name": "Valid By (Действителен до)"
+            },
+            "db_storage": {
+                "column_name": "valid_by",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "valid_by",
+                "json": "valid_by",
+                "xml": "valid_by",
+                "xls": "Действительно по"
+            },
+            "modify": {
+                "update_restrict": true
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Additional",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Additional",
+                "full_name": "Additional (Дополнительно)"
+            },
+            "db_storage": {
+                "column_name": "additional",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "additional",
+                "json": "additional",
+                "xml": "additional",
+                "xls": "Дополнительно"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "CurrentUserId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Current User Id",
+                "full_name": "Current User Id (Id пользователя)"
+            },
+            "db_storage": {
+                "column_name": "current_user_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "current_user_id",
+                "json": "current_user_id",
+                "xml": "current_user_id",
+                "xls": "Id пользователя",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'CurrentUserId' from association 'Users'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "CurrentUserId != nil ? CurrentUserId : (Users?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "CurrentUserId",
+                        "Users"
+                    ]
+                }
+            ]
+        }
+    ]
+}

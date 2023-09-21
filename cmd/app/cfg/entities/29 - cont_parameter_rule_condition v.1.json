@@ -1,0 +1,470 @@
+{
+    "status": "ENABLED",
+    "name": "ControlledParameter",
+	"storage_name": "Msutoir",
+    "inherit_from": "NamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Controlled Parameter",
+        "full_name": "Controlled Parameter (Контролируемые параметры)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "cont_parameter_rule_condition",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "cont_parameter_rule_condition",
+        "xml": "cont_parameter_rule_condition",
+        "xls": "Контролируемые параметры",
+        "xls_sheet": "Контролируемые параметры"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },
+    "references": [
+        {
+            "status": "ENABLED",
+            "name": "ServiceRule",
+            "required": false,
+            "to_entity": "ServiceRule",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ServiceRuleId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Service Rule",
+                "full_name": "Service Rule (Правило ППР)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "service_rule,omitempty",
+                "xml": "service_rule",
+                "xls": "Правило ППР"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "ServiceType",
+            "required": false,
+            "to_entity": "ServiceType",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ServiceTypeId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Service Type",
+                "full_name": "Service Type (Вид воздействия)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "service_type,omitempty",
+                "xml": "service_type",
+                "xls": "Вид воздействия"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "MeasureUnit",
+            "required": false,
+            "to_entity": "MeasureUnit",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "AttributeMeasureUnitId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Measure Unit",
+                "full_name": "Measure Unit (Единица измерения)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "measure_unit,omitempty",
+                "xml": "measure_unit",
+                "xls": "Единица измерения"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "ParentControlledParameter",
+            "required": false,
+            "to_entity": "ControlledParameter",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ParentId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Parent Controlled Parameter",
+                "full_name": "Parent Controlled Parameter (Наследованный параметр)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "parent_controlled_parameter,omitempty",
+                "xml": "parent_controlled_parameter",
+                "xls": "Наследованный параметр"
+            }
+        }
+
+    ],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ServiceTypeId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "ServiceTypeId",
+                "full_name": "ServiceTypeId (Id вида воздействия)"
+            },
+            "db_storage": {
+                "column_name": "service_type_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "service_type_id",
+                "json": "service_type_id",
+                "xml": "service_type_id",
+                "xls": "Id вида воздействия",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'ServiceTypeId' from association 'ServiceType'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "ServiceTypeId != nil ? ServiceTypeId : (ServiceType?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "ServiceTypeId",
+                        "ServiceType"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ServiceRuleId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Service Rule Id",
+                "full_name": "Service Rule Id (Id правила ППР)"
+            },
+            "db_storage": {
+                "column_name": "service_rule_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "service_rule_id",
+                "json": "service_rule_id",
+                "xml": "service_rule_id",
+                "xls": "Id правила ППР",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'ServiceRuleId' from association 'ServiceRule'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "ServiceRuleId != nil ? ServiceRuleId : (ServiceRule?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "ServiceRuleId",
+                        "ServiceRule"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "AttributeCategoryId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Attribute Category Id",
+                "full_name": "Attribute Category Id (Id категории атрибутов !!!EXPRESSIONS!!!)"
+            },
+            "db_storage": {
+                "column_name": "attribute_category_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "attribute_category_id",
+                "json": "attribute_category_id",
+                "xml": "attribute_category_id",
+                "xls": "Id категории атрибутов",
+                "sql": ",type:uuid"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "AttributeMeasureUnitId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Attribute Measure Unit Id",
+                "full_name": "Attribute Measure Unit Id (Id единицы измерения)"
+            },
+            "db_storage": {
+                "column_name": "attribute_measure_unit_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "attribute_measure_unit_id",
+                "json": "attribute_measure_unit_id",
+                "xml": "attribute_measure_unit_id",
+                "xls": "Id единицы измерения",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'AttributeMeasureUnitId' from association 'MeasureUnit'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "AttributeMeasureUnitId != nil ? AttributeMeasureUnitId : (MeasureUnit?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "AttributeMeasureUnitId",
+                        "MeasureUnit"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ParentId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Parent Id",
+                "full_name": "Parent Id (Id наследуемого параметра)"
+            },
+            "db_storage": {
+                "column_name": "parent_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "parent_id",
+                "json": "parent_id",
+                "xml": "parent_id",
+                "xls": "Id наследуемого параметра",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'ParentId' from association 'ParentControlledParameter'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "ParentId != nil ? ParentId : (ParentControlledParameter?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "ParentId",
+                        "ParentControlledParameter"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Unlinked",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Unlinked",
+                "full_name": "Unlinked (Не связанная)"
+            },
+            "db_storage": {
+                "column_name": "unlinked",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "unlinked",
+                "json": "unlinked",
+                "xml": "unlinked",
+                "xls": "Не связанная"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Duration",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Duration",
+                "full_name": "Duration (Длительность)"
+            },
+            "db_storage": {
+                "column_name": "duration",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "duration",
+                "json": "duration",
+                "xml": "duration",
+                "xls": "Длительность"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Priority",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Priority",
+                "full_name": "Priority (Приоритет)"
+            },
+            "db_storage": {
+                "column_name": "priority",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "priority",
+                "json": "priority",
+                "xml": "priority",
+                "xls": "Приоритет"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "AttributeCode",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Attribute Code",
+                "full_name": "Attribute Code (Код атрибута)"
+            },
+            "db_storage": {
+                "column_name": "attribute_code",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "attribute_code",
+                "json": "attribute_code",
+                "xml": "attribute_code",
+                "xls": "Код атрибута"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Сomparison",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Сomparison",
+                "full_name": "Сomparison (Сравнение)"
+            },
+            "db_storage": {
+                "column_name": "comparison",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "comparison",
+                "json": "comparison",
+                "xml": "comparison",
+                "xls": "Сравнение"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ControlValue",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Control Value",
+                "full_name": "Control Value (Контрольное значение)"
+            },
+            "db_storage": {
+                "column_name": "control_value",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "control_value",
+                "json": "control_value",
+                "xml": "control_value",
+                "xls": "Контрольное значение"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "LimitValue",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Limit Value",
+                "full_name": "Limit Value (Предельное значение)"
+            },
+            "db_storage": {
+                "column_name": "limit_value",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "limit_value",
+                "json": "limit_value",
+                "xml": "limit_value",
+                "xls": "Предельное значение"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "DailyChange",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Daily Change",
+                "full_name": "Daily Change (Ежедневное изменение)"
+            },
+            "db_storage": {
+                "column_name": "daily_change",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "daily_change",
+                "json": "daily_change",
+                "xml": "daily_change",
+                "xls": "Ежедневное изменение"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ValueType",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Value Type",
+                "full_name": "Value Type (Тип значения)"
+            },
+            "db_storage": {
+                "column_name": "value_type",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "value_type",
+                "json": "value_type",
+                "xml": "value_type",
+                "xls": "Тип значения"
+            }
+        }
+    ]
+}

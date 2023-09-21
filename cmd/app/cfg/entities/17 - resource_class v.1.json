@@ -1,0 +1,53 @@
+{
+    "status": "ENABLED",
+    "name": "ResourceClass",
+	"storage_name": "Msutoir",
+    "inherit_from": "HierarchicalNamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Resource Class",
+        "full_name": "Resource Class (Класс номенклатуры ресурсов)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "resource_class",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "resource_class",
+        "xml": "resource_class",
+        "xls": "Класс номенклатуры ресурсов (заголовок)",
+        "xls_sheet": "Класс номенклатуры ресурсов (лист)"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },
+    "references": [
+        {
+            "name": "Parent",
+            "alias": {
+                "display_name": "Parent Resource Class",
+                "full_name": "Parent Resource Class (Класс номенклатуры ресурсов - родитель)"
+            },
+            "tag": {
+                "json": "parent_resource_class,omitempty",
+                "xml": "parent_resource_class",
+                "xls": "Класс номенклатуры ресурсов - родитель (заголовок)"
+            }
+        },
+        {
+            "name": "Children",
+            "alias": {
+                "display_name": "Child Resource Class",
+                "full_name": "Child Resource Class (Класс номенклатуры ресурсов - потомок)"
+            },
+            "tag": {
+                "json": "child_resource_class,omitempty",
+                "xml": "child_resource_class>resource_class",
+                "xls": "Класс номенклатуры ресурсов - потомок (заголовок)",
+                "xls_sheet": "Потомок (лист)"
+            }
+        }
+    ]
+}

@@ -1,0 +1,177 @@
+{
+    "status": "ENABLED",
+    "name": "WorkShiftsCycle",
+	"storage_name": "Msutoir",
+    "inherit_from": "NamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Work Shifts Cycle",
+        "full_name": "Work Shifts Cycle (Цикл рабочих смен)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "work_shifts_cycle",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "work_shifts_cycle",
+        "xml": "work_shifts_cycle",
+        "xls": "Цикл рабочих смен",
+		"xls_sheet": "Цикл рабочих смен"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },
+	"references": [
+        {
+            "status": "ENABLED",
+            "name": "WorkCalendar",
+            "required": false,
+            "to_entity": "WorkCalendar",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "WorkCalendarId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Work Calendar",
+                "full_name": "Work Calendar (Рабочий календарь)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "work_calendar,omitempty",
+                "xml": "work_calendar",
+                "xls": "Рабочий календарь"
+            }
+        }
+	],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "StartDate",
+            "internal_type": "null.Time",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Start Date",
+                "full_name": "Start Date (Дата начала)"
+            },
+            "db_storage": {
+                "column_name": "start_date",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "start_date",
+                "json": "start_date",
+                "xml": "start_date",
+                "xls": "Дата начала"
+            },
+            "modify": {
+                "update_restrict": true
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "EndDate",
+            "internal_type": "null.Time",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "End Date",
+                "full_name": "End Date (Дата окончания)"
+            },
+            "db_storage": {
+                "column_name": "end_date",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "end_date",
+                "json": "end_date",
+                "xml": "end_date",
+                "xls": "Дата окончания"
+            },
+            "modify": {
+                "update_restrict": true
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ShiftNumber",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Shift Number",
+                "full_name": "Shift Number (Номер смены)"
+            },
+            "db_storage": {
+                "column_name": "shift_number",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "shift_number",
+                "json": "shift_number",
+                "xml": "shift_number",
+                "xls": "Номер смены"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "WatchNumber",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Watch Number",
+                "full_name": "Watch Number (Номер вахты)"
+            },
+            "db_storage": {
+                "column_name": "watch_number",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "watch_number",
+                "json": "watch_number",
+                "xml": "watch_number",
+                "xls": "Номер вахты"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "WorkCalendarId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Work Calendar Id",
+                "full_name": "Work Calendar Id (Id рабочего календаря)"
+            },
+            "db_storage": {
+                "column_name": "work_calendar_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "work_calendar_id",
+                "json": "work_calendar_id",
+                "xml": "work_calendar_id",
+                "xls": "Id рабочего календаря",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'WorkCalendarId' from association 'WorkCalendar'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "WorkCalendarId != nil ? WorkCalendarId : (WorkCalendar?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "WorkCalendarId",
+                        "WorkCalendar"
+                    ]
+                }
+            ]
+        }
+    ]
+}

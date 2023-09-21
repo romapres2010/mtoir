@@ -1,0 +1,122 @@
+{
+    "status": "ENABLED",
+    "name": "WorkTaskCostPlan",
+    "storage_name": "Msutoir",
+    "inherit_from": "WorkTaskCost",
+    "skip_cache": true,
+    "embed": true,
+    "alias": {
+        "display_name": "Work Task Cost Plan",
+        "full_name": "Work Task Cost Plan (Стоимостные показатели - план)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "work_task",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "work_task_cost_plan",
+        "xml": "work_task_cost_plan",
+        "xls": "Стоимостные показатели - план",
+        "xls_sheet": "Стоимостные показатели - план"
+    },
+    "references": [
+        {
+            "status": "ENABLED",
+            "name": "WorkTask",
+            "required": false,
+            "to_entity": "WorkTask",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "Id"
+            ],
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Work Task",
+                "full_name": "Work Task (Журнал заданий)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "work_task",
+                "xml": "work_task",
+                "xls": "Журнал заданий"
+            }
+        }
+    ],
+    "fields": [
+       {
+           "status": "ENABLED",
+           "name": "Id",
+           "expressions": [
+               {
+                   "status": "ENABLED",
+                   "name": "Get 'WorkTaskId' from association 'WorkTask'",
+                   "type": "Calculate",
+                   "action": "POST_MARSHAL",
+                   "code": "Id != nil ? Id : (WorkTask?.Id ?? PtrEmptyUUID())",
+                   "fields": [
+                       "Id",
+                       "WorkTask"
+                   ]
+               }
+           ]
+       },
+       {
+           "status": "ENABLED",
+           "name": "PayrollCost",
+           "db_storage": {
+               "column_name": "plan_payroll_cost"
+           }
+       },
+        {
+            "status": "ENABLED",
+            "name": "MaterialCost",
+            "db_storage": {
+                "column_name": "plan_material_cost"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "MechanismCost",
+            "db_storage": {
+                "column_name": "plan_mechanism_cost"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "OverheadCost",
+            "db_storage": {
+                "column_name": "plan_overhead_cost"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "Income",
+            "db_storage": {
+                "column_name": "plan_income"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "Total",
+            "db_storage": {
+                "column_name": "plan_total"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "Vat",
+            "db_storage": {
+                "column_name": "plan_vat"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "DocTotal",
+            "db_storage": {
+                "column_name": "plan_doc_total"
+            }
+        }
+    ]
+}

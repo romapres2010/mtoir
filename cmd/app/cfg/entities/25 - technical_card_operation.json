@@ -1,0 +1,562 @@
+{
+    "status": "ENABLED",
+    "name": "TechnicalCardOperation",
+	"storage_name": "Msutoir",
+    "inherit_from": "NamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Technical Card Operation",
+        "full_name": "Technical Card Operation (Операции техкарты)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "technical_card_operation",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "technical_card_operation",
+        "xml": "technical_card_operation",
+        "xls": "Операции техкарты",
+        "xls_sheet": "Операции техкарты"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },
+    "references": [
+        {
+            "status": "ENABLED",
+            "name": "ResultInputOption",
+            "required": false,
+            "to_entity": "ResultInputOption",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ResultVariantId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Result Variant",
+                "full_name": "Result Variant (Вариант ввода результата)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "result_variant,omitempty",
+                "xml": "result_variant",
+                "xls": "Вариант ввода результата"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "AssetClass",
+            "required": false,
+            "to_entity": "AssetClass",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "AssetClassId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Asset Class",
+                "full_name": "Asset Class (Класс объекта контроля)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "asset_class,omitempty",
+                "xml": "asset_class",
+                "xls": "Класс объекта контроля"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "AssetNode",
+            "required": false,
+            "to_entity": "AssetNode",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "AssetNodeId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "AssetNode",
+                "full_name": "AssetNode (Узел объекта контроля)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "asset_node,omitempty",
+                "xml": "asset_node",
+                "xls": "Узел объекта контроля"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "ParentTechCardOperation",
+            "required": false,
+            "to_entity": "TechnicalCardOperation",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ParentId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Parent Tech Card Operation",
+                "full_name": "Parent Tech Card Operation (Наследованная операция техкарты)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "parent_tech_card_operation,omitempty",
+                "xml": "parent_tech_card_operation",
+                "xls": "Наследованная операция техкарты"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "PreviousOperation",
+            "required": false,
+            "to_entity": "TechnicalCardOperation",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "PreviousOperationId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Previous Operation",
+                "full_name": "Previous Operation (Предыдущая операция)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "previous_operation,omitempty",
+                "xml": "previous_operation",
+                "xls": "Предыдущая операция"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "TechnicalCard",
+            "required": false,
+            "to_entity": "TechnicalCard",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "TechnicalCardId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Technical Card",
+                "full_name": "Technical Card (Техкарта)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "technical_card,omitempty",
+                "xml": "technical_card",
+                "xls": "Техкарта"
+            }
+        },
+        {
+            "status": "DISABLED",
+            "name": "AttributeMapping",
+            "required": false,
+            "to_entity": "AttributeMapping",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "AttributeMappingId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Attribute Mapping",
+                "full_name": "Attribute Mapping (Связанные атрибуты)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "attribute_mapping,omitempty",
+                "xml": "attribute_mapping",
+                "xls": "Связанные атрибуты"
+            }
+        }
+    ],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "AssetClassId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Asset Class Id",
+                "full_name": "Asset Class Id (Id класса объектов контроля)"
+            },
+            "db_storage": {
+                "column_name": "asset_class_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "asset_class_id",
+                "json": "asset_class_id",
+                "xml": "asset_class_id",
+                "xls": "Id класса объектов контроля",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'AssetClassId' from association 'AssetClass'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "AssetClassId != nil ? AssetClassId : (AssetClass?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "AssetClassId",
+                        "AssetClass"
+                    ]
+                }
+            ]
+        },{
+            "status": "ENABLED",
+            "required": true,
+            "name": "AssetNodeId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Asset Node Id",
+                "full_name": "Asset Node Id (Id узла объекта контроля)"
+            },
+            "db_storage": {
+                "column_name": "asset_node_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "asset_node_id",
+                "json": "asset_node_id",
+                "xml": "asset_node_id",
+                "xls": "Id узла объекта контроля",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'AssetNodeId' from association 'AssetNode'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "AssetNodeId != nil ? AssetNodeId : (AssetNode?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "AssetNodeId",
+                        "AssetNode"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ResultVariantId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Result Variant Id",
+                "full_name": "Result Variant Id (Id варианта ввода результата)"
+            },
+            "db_storage": {
+                "column_name": "result_variant_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "result_variant_id",
+                "json": "result_variant_id",
+                "xml": "result_variant_id",
+                "xls": "Id варианта ввода результата",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'ResultVariantId' from association 'ResultInputOption'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "ResultVariantId != nil ? ResultVariantId : (ResultInputOption?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "ResultVariantId",
+                        "ResultInputOption"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "TechnicalCardId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Technical Card Id",
+                "full_name": "Technical Card Id (Id техкарты)"
+            },
+            "db_storage": {
+                "column_name": "technical_card_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "technical_card_id",
+                "json": "technical_card_id",
+                "xml": "technical_card_id",
+                "xls": "Id техкарты",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'TechnicalCardId' from association 'TechnicalCard'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "TechnicalCardId != nil ? TechnicalCardId : (TechnicalCard?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "TechnicalCardId",
+                        "TechnicalCard"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "PreviousOperationId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Previous Operation Id",
+                "full_name": "Previous Operation Id (Id предыдущей операции)"
+            },
+            "db_storage": {
+                "column_name": "previous_operation_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "previous_operation_id",
+                "json": "previous_operation_id",
+                "xml": "previous_operation_id",
+                "xls": "Id предыдущей операции",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'PreviousOperationId' from association 'PreviousOperation'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "PreviousOperationId != nil ? PreviousOperationId : (PreviousOperation?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "PreviousOperationId",
+                        "PreviousOperation"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "DISABLED",
+            "required": false,
+            "name": "AttributeMappingId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Attribute Mapping Id",
+                "full_name": "Attribute Mapping Id (ПРИ ВКЛЮЧЕНИИ ДОБАВИТЬ EXPRESSOINS)"
+            },
+            "db_storage": {
+                "column_name": "attribute_mapping_id",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "attribute_mapping_id",
+                "json": "attribute_mapping_id",
+                "xml": "attribute_mapping_id",
+                "xls": "Id связи с атрибутами",
+                "sql": ",type:uuid"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ParentId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Parent Id",
+                "full_name": "Parent Id (Id наследуемой операции техкарты)"
+            },
+            "db_storage": {
+                "column_name": "parent_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "parent_id",
+                "json": "parent_id",
+                "xml": "parent_id",
+                "xls": "Id наследуемой операции техкарты",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'ParentId' from association 'ParentTechCardOperation'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "ParentId != nil ? ParentId : (ParentTechCardOperation?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "ParentId",
+                        "ParentTechCardOperation"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Unlinked",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Unlinked",
+                "full_name": "Unlinked (Не связанная)"
+            },
+            "db_storage": {
+                "column_name": "unlinked",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "unlinked",
+                "json": "unlinked",
+                "xml": "unlinked",
+                "xls": "Не связанная"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Duration",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Duration",
+                "full_name": "Duration (Длительность)"
+            },
+            "db_storage": {
+                "column_name": "duration",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "duration",
+                "json": "duration",
+                "xml": "duration",
+                "xls": "Длительность"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "DurationDays",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Duration Days",
+                "full_name": "Duration Days (Длительность дней)"
+            },
+            "db_storage": {
+                "column_name": "duration_days",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "duration_days",
+                "json": "duration_days",
+                "xml": "duration_days",
+                "xls": "Длительность дней"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "DurationHours",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Duration Hours",
+                "full_name": "Duration Hours (Длительность часов)"
+            },
+            "db_storage": {
+                "column_name": "duration_hours",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "duration_hours",
+                "json": "duration_hours",
+                "xml": "duration_hours",
+                "xls": "Длительность часов"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "DurationMinutes",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Duration Minutes",
+                "full_name": "Duration Minutes (Длительность минут)"
+            },
+            "db_storage": {
+                "column_name": "duration_minutes",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "duration_minutes",
+                "json": "duration_minutes",
+                "xml": "duration_minutes",
+                "xls": "Длительность минут"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Weight",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Weight",
+                "full_name": "Weight (Вес)"
+            },
+            "db_storage": {
+                "column_name": "weight",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "weight",
+                "json": "weight",
+                "xml": "weight",
+                "xls": "Вес"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "OperationNumber",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Operation Number",
+                "full_name": "Operation Number (Номер операции)"
+            },
+            "db_storage": {
+                "column_name": "operation_number",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "operation_number",
+                "json": "operation_number",
+                "xml": "operation_number",
+                "xls": "Номер операции"
+            }
+        }
+    ]
+}

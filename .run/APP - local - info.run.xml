@@ -1,0 +1,33 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="APP - local - info" type="GoApplicationRunConfiguration" factoryName="Go Application">
+    <module name="meta_api" />
+    <working_directory value="$PROJECT_DIR$/cmd/app/bin/windows" />
+    <envs>
+      <env name="APP_CONFIG_FILE" value="./../../cfg/app.global.yaml" />
+      <env name="APP_HTTP_LISTEN_SPEC" value="127.0.0.1:3000" />
+      <env name="APP_LOG_FILE" value="./log/app.log" />
+      <env name="APP_LOG_LEVEL" value="INFO" />
+      <env name="APP_META_ENTITY_CONFIG_FILE" value="./../../cfg/entities/global_entities.yaml" />
+      <env name="APP_PG_DBNAME" value="postgres" />
+      <env name="APP_PG_HOST" value="localhost" />
+      <env name="APP_PG_PASS" value="postgres" />
+      <env name="APP_PG_PORT" value="5436" />
+      <env name="APP_PG_USER" value="postgres" />
+    </envs>
+    <EXTENSION ID="net.ashald.envfile">
+      <option name="IS_ENABLED" value="false" />
+      <option name="IS_SUBST" value="false" />
+      <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+      <option name="IS_IGNORE_MISSING_FILES" value="false" />
+      <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+      <ENTRIES>
+        <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+      </ENTRIES>
+    </EXTENSION>
+    <kind value="PACKAGE" />
+    <package value="github.com/romapres2010/mtoir/cmd/app" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/cmd/app/main.go" />
+    <method v="2" />
+  </configuration>
+</component>

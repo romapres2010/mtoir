@@ -1,0 +1,50 @@
+{
+    "status": "ENABLED",
+    "name": "Positions",
+	"storage_name": "Msutoir",
+    "inherit_from": "NamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Positions",
+        "full_name": "Positions (Должности)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "position_",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "position_",
+        "xml": "position_",
+        "xls": "Должности",
+		"xls_sheet": "Должности"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "WorkGroupId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "WorkGroupId",
+                "full_name": "WorkGroupId (Id рабочей группы)"
+            },
+            "db_storage": {
+                "column_name": "work_group_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "work_group_id",
+                "json": "work_group_id",
+                "xml": "work_group_id",
+                "xls": "Id рабочей группы",
+                "sql": ",type:uuid"
+            }
+        }
+    ]
+}

@@ -1,0 +1,627 @@
+{
+    "status": "ENABLED",
+    "name": "WorkTaskOrder",
+	"storage_name": "Msutoir",
+    "inherit_from": "NamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Work Task Order",
+        "full_name": "Work Task Order (Заказы заданий)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "work_task_order",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "work_task_order",
+        "xml": "work_task_order",
+        "xls": "Заказы заданий",
+        "xls_sheet": "Заказы заданий"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },
+	"keys": [
+        {
+            "status": "DISABLE",
+            "name": "UK1"
+        },
+        {
+            "status": "ENABLED",
+            "name": "UK2",
+            "type": "UK",
+            "fields": [
+                "WorkTaskId",
+                "Code"
+            ],
+            "db_storage": {
+                "direct_sql_where": "deleted_date is null"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "FK1",
+            "type": "FK",
+            "fields": [
+                "WorkTaskId"
+            ],
+            "db_storage": {
+                "direct_sql_where": "deleted_date is null"
+            }
+        }
+	],
+    "references": [
+		{
+            "status": "ENABLED",
+            "name": "WorkTaskOrderCostPlan",
+            "required": false,
+            "to_entity": "WorkTaskOrderCostPlan",
+            "to_key": "FK1",
+            "to_reference": "WorkTaskOrder",
+            "type": "Composition",
+            "embed": true,
+            "cardinality": "1",
+            "fields": [
+                "Id"
+            ],
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Work Task Order Cost Plan",
+                "full_name": "Work Task Order Cost Plan (Стоимостные показатели - план)"
+            },
+            "tag": {
+                "json": "work_task_order_cost_plan",
+                "xml": "work_task_order_cost_plan",
+                "xls": "Стоимостные показатели - план"
+            }
+        },
+		{
+            "status": "ENABLED",
+            "name": "WorkTaskOrderCostFact",
+            "required": false,
+            "to_entity": "WorkTaskOrderCostFact",
+            "to_key": "FK1",
+            "to_reference": "WorkTaskOrder",
+            "type": "Composition",
+            "embed": true,
+            "cardinality": "1",
+            "fields": [
+                "Id"
+            ],
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Work Task Order Cost Fact",
+                "full_name": "Work Task Order Cost Fact (Стоимостные показатели - факт)"
+            },
+            "tag": {
+                "json": "work_task_order_cost_fact",
+                "xml": "work_task_order_cost_fact",
+                "xls": "Стоимостные показатели - факт"
+            }
+        },
+		{
+            "status": "ENABLED",
+            "name": "WorkTask",
+            "required": false,
+            "to_entity": "WorkTask",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "WorkTaskId"
+            ],
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Work Task",
+                "full_name": "Work Task (Журнал заданий)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "work_task",
+                "xml": "work_task",
+                "xls": "Журнал заданий"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "PreviousOrder",
+            "required": false,
+            "to_entity": "WorkTaskOrder",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "PreviousOrderId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Previous Order",
+                "full_name": "Previous Order (Предыдущий заказ)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "previous_order,omitempty",
+                "xml": "previous_order",
+                "xls": "Предыдущий заказ"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "WorkerUser",
+            "required": false,
+            "to_entity": "Users",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "WorkerId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Worker User",
+                "full_name": "Worker User (Исполнитель)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "worker,omitempty",
+                "xml": "worker",
+                "xls": "Исполнитель"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "User",
+            "required": false,
+            "to_entity": "Users",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "UserId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "User",
+                "full_name": "User (Пользователь)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "user,omitempty",
+                "xml": "user",
+                "xls": "Пользователь"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "Asset",
+            "required": false,
+            "to_entity": "Asset",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "AssetId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Asset",
+                "full_name": "Asset (Объект контроля)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "asset,omitempty",
+                "xml": "asset",
+                "xls": "Объект контроля"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "WorkTaskOrderOperation",
+            "required": false,
+            "to_entity": "WorkTaskOrderOperation",
+            "to_key": "FK1",
+            "to_reference": "WorkTaskOrder",
+            "type": "Composition",
+            "fields": [
+                "Id"
+            ],
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Work Task Order Operation",
+                "full_name": "Work Task Order Operation (Операции заказа)"
+            },
+            "tag": {
+                "json": "work_task_order_operation,omitempty",
+                "xml": "work_task_order_operation,omitempty",
+                "xls": "Операции заказа"
+            }
+        }
+    ],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "WorkTaskId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Work Task Id",
+                "full_name": "Work Task Id (Id задания)"
+            },
+            "db_storage": {
+                "column_name": "work_task_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "work_task_id",
+                "json": "work_task_id",
+                "xml": "work_task_id",
+                "xls": "Id задания",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'WorkTaskId' from association 'WorkTask'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "WorkTaskId != nil ? WorkTaskId : (WorkTask?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "WorkTaskId",
+                        "WorkTask"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "PreviousOrderId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Previous Order Id",
+                "full_name": "Previous Order Id (Id предыдущего заказа)"
+            },
+            "db_storage": {
+                "column_name": "previous_order_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "previous_order_id",
+                "json": "previous_order_id",
+                "xml": "previous_order_id",
+                "xls": "Id предыдущего заказа",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'PreviousOrderId' from association 'PreviousOrder'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "PreviousOrderId != nil ? PreviousOrderId : (PreviousOrder?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "PreviousOrderId",
+                        "PreviousOrder"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "WorkerId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Worker Id",
+                "full_name": "Worker Id (Id Исполнителя)"
+            },
+            "db_storage": {
+                "column_name": "worker_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "worker_id",
+                "json": "worker_id",
+                "xml": "worker_id",
+                "xls": "Id Исполнителя",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'WorkerId' from association 'WorkerUser'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "WorkerId != nil ? WorkerId : (WorkerUser?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "WorkerId",
+                        "WorkerUser"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "UserId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "UserId",
+                "full_name": "UserId (Id пользователя)"
+            },
+            "db_storage": {
+                "column_name": "user_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "user_id",
+                "json": "user_id",
+                "xml": "user_id",
+                "xls": "Id пользователя",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'UserId' from association 'User'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "UserId != nil ? UserId : (User?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "UserId",
+                        "User"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "AssetId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Asset Id",
+                "full_name": "Asset Id (Id объекта контроля)"
+            },
+            "db_storage": {
+                "column_name": "asset_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "asset_id",
+                "json": "asset_id",
+                "xml": "asset_id",
+                "xls": "Id объекта контроля",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'AssetId' from association 'Asset'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "AssetId != nil ? AssetId : (Asset?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "AssetId",
+                        "Asset"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "OrderNumber",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Order Number",
+                "full_name": "Order Number (Номер заказа)"
+            },
+            "db_storage": {
+                "column_name": "order_number",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "order_number",
+                "json": "order_number",
+                "xml": "order_number",
+                "xls": "Номер заказа"
+            },
+            "modify": {
+                "update_restrict": true
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "OptionalOrder",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Optional Order",
+                "full_name": "Optional Order (Опциональный заказ)"
+            },
+            "db_storage": {
+                "column_name": "optional_order",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "optional_order",
+                "json": "optional_order",
+                "xml": "optional_order",
+                "xls": "Опциональный заказ"
+            },
+            "modify": {
+                "update_restrict": true
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "OrderSelected",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Order Selected",
+                "full_name": "Order Selected (Выбранный заказ)"
+            },
+            "db_storage": {
+                "column_name": "order_selected",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "order_selected",
+                "json": "order_selected",
+                "xml": "order_selected",
+                "xls": "Выбранный заказ"
+            },
+            "modify": {
+                "update_restrict": true
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "NFC1",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "NFC1",
+                "full_name": "NFC1 (NFC1)"
+            },
+            "db_storage": {
+                "column_name": "nfc1",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "nfc1",
+                "json": "nfc1",
+                "xml": "nfc1",
+                "xls": "NFC1"
+            },
+            "modify": {
+                "update_restrict": true
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "NFC2",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "NFC2",
+                "full_name": "NFC2 (NFC2)"
+            },
+            "db_storage": {
+                "column_name": "nfc2",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "nfc2",
+                "json": "nfc2",
+                "xml": "nfc2",
+                "xls": "NFC2"
+            },
+            "modify": {
+                "update_restrict": true
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "NFC3",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "NFC3",
+                "full_name": "NFC3 (NFC3)"
+            },
+            "db_storage": {
+                "column_name": "nfc3",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "nfc3",
+                "json": "nfc3",
+                "xml": "nfc3",
+                "xls": "NFC3"
+            },
+            "modify": {
+                "update_restrict": true
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "NFC4",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "NFC4",
+                "full_name": "NFC4 (NFC4)"
+            },
+            "db_storage": {
+                "column_name": "nfc4",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "nfc4",
+                "json": "nfc4",
+                "xml": "nfc4",
+                "xls": "NFC4"
+            },
+            "modify": {
+                "update_restrict": true
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "NFC5",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "NFC5",
+                "full_name": "NFC5 (NFC5)"
+            },
+            "db_storage": {
+                "column_name": "nfc5",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "nfc5",
+                "json": "nfc5",
+                "xml": "nfc5",
+                "xls": "NFC5"
+            },
+            "modify": {
+                "update_restrict": true
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Duration",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Duration",
+                "full_name": "Duration (Длительность)"
+            },
+            "db_storage": {
+                "column_name": "duration",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "duration",
+                "json": "duration",
+                "xml": "duration",
+                "xls": "Длительность"
+            }
+        }
+     ]
+}

@@ -1,0 +1,54 @@
+{
+    "status": "ENABLED",
+    "name": "AssetClass",
+    "storage_name": "Msutoir",
+    "inherit_from": "HierarchicalNamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Asset Class",
+        "full_name": "Asset Class (Класс объекта контроля)"
+    },
+    "db_storage": {
+        "storage_name": "Msutoir",
+        "schema_name": "msutoir",
+        "table_name": "asset_class",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "asset_class",
+        "xml": "asset_class",
+        "xls": "Класс объекта контроля (заголовок)",
+        "xls_sheet": "Класс объекта контроля (лист)"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },
+    "references": [
+        {
+            "name": "Parent",
+            "alias": {
+                "display_name": "ParentAssetClass",
+                "full_name": "ParentAssetClass (Класс объекта контроля - родитель)"
+            },
+            "tag": {
+                "json": "parent_asset_class,omitempty",
+                "xml": "parent_asset_class",
+                "xls": "Класс объекта контроля - родитель (заголовок)"
+            }
+        },
+        {
+            "name": "Children",
+            "alias": {
+                "display_name": "Child Assets",
+                "full_name": "Child Assets (Класс объекта контроля - потомок)"
+            },
+            "tag": {
+                "json": "child_asset_classes,omitempty",
+                "xml": "child_asset_classes>asset_class",
+                "xls": "Класс объекта контроля - потомок (заголовок)",
+                "xls_sheet": "Потомок (лист)"
+            }
+        }
+    ]
+}

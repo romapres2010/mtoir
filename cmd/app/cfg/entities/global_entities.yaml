@@ -1,0 +1,202 @@
+source_dir: "./../../cfg/entities/"
+definition:
+    -   name: VersionedEntity
+        source: File
+        format: json
+        source_file: "0.1 - VersionedEntity v.2.json"
+    -   name: NamedEntity
+        source: File
+        format: json
+        source_file: "0.2 - NamedEntity v.2.json"
+    -   name: HierarchicalNamedEntity
+        source: File
+        format: json
+        source_file: "0.3 - HierarchicalNamedEntity v.2.json"
+    -   name:   WorkGroup
+        source: File
+        format: json
+        source_file: "0.4 - work_group v.1.json"
+    -   name: HierarchicalEntity
+        source: File
+        format: json
+        source_file: "0.5 - HierarchicalEntity.json"
+    -   name: WorkTaskCost
+        source: File
+        format: json
+        source_file: "0.6 - work_task_cost v.1.json"
+    -   name:   AssetClass
+        source: File
+        format: json
+        source_file: "1 - asset_class v.2.json"
+    -   name:   AssetCriticality
+        source: File
+        format: json
+        source_file: "2 - asset_criticality v.2.json"
+    -   name:   AssetStatus
+        source: File
+        format: json
+        source_file: "3 - asset_status v.2.json"
+    -   name:   AssetType
+        source: File
+        format: json
+        source_file: "4 - asset_type v.2.json"
+    -   name:   Positions
+        source: File
+        format: json
+        source_file: "4.9 - position v.1.json"
+    -   name:   Division
+        source: File
+        format: json
+        source_file: "5 - division v.2.json"
+    -   name:   Asset
+        source: File
+        format: json
+        source_file: "6 - assert v.2.json"
+    -   name:   Users
+        source: File
+        format: json
+        source_file: "8 - user v.1.json"
+    -   name:   Qualification
+        source: File
+        format: json
+        source_file: "9 - qualification v.1.json"
+    -   name:   UserQualification
+        source: File
+        format: json
+        source_file: "10 - user_qualification v.1.json"
+    -   name:   ApprovalObject
+        source: File
+        format: json
+        source_file: "11 - approval_object v.1.json"
+    -   name:   ApprovalState
+        source: File
+        format: json
+        source_file: "12 - approval_state v.1.json"
+    -   name:   WorkCalendar
+        source: File
+        format: json
+        source_file: "13 - work_calendar v.1.json"
+    -   name:   DivisionCalendar
+        source: File
+        format: json
+        source_file: "14 - division_calendar v.1.json"
+    -   name:   WorkShiftsCycle
+        source: File
+        format: json
+        source_file: "15 - work_shifts_cycle v.1.json"
+    -   name:   Contractor
+        source: File
+        format: json
+        source_file: "16 - contractor v.1.json"
+    -   name:   ResourceClass
+        source: File
+        format: json
+        source_file: "17 - resource_class v.1.json"
+    -   name:   Currency
+        source: File
+        format: json
+        source_file: "18 - currency v.1.json"
+    -   name:   MeasureUnit
+        source: File
+        format: json
+        source_file: "19 - measure_unit v.1.json"
+    -   name:   Resource
+        source: File
+        format: json
+        source_file: "20 - resource v.1.json"
+    -   name:   ServiceType
+        source: File
+        format: json
+        source_file: "21 - service_type v.1.json"
+    -   name:   TechnicalCard
+        source: File
+        format: json
+        source_file: "22 - technical_card v.1.json"
+    -   name:   AssetNode
+        source: File
+        format: json
+        source_file: "23 - asset_node v.1.json"
+    -   name:   ResultInputOption
+        source: File
+        format: json
+        source_file: "24 - result_input_option v.1.json"
+    -   name:   TechnicalCardOperation
+        source: File
+        format: json
+        source_file: "25 - technical_card_operation.json"
+    -   name:   TechCardOperationResource
+        source: File
+        format: json
+        source_file: "26 - tech_card_operation_resource v.1.json"
+    -   name:   AdditionalFeature
+        source: File
+        format: json
+        source_file: "27 - typical_task_additional_featur v.1.json"
+    -   name:   ServiceRule
+        source: File
+        format: json
+        source_file: "28 - service_rule v.1.json"
+    -   name:   ControlledParameter
+        source: File
+        format: json
+        source_file: "29 - cont_parameter_rule_condition v.1.json"
+    -   name:   DateInterval
+        source: File
+        format: json
+        source_file: "30 - date_interval_rule_condition v.1.json"
+    -   name:   RepairCycle
+        source: File
+        format: json
+        source_file: "31 - repair_cycle_rule_condition v.1.json"
+    -   name:   TypicalTask
+        source: File
+        format: json
+        source_file: "32 - typical_task v.1.json"
+    -   name:   Event
+        source: File
+        format: json
+        source_file: "33 - directory_event v.1.json"
+    -   name:   CronRuleCondition
+        source: File
+        format: json
+        source_file: "34 - cron_rule_condition v.1.json"
+    -   name:   WtoOperationResource
+        source: File
+        format: json
+        source_file: "40 - wto_operation_resource.json"
+    -   name:   WorkTaskOrderOperation
+        source: File
+        format: json
+        source_file: "37 - work_task_order_operation v.1.json"
+    -   name:   WorkTaskOrder
+        source: File
+        format: json
+        source_file: "36 - work_task_order v.1.json"
+    -   name:   WorkTask
+        source: File
+        format: json
+        source_file: "35 - work_task v.1.json"
+    -   name:   TypicalDefect
+        source: File
+        format: json
+        source_file: "38 - typical_defect v.1.json"
+    -   name:   Defect
+        source: File
+        format: json
+        source_file: "39 - defect v.1.json"
+    -   name: WorkTaskCostPlan
+        source: File
+        format: json
+        source_file: "41 - work_task_cost_plan v.1.json"
+    -   name: WorkTaskCostFact
+        source: File
+        format: json
+        source_file: "42 - work_task_cost_fact v.1.json"
+    -   name: WorkTaskOrderCostPlan
+        source: File
+        format: json
+        source_file: "43 - work_task_order_cost_plan v.1.json"
+    -   name: WorkTaskOrderCostFact
+        source: File
+        format: json
+        source_file: "44 - work_task_order_cost_fact v.1.json"

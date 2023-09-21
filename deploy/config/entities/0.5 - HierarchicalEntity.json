@@ -1,0 +1,113 @@
+{
+    "status": "ENABLED",
+    "name": "HierarchicalEntity",
+    "inherit_from": "NamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "HierarchicalEntity",
+        "full_name": "HierarchicalEntity (Некодированная иерархическая сущность)"
+    },
+    "tag": {
+        "json": "-",
+        "xml": "-",
+        "yaml": "-",
+        "xls": "-"
+    },
+    "keys": [
+       {
+            "status": "DISABLED",
+            "name": "UK1"
+        },
+        {
+            "status": "ENABLED",
+            "name": "UK2",
+            "type": "UK",
+            "fields": [
+                "ParentId",
+                "Code"
+            ],
+            "db_storage": {
+                "direct_sql_where": "deleted_date is null"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "FK1",
+            "type": "FK",
+            "fields": [
+                "ParentId"
+            ],
+            "db_storage": {
+                "direct_sql_where": "deleted_date is null"
+            }
+        }
+    ],
+    "references": [
+        {
+            "status": "ENABLED",
+            "name": "Parent",
+            "required": false,
+            "to_entity": "HierarchicalEntity",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ParentId"
+            ],
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Parent",
+                "full_name": "Parent (Родитель)"
+            },
+            "tag": {
+                "json": "parent,omitempty",
+                "xml": "parent,omitempty",
+                "xls": "Родитель"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "Children",
+            "required": false,
+            "to_entity": "HierarchicalEntity",
+            "to_key": "FK1",
+            "to_reference": "Parent",
+            "type": "Composition",
+            "fields": [
+                "Id"
+            ],
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Children",
+                "full_name": "Children (Дети)"
+            },
+            "tag": {
+                "json": "children,omitempty",
+                "xml": "children,omitempty",
+                "xls": "Дети"
+            }
+        }
+    ],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ParentId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "ParentId",
+                "full_name": "ParentId (Id родительского объекта)"
+            },
+            "db_storage": {
+                "column_name": "parent_id"
+            },
+            "tag": {
+                "db": "parent_id",
+                "json": "parent_id",
+                "xml": "parent_id",
+                "xls": "Id родительского объекта",
+                "sql": ",type:uuid"
+            }
+        }
+    ]
+}

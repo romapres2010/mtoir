@@ -1,0 +1,410 @@
+{
+    "status": "ENABLED",
+    "name": "Users",
+	"storage_name": "Msutoir",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Users",
+        "full_name": "Users (Пользователи)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "user_"
+    },
+    "tag": {
+        "json": "user_",
+        "xml": "user_",
+        "xls": "Пользователи",
+		"xls_sheet": "Пользователи"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },
+    "keys": [
+        {
+            "status": "ENABLED",
+            "name": "PK",
+            "type": "PK",
+            "fields": [
+                "Id"
+            ],
+            "db_storage": {
+                "schema_name": "msutoir",
+                "object_name": "USER__pkey"
+            },
+            "modify": {
+                "update_restrict": true,
+                "delete_restrict": true
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "UK1",
+            "type": "UK",
+            "fields": [
+                "UserName"
+            ],
+            "modify": {
+                "update_restrict": true,
+                "delete_restrict": true
+            }
+        }
+    ],
+    "references": [
+        {
+            "status": "ENABLED",
+            "name": "Positions",
+            "required": false,
+            "to_entity": "Positions",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "PositionId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Positions",
+                "full_name": "Positions (Должность)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "position_,omitempty",
+                "xml": "position_",
+                "xls": "Должность"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "Division",
+            "required": false,
+            "to_entity": "Division",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "DivisionId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Division",
+                "full_name": "Division (Подразделение)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "division,omitempty",
+                "xml": "division",
+                "xls": "Подразделение"
+            }
+        }
+    ],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Id",
+            "internal_type": "*UIID",
+            "format": "PK_AUTO_GENERATED",
+            "validate_rule": "required",
+            "alias": {
+                "display_name": "Id",
+                "full_name": "Id (Id типа ОК)"
+            },
+            "db_storage": {
+                "column_name": "id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "id",
+                "json": "id",
+                "xml": "id",
+                "xls": "Id типа ОК",
+                "sql": ",type:uuid"
+            },
+            "modify": {
+                "update_restrict": true,
+                "delete_restrict": true
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "UserName",
+            "internal_type": "string",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "User Name",
+                "full_name": "User Name (Имя пользователя)"
+            },
+            "db_storage": {
+                "column_name": "username",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "username",
+                "json": "username",
+                "xml": "username",
+                "xls": "Имя пользователя"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "FirstName",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "First Name",
+                "full_name": "First Name (Имя)"
+            },
+            "db_storage": {
+                "column_name": "first_name",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "first_name",
+                "json": "first_name",
+                "xml": "first_name",
+                "xls": "Имя"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "LastName",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Last Name",
+                "full_name": "Last Name (Фамилия)"
+            },
+            "db_storage": {
+                "column_name": "last_name",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "last_name",
+                "json": "last_name",
+                "xml": "last_name",
+                "xls": "Фамилия"
+            }
+        },
+        {
+            "status": "DISABLED",
+            "required": true,
+            "name": "Password",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Password",
+                "full_name": "Password (Пароль)"
+            },
+            "db_storage": {
+                "column_name": "password",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "password",
+                "json": "password",
+                "xml": "password",
+                "xls": "Пароль"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Email",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Email",
+                "full_name": "Email (Email)"
+            },
+            "db_storage": {
+                "column_name": "email",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "email",
+                "json": "email",
+                "xml": "email",
+                "xls": "Email"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Active",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Active",
+                "full_name": "Active (Признак активности)"
+            },
+            "db_storage": {
+                "column_name": "active",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "active",
+                "json": "active",
+                "xml": "active",
+                "xls": "Признак активности"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "TimeZoneId",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Time Zone Id",
+                "full_name": "Time Zone Id (Часовой пояс)"
+            },
+            "db_storage": {
+                "column_name": "time_zone_id",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "time_zone_id",
+                "json": "time_zone_id",
+                "xml": "time_zone_id",
+                "xls": "Часовой пояс"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "TabNumber",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Tab Number",
+                "full_name": "Tab Number (Табельный номер)"
+            },
+            "db_storage": {
+                "column_name": "tab_number",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "tab_number",
+                "json": "tab_number",
+                "xml": "tab_number",
+                "xls": "Табельный номер"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "DivisionId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Division Id",
+                "full_name": "Division Id (Id подразделения)"
+            },
+            "db_storage": {
+                "column_name": "division_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "division_id",
+                "json": "division_id",
+                "xml": "division_id",
+                "xls": "Id подразделения",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'DivisionId' from association 'Division'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "DivisionId != nil ? DivisionId : (Division?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "DivisionId",
+                        "Division"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Phone",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Phone",
+                "full_name": "Phone (Телефон)"
+            },
+            "db_storage": {
+                "column_name": "phone",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "phone",
+                "json": "phone",
+                "xml": "phone",
+                "xls": "Телефон"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "PositionId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Position Id",
+                "full_name": "Position Id (Id должности)"
+            },
+            "db_storage": {
+                "column_name": "position_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "position_id",
+                "json": "position_id",
+                "xml": "position_id",
+                "xls": "Id должности",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'PositionId' from association 'Positions'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "PositionId != nil ? PositionId : (Positions?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "PositionId",
+                        "Positions"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "MiddleName",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Middle Name",
+                "full_name": "Middle Name (Отчество)"
+            },
+            "db_storage": {
+                "column_name": "middle_name",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "middle_name",
+                "json": "middle_name",
+                "xml": "middle_name",
+                "xls": "Отчество"
+            }
+        }
+        
+    ]
+}

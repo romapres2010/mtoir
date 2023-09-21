@@ -1,0 +1,285 @@
+{
+    "status": "ENABLED",
+    "name": "ServiceRule",
+	"storage_name": "Msutoir",
+    "inherit_from": "NamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Service Rule",
+        "full_name": "Service Rule (Правила ППР)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "service_rule",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "service_rule",
+        "xml": "service_rule",
+        "xls": "Правила ППР",
+        "xls_sheet": "Правила ППР"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },
+    "references": [
+        {
+            "status": "ENABLED",
+            "name": "WorkGroup",
+            "required": false,
+            "to_entity": "WorkGroup",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "WorkGroupId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Work Group",
+                "full_name": "Work Group (Рабочая группа)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "work_group,omitempty",
+                "xml": "work_group",
+                "xls": "Рабочая группа"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "AssetClass",
+            "required": false,
+            "to_entity": "AssetClass",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "AssetClassId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Asset Class",
+                "full_name": "Asset Class (Класс объекта контроля)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "asset_class,omitempty",
+                "xml": "asset_class",
+                "xls": "Класс объекта контроля"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "ParentServiceRule",
+            "required": false,
+            "to_entity": "ServiceRule",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ParentId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Parent Service Rule",
+                "full_name": "Parent Service Rule (Наследованное правило ППР)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "parent_service_rule,omitempty",
+                "xml": "parent_service_rule",
+                "xls": "Наследованное правило ППР"
+            }
+        }
+    ],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "WorkGroupId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "WorkGroupId",
+                "full_name": "WorkGroupId (Id рабочей группы)"
+            },
+            "db_storage": {
+                "column_name": "work_group_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "work_group_id",
+                "json": "work_group_id",
+                "xml": "work_group_id",
+                "xls": "Id рабочей группы",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'WorkGroupId' from association 'WorkGroup'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "WorkGroupId != nil ? WorkGroupId : (WorkGroup?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "WorkGroupId",
+                        "WorkGroup"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ParentId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Parent Id",
+                "full_name": "Parent Id (Id наследуемое правило ППР)"
+            },
+            "db_storage": {
+                "column_name": "parent_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "parent_id",
+                "json": "parent_id",
+                "xml": "parent_id",
+                "xls": "Id наследуемое правило ППР",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'ParentId' from association 'ParentServiceRule'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "ParentId != nil ? ParentId : (ParentServiceRule?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "ParentId",
+                        "ParentServiceRule"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "AssetClassId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Asset Class Id",
+                "full_name": "Asset Class Id (Id класса объектов контроля)"
+            },
+            "db_storage": {
+                "column_name": "asset_class_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "asset_class_id",
+                "json": "asset_class_id",
+                "xml": "asset_class_id",
+                "xls": "Id класса объектов контроля",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'AssetClassId' from association 'AssetClass'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "AssetClassId != nil ? AssetClassId : (AssetClass?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "AssetClassId",
+                        "AssetClass"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Unlinked",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Unlinked",
+                "full_name": "Unlinked (Не связанная)"
+            },
+            "db_storage": {
+                "column_name": "unlinked",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "unlinked",
+                "json": "unlinked",
+                "xml": "unlinked",
+                "xls": "Не связанная"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Inactive",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Inactive",
+                "full_name": "Inactive (Неактивно)"
+            },
+            "db_storage": {
+                "column_name": "inactive",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "inactive",
+                "json": "inactive",
+                "xml": "inactive",
+                "xls": "Неактивно"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ServiceRuleType",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Service Rule Type",
+                "full_name": "Service Rule Type (Тип правила ППР)"
+            },
+            "db_storage": {
+                "column_name": "service_rule_type",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "service_rule_type",
+                "json": "service_rule_type",
+                "xml": "service_rule_type",
+                "xls": "Тип правила ППР"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "LogicalConditionType",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Logical Condition Type",
+                "full_name": "Logical Condition Type (Тип логического условия)"
+            },
+            "db_storage": {
+                "column_name": "logical_condition_type",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "logical_condition_type",
+                "json": "logical_condition_type",
+                "xml": "logical_condition_type",
+                "xls": "Тип логического условия"
+            }
+        }
+    ]
+}

@@ -1,0 +1,136 @@
+{
+    "status": "ENABLED",
+    "name": "Event",
+	"storage_name": "Msutoir",
+    "inherit_from": "NamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Event",
+        "full_name": "Event (Мероприятия)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "directory_event",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "directory_event",
+        "xml": "directory_event",
+        "xls": "Мероприятия",
+        "xls_sheet": "Мероприятия"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },
+    "references": [
+        {
+            "status": "ENABLED",
+            "name": "WorkGroup",
+            "required": false,
+            "to_entity": "WorkGroup",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "WorkGroupId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Work Group",
+                "full_name": "Work Group (Рабочая группа)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "work_group,omitempty",
+                "xml": "work_group",
+                "xls": "Рабочая группа"
+            }
+        }
+    ],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "WorkGroupId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "WorkGroupId",
+                "full_name": "WorkGroupId (Id рабочей группы)"
+            },
+            "db_storage": {
+                "column_name": "work_group_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "work_group_id",
+                "json": "work_group_id",
+                "xml": "work_group_id",
+                "xls": "Id рабочей группы",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'WorkGroupId' from association 'WorkGroup'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "WorkGroupId != nil ? WorkGroupId : (WorkGroup?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "WorkGroupId",
+                        "WorkGroup"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Start",
+            "internal_type": "null.Time",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Start",
+                "full_name": "Start (Начало)"
+            },
+            "db_storage": {
+                "column_name": "start",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "start",
+                "json": "start",
+                "xml": "start",
+                "xls": "Начало"
+            },
+            "modify": {
+                "update_restrict": true
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Completion",
+            "internal_type": "null.Time",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Completion",
+                "full_name": "Completion (Окончание)"
+            },
+            "db_storage": {
+                "column_name": "completion",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "completion",
+                "json": "completion",
+                "xml": "completion",
+                "xls": "Окончание"
+            },
+            "modify": {
+                "update_restrict": true
+            }
+        }
+
+    ]
+}

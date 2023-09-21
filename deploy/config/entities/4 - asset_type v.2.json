@@ -1,0 +1,88 @@
+{
+    "status": "ENABLED",
+    "name": "AssetType",
+	"storage_name": "Msutoir",
+    "inherit_from": "NamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "AssetType",
+        "full_name": "AssetType (Типы ОК)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "asset_type",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "asset_type",
+        "xml": "asset_type",
+        "xls": "Типы ОК",
+		"xls_sheet": "Типы ОК"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },
+	"references": [
+        
+        {
+            "status": "ENABLED",
+            "name": "WorkGroup",
+            "required": false,
+            "to_entity": "WorkGroup",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "WorkGroupId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Work Group",
+                "full_name": "Work Group (Рабочая группа)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "work_group,omitempty",
+                "xml": "work_group",
+                "xls": "Рабочая группа"
+            }
+        }
+	],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "WorkGroupId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "WorkGroupId",
+                "full_name": "WorkGroupId (Id рабочей группы)"
+            },
+            "db_storage": {
+                "column_name": "work_group_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "work_group_id",
+                "json": "work_group_id",
+                "xml": "work_group_id",
+                "xls": "Id рабочей группы",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'WorkGroupId' from association 'WorkGroup'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "WorkGroupId != nil ? WorkGroupId : (WorkGroup?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "WorkGroupId",
+                        "WorkGroup"
+                    ]
+                }
+            ]
+        }
+    ]
+}

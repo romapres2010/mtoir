@@ -1,0 +1,200 @@
+{
+    "status": "ENABLED",
+    "name": "HierarchicalNamedEntity",
+    "inherit_from": "NamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "HierarchicalNamedEntity",
+        "full_name": "HierarchicalNamedEntity (Кодированная иерархическая сущность)"
+    },
+    "tag": {
+        "json": "-",
+        "xml": "-",
+        "yaml": "-",
+        "xls": "-"
+    },
+    "keys": [
+       {
+            "status": "DISABLED",
+            "name": "UK1"
+        },
+        {
+            "status": "ENABLED",
+            "name": "UK2",
+            "type": "UK",
+            "fields": [
+                "ParentId",
+                "Code"
+            ],
+            "db_storage": {
+                "direct_sql_where": "deleted_date is null"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "UK3",
+            "type": "UK",
+            "fields": [
+                "FullCode"
+            ],
+            "db_storage": {
+                "direct_sql_where": "deleted_date is null"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "FK1",
+            "type": "FK",
+            "fields": [
+                "ParentId"
+            ],
+            "db_storage": {
+                "direct_sql_where": "deleted_date is null"
+            }
+        }
+    ],
+    "references": [
+        {
+            "status": "ENABLED",
+            "name": "Parent",
+            "required": false,
+            "to_entity": "HierarchicalNamedEntity",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ParentId"
+            ],
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Parent",
+                "full_name": "Parent (Родитель)"
+            },
+            "tag": {
+                "json": "parent,omitempty",
+                "xml": "parent,omitempty",
+                "xls": "Родитель"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "Children",
+            "required": false,
+            "to_entity": "HierarchicalNamedEntity",
+            "to_key": "FK1",
+            "to_reference": "Parent",
+            "type": "Composition",
+            "fields": [
+                "Id"
+            ],
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Children",
+                "full_name": "Children (Дети)"
+            },
+            "tag": {
+                "json": "children,omitempty",
+                "xml": "children,omitempty",
+                "xls": "Дети"
+            }
+        }
+    ],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ParentId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "ParentId",
+                "full_name": "ParentId (Id родительского объекта)"
+            },
+            "db_storage": {
+                "column_name": "parent_id"
+            },
+            "tag": {
+                "db": "parent_id",
+                "json": "parent_id",
+                "xml": "parent_id",
+                "xls": "Id родительского объекта",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'ParentId' from association 'Parent'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "ParentId != nil ? ParentId : (Parent?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "ParentId",
+                        "Parent"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ParentFullCode",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "ParentFullCode",
+                "full_name": "ParentFullCode (Составной код родителя)"
+            },
+            "tag": {
+                "json": "parent_full_code,omitempty",
+                "xml": "parent_full_code,omitempty",
+                "xls": "Составной код родителя"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "ParentFullCode calculation",
+                    "type": "Calculate",
+                    "action": "POST_GET",
+                    "code": "Parent?.FullCode ?? NullString()",
+                    "fields": [
+                        "Parent"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "FullCode",
+            "internal_type": "null.String",
+            "validate_rule": "required",
+            "alias": {
+                "display_name": "FullCode",
+                "full_name": "FullCode (Составной код)"
+            },
+            "db_storage": {
+                "column_name": "full_code",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "full_code",
+                "json": "full_code",
+                "xml": "full_code",
+                "xls": "Составной код"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "FullCode calculation",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "FullCode.Valid ? FullCode : ((Parent?.FullCode.Valid ?? false) ? StringFrom((Parent?.FullCode.String) + '.' + (Code.String)) : StringFrom(Code.String))",
+                    "fields": [
+                        "Code",
+                        "FullCode",
+                        "Parent"
+                    ]
+                }
+            ]
+        }
+    ]
+}

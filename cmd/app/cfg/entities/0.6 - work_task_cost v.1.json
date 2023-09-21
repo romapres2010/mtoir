@@ -1,0 +1,194 @@
+{
+    "status": "ENABLED",
+    "name": "WorkTaskCost",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Work Task Cost",
+        "full_name": "Work Task Cost (Стоимостные показатели)"
+    },
+    "tag": {
+        "json": "-",
+        "xml": "-",
+        "yaml": "-",
+        "xls": "-"
+    },
+    "keys": [
+        {
+            "status": "ENABLED",
+            "name": "PK",
+            "type": "PK",
+            "fields": [
+                "Id"
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "name": "FK1",
+            "type": "FK",
+            "fields": [
+                "Id"
+            ]
+        }
+    ],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Id",
+            "internal_type": "*UIID",
+            "format": "PK_AUTO_GENERATED",
+            "validate_rule": "required",
+            "alias": {
+                "display_name": "Id",
+                "full_name": "Id (Id объекта)"
+            },
+            "db_storage": {
+                "column_name": "id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "id",
+                "json": "id",
+                "xml": "id",
+                "xls": "Id объекта",
+                "sql": ",type:uuid"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "PayrollCost",
+            "internal_type": "null.Float",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Payroll Cost",
+                "full_name": "Payroll Cost (ФОТ)"
+            },
+            "tag": {
+                "db": "payroll_cost",
+                "json": "payroll_cost",
+                "xml": "payroll_cost",
+                "xls": "ФОТ"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "MaterialCost",
+            "internal_type": "null.Float",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Material Cost",
+                "full_name": "Material Cost (МТР)"
+            },
+            "tag": {
+                "db": "material_cost",
+                "json": "material_cost",
+                "xml": "material_cost",
+                "xls": "МТР"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "MechanismCost",
+            "internal_type": "null.Float",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Mechanism Cost",
+                "full_name": "Mechanism Cost (машины)"
+            },
+            "tag": {
+                "db": "mechanism_cost",
+                "json": "mechanism_cost",
+                "xml": "mechanism_cost",
+                "xls": "Машины"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "OverheadCost",
+            "internal_type": "null.Float",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Overhead Cost",
+                "full_name": "Overhead Cost (накладные)"
+            },
+            "tag": {
+                "db": "overhead_cost",
+                "json": "overhead_cost",
+                "xml": "overhead_cost",
+                "xls": "Накладные"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Income",
+            "internal_type": "null.Float",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Income",
+                "full_name": "Income (прибыль)"
+            },
+            "tag": {
+                "db": "income",
+                "json": "income",
+                "xml": "income",
+                "xls": "Прибыль"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Total",
+            "internal_type": "null.Float",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Total",
+                "full_name": "Total (итого)"
+            },
+            "tag": {
+                "db": "total",
+                "json": "total",
+                "xml": "total",
+                "xls": "Итого"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Vat",
+            "internal_type": "null.Float",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Vat",
+                "full_name": "Vat (НДС)"
+            },
+            "tag": {
+                "db": "vat",
+                "json": "vat",
+                "xml": "vat",
+                "xls": "НДС"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "DocTotal",
+            "internal_type": "null.Float",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Doc Total",
+                "full_name": "Doc Total (итого по документу)"
+            },
+            "tag": {
+                "db": "doc_total",
+                "json": "doc_total",
+                "xml": "doc_total",
+                "xls": "Итого по документу"
+            }
+        }
+    ]
+}

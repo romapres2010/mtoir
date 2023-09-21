@@ -1,0 +1,384 @@
+Defaulted container "app-api" out of: app-api, init-app-api (init)
+2023-03-14 06:02:43.965363    info    metrics/metrics.go:92    New() - Creating new metrics service
+2023-03-14 06:02:43.966445    info    metrics/metrics.go:128    New() - Dependency: ['
+app_name
+  github.com/beorn7/perks:  v1.0.1
+  github.com/cespare/xxhash/v2:  v2.2.0
+  github.com/cpuguy83/go-md2man/v2:  v2.0.2
+  github.com/dgrijalva/jwt-go:  v3.2.0&#43;incompatible
+  github.com/golang/protobuf:  v1.5.2
+  github.com/gorilla/mux:  v1.8.0
+  github.com/jmoiron/sqlx:  v1.3.5
+  github.com/json-iterator/go:  v1.1.12
+  github.com/matttproud/golang_protobuf_extensions:  v1.0.4
+  github.com/modern-go/concurrent:  v0.0.0-20180306012644-bacd9c7ef1dd
+  github.com/modern-go/reflect2:  v1.0.2
+  github.com/pkg/errors:  v0.9.1
+  github.com/povilasv/prommod:  v0.0.12
+  github.com/prometheus/client_golang:  v1.14.0
+  github.com/prometheus/client_model:  v0.3.0
+  github.com/prometheus/common:  v0.40.0
+  github.com/prometheus/procfs:  v0.9.0
+  github.com/romapres2010/goapp:  (devel)
+  github.com/russross/blackfriday/v2:  v2.1.0
+  github.com/urfave/cli:  v1.22.12
+  go.uber.org/atomic:  v1.10.0
+  go.uber.org/multierr:  v1.9.0
+  go.uber.org/zap:  v1.24.0
+  golang.org/x/sys:  v0.5.0
+  golang.org/x/text:  v0.7.0
+  google.golang.org/protobuf:  v1.28.1
+  gopkg.in/asn1-ber.v1:  v1.0.0-20181015200546-f715ec2f112d
+  gopkg.in/korylprince/go-ad-auth.v2:  v2.2.0
+  gopkg.in/ldap.v3:  v3.1.0
+  gopkg.in/natefinch/lumberjack.v2:  v2.2.1
+  gopkg.in/yaml.v3:  v3.0.1']
+2023-03-14 06:02:43.972882    info    app/main.go:228    main() - Starting up server
+2023-03-14 06:02:43.973140    info    app/main.go:185    main.func1() - Load config file 'configfile'='/app/defcfg/app.global.yaml' from environment 'APP_CONFIG_FILE'
+2023-03-14 06:02:43.973199    info    config/config.go:122    (*Config).LoadYamlConfig() - Loading config from file: FileName['/app/defcfg/app.global.yaml']
+2023-03-14 06:02:43.973303    info    config/config.go:130    (*Config).LoadYamlConfig() - Config file exist: FileName, FileInfo['/app/defcfg/app.global.yaml', '&{app.global.yaml 15340 493 {712702800 63813683193 0x100a240} {1048714 538651 1 33261 0 0 0 0 15340 4096 32 {1678597697 583254000} {1678086393 712702800} {1678597697 313254000} [0 0 0]}}']
+2023-03-14 06:02:43.974828    info    config/config.go:105    replaceCfgArgsEnv() - YAML config parameter 'http_server.listen_spec'='0.0.0.0:8080' was replaced with environment 'APP_HTTP_LISTEN_SPEC'='0.0.0.0:8080'
+2023-03-14 06:02:43.974937    info    config/config.go:105    replaceCfgArgsEnv() - YAML config parameter 'logger.global_level'='INFO' was replaced with environment 'APP_LOG_LEVEL'='INFO'
+2023-03-14 06:02:43.975003    info    config/config.go:105    replaceCfgArgsEnv() - YAML config parameter 'logger.log_file'='/app/log/app.log' was replaced with environment 'APP_LOG_FILE'='/app/log/app.log'
+2023-03-14 06:02:43.975138    error    logger/logger.go:419    CloseLogger() - sync /dev/stdout: invalid argument
+github.com/romapres2010/goapp/pkg/common/logger.CloseLogger
+	/app/pkg/common/logger/logger.go:419
+github.com/romapres2010/goapp/pkg/common/logger.SetGlobalConfig
+	/app/pkg/common/logger/logger.go:185
+main.main.func1
+	/app/cmd/app/main.go:195
+github.com/urfave/cli.HandleAction
+	/app/vendor/github.com/urfave/cli/app.go:524
+github.com/urfave/cli.(*App).Run
+	/app/vendor/github.com/urfave/cli/app.go:286
+main.main
+	/app/cmd/app/main.go:231
+runtime.main
+	/usr/local/go/src/runtime/proc.go:250
+2023-03-14 06:02:43.975206    info    logger/logger.go:154    gClose() - Logger - close all
+2023-03-14 06:02:43.975251    info    logger/logger.go:250    newZapLogger() - Setup zap logger
+2023-03-14 06:02:43.975338    info    logger/logger.go:272    newZapLogger() - Zap logger - add core: minLevel, maxLevel, log_to, encoding['', 'INFO', 'lumberjack', 'console']
+2023-03-14 06:02:43.975382    info    logger/logger.go:212    NewFileLogger() - File logger - log to file: FileName['/app/log/app.log.debug.log']
+2023-03-14 06:02:43.975467    info    logger/logger.go:272    newZapLogger() - Zap logger - add core: minLevel, maxLevel, log_to, encoding['ERROR', '', 'lumberjack', 'console']
+2023-03-14 06:02:43.975533    info    logger/logger.go:212    NewFileLogger() - File logger - log to file: FileName['/app/log/app.log.error.log']
+2023-03-14 06:02:43.975588    info    logger/logger.go:272    newZapLogger() - Zap logger - add core: minLevel, maxLevel, log_to, encoding['', '', 'stdout', 'console']
+2023-03-14 06:02:43.975713    info    logger/logger.go:313    newZapLogger() - Zap logger - core DISABLE: log_to, encoding['stderr', 'console']
+2023-03-14 06:02:43.975816    info    logger/logger.go:202    SetGlobalConfig() - Logger settings applied: cfg['{true INFO /app/log/app.log {true false false error false [{true  INFO lumberjack  console 0xc0002e8540 {msg level ts log caller  stacktrace false 
+ lower iso8601 2006-01-02 15:04:05.000000 ms short     }} {true ERROR  lumberjack  console 0xc0002e85d0 {msg level ts log caller  stacktrace false 
+ lower iso8601 2006-01-02 15:04:05.000000 ms short     }} {true   stdout  console <nil> {msg level ts log caller  stacktrace false 
+ lower iso8601 2006-01-02 15:04:05.000000 ms short     }} {false ERROR  stderr  console <nil> {msg level ts log caller  stacktrace false 
+ lower iso8601 2006-01-02 15:04:05.000000 ms short     }}] <nil>}}']
+2023-03-14 06:02:43.977124    info    app/main.go:203    main.func1() - Configuration: 
+['
+memory_limit: 2000000000
+config_file: /app/defcfg/app.global.yaml
+shutdown_timeout: 30s
+args_config_file: ""
+args_http_listen_spec: ""
+args_http_user: ""
+args_http_pass: ""
+args_jwt_key: ""
+args_log_level: ""
+args_log_file: ""
+args_pg_host: ""
+args_pg_port: ""
+args_pg_dbname: ""
+args_pg_user: ""
+args_pg_pass: ""
+env_config_file: /app/defcfg/app.global.yaml
+env_http_listen_spec: 0.0.0.0:8080
+env_http_user: ""
+env_http_pass: ""
+env_jwt_key: ""
+env_log_level: INFO
+env_log_file: /app/log/app.log
+env_pg_host: dev-app-db
+env_pg_port: "5432"
+env_pg_dbname: postgres
+env_pg_user: postgres
+env_pg_pass: postgres
+logger:
+    enable: true
+    global_level: INFO
+    global_filename: /app/log/app.log
+    zap:
+        enable: true
+        disable_caller: false
+        disable_stacktrace: false
+        stacktrace_level: error
+        development: false
+        core:
+            - enable: true
+              min_level: ""
+              max_level: INFO
+              log_to: lumberjack
+              logging_path: ""
+              encoding: console
+              file:
+                filename: .debug.log
+                max_size: 10
+                max_age: 7
+                max_backups: 10
+                local_time: true
+                compress: false
+              encoder_config:
+                message_key: msg
+                level_key: level
+                time_key: ts
+                name_key: log
+                caller_key: caller
+                function_key: ""
+                stacktrace_key: stacktrace
+                skip_line_ending: false
+                line_ending: |4+
+                encode_level: lower
+                encode_time: iso8601
+                encode_time_custom: "2006-01-02 15:04:05.000000"
+                encode_duration: ms
+                encode_caller: short
+                console_separator: '    '
+            - enable: true
+              min_level: ERROR
+              max_level: ""
+              log_to: lumberjack
+              logging_path: ""
+              encoding: console
+              file:
+                filename: .error.log
+                max_size: 10
+                max_age: 7
+                max_backups: 10
+                local_time: true
+                compress: false
+              encoder_config:
+                message_key: msg
+                level_key: level
+                time_key: ts
+                name_key: log
+                caller_key: caller
+                function_key: ""
+                stacktrace_key: stacktrace
+                skip_line_ending: false
+                line_ending: |4+
+                encode_level: lower
+                encode_time: iso8601
+                encode_time_custom: "2006-01-02 15:04:05.000000"
+                encode_duration: ms
+                encode_caller: short
+                console_separator: '    '
+            - enable: true
+              min_level: ""
+              max_level: ""
+              log_to: stdout
+              logging_path: ""
+              encoding: console
+              file: null
+              encoder_config:
+                message_key: msg
+                level_key: level
+                time_key: ts
+                name_key: log
+                caller_key: caller
+                function_key: ""
+                stacktrace_key: stacktrace
+                skip_line_ending: false
+                line_ending: |4+
+                encode_level: lower
+                encode_time: iso8601
+                encode_time_custom: "2006-01-02 15:04:05.000000"
+                encode_duration: ms
+                encode_caller: short
+                console_separator: '    '
+            - enable: false
+              min_level: ERROR
+              max_level: ""
+              log_to: stderr
+              logging_path: ""
+              encoding: console
+              file: null
+              encoder_config:
+                message_key: msg
+                level_key: level
+                time_key: ts
+                name_key: log
+                caller_key: caller
+                function_key: ""
+                stacktrace_key: stacktrace
+                skip_line_ending: false
+                line_ending: |4+
+                encode_level: lower
+                encode_time: iso8601
+                encode_time_custom: "2006-01-02 15:04:05.000000"
+                encode_duration: ms
+                encode_caller: short
+                console_separator: '    '
+        sampling: null
+http_server:
+    listen_spec: 0.0.0.0:8080
+    read_timeout: 1h0m0s
+    write_timeout: 1h0m0s
+    idle_timeout: 1h0m0s
+    shutdown_timeout: 30s
+    max_header_bytes: 262144
+    use_go_profile: false
+    use_tls: false
+    tls_cert_file: ""
+    tls_key_file: ""
+    tls_min_version: 0
+    tls_max_version: 0
+http_service:
+    auth_type: NONE
+    max_body_bytes: 0
+    use_hsts: false
+    use_jwt: false
+    jwt_expires_at: 0
+    msad_server: ""
+    msad_port: 0
+    msad_base_dn: ""
+    msad_security: 0
+    use_buf_pool: false
+    buf_pooled_size: 65536
+    buf_pooled_max_size: 131072
+    log_error_to_http_header: true
+    log_error_to_http_body: true
+    http_header_max_size: 512
+    handlers:
+        HealthHandler:
+            enabled: true
+            application: app
+            module: system
+            service: health
+            version: v1.0.0
+            full_path: /app/system/health
+            params: ""
+            method: GET
+            handler_name: HealthHandler
+        ReadyHandler:
+            enabled: true
+            application: app
+            module: system
+            service: ready
+            version: v1.0.0
+            full_path: /app/system/ready
+            params: ""
+            method: GET
+            handler_name: ReadyHandler
+        WpHandlerFactorial:
+            enabled: true
+            application: app
+            module: system
+            service: ready
+            version: v1.0.0
+            full_path: /app/system/wp_factorial
+            params: ""
+            method: POST
+            handler_name: WpHandlerFactorial
+http_handler: {}
+http_logger:
+    enable: false
+    log_in_req: true
+    log_out_req: true
+    log_in_resp: true
+    log_out_resp: true
+    log_body: true
+    file:
+        filename: /app/log/app_http.log
+        max_size: 10
+        max_age: 7
+        max_backups: 10
+        local_time: true
+        compress: false
+worker_pool_service:
+    total_timeout: 100ms
+    shutdown_timeout: 30s
+    worker_pool:
+        task_queue_size: 0
+        task_timeout: 20ms
+        worker_concurrency: 8
+        worker_timeout: 30ms
+metrics:
+    metrics_namespace: com
+    metrics_subsystem: go_app
+    collect_db_count_vec: true
+    collect_db_duration_vec: false
+    collect_http_requests_count_vec: true
+    collect_http_error_requests_count_vec: true
+    collect_http_requests_duration_vec: true
+    collect_http_active_requests_count: true
+    collect_http_requests_duration: true
+    collect_http_client_call_count_vec: true
+    collect_http_client_call_duration_vec: true
+    collect_calc_count_vec: false
+    collect_calc_duration_vec: false
+    collect_marshaling_duration_vec: false
+    collect_un_marshaling_duration_vec: false
+    collect_wp_task_queue_buffer_len_vec: false
+    collect_wp_add_task_wait_count_vec: false
+    collect_wp_worker_process_count_vec: false
+    collect_wp_task_process_duration_ms_by_name: false
+']
+2023-03-14 06:02:43.977296    info    metrics/metrics.go:92    New() - Creating new metrics service
+2023-03-14 06:02:43.977744    info    metrics/metrics.go:128    New() - Dependency: ['
+app_name
+  github.com/beorn7/perks:  v1.0.1
+  github.com/cespare/xxhash/v2:  v2.2.0
+  github.com/cpuguy83/go-md2man/v2:  v2.0.2
+  github.com/dgrijalva/jwt-go:  v3.2.0&#43;incompatible
+  github.com/golang/protobuf:  v1.5.2
+  github.com/gorilla/mux:  v1.8.0
+  github.com/jmoiron/sqlx:  v1.3.5
+  github.com/json-iterator/go:  v1.1.12
+  github.com/matttproud/golang_protobuf_extensions:  v1.0.4
+  github.com/modern-go/concurrent:  v0.0.0-20180306012644-bacd9c7ef1dd
+  github.com/modern-go/reflect2:  v1.0.2
+  github.com/pkg/errors:  v0.9.1
+  github.com/povilasv/prommod:  v0.0.12
+  github.com/prometheus/client_golang:  v1.14.0
+  github.com/prometheus/client_model:  v0.3.0
+  github.com/prometheus/common:  v0.40.0
+  github.com/prometheus/procfs:  v0.9.0
+  github.com/romapres2010/goapp:  (devel)
+  github.com/russross/blackfriday/v2:  v2.1.0
+  github.com/urfave/cli:  v1.22.12
+  go.uber.org/atomic:  v1.10.0
+  go.uber.org/multierr:  v1.9.0
+  go.uber.org/zap:  v1.24.0
+  golang.org/x/sys:  v0.5.0
+  golang.org/x/text:  v0.7.0
+  google.golang.org/protobuf:  v1.28.1
+  gopkg.in/asn1-ber.v1:  v1.0.0-20181015200546-f715ec2f112d
+  gopkg.in/korylprince/go-ad-auth.v2:  v2.2.0
+  gopkg.in/ldap.v3:  v3.1.0
+  gopkg.in/natefinch/lumberjack.v2:  v2.2.1
+  gopkg.in/yaml.v3:  v3.0.1']
+2023-03-14 06:02:43.978007    info    app/main.go:212    main.func1() - Set Memory Limit: MemoryLimit['2000000000']
+2023-03-14 06:02:43.978070    info    daemon/daemon.go:48    New() - Create new daemon
+2023-03-14 06:02:43.978146    info    httplog/httplog.go:42    New() - Creating new HTTP traffic logger
+2023-03-14 06:02:43.978219    info    httplog/httplog.go:72    (*Logger).SetConfig() - Set HTTP logger config: cfg['{false true true true true true 0xc0002e86f0}']
+2023-03-14 06:02:43.978345    info    httpservice/httpservice.go:135    New() - Creating new HTTP service
+2023-03-14 06:02:43.978412    info    httpservice/httpservice.go:175    New() - HTTP service was created
+2023-03-14 06:02:43.978479    info    httphandler/httphandler.go:35    New() - Creating new HTTP service
+2023-03-14 06:02:43.978537    info    httphandler/httphandler.go:62    New() - HTTP service was created
+2023-03-14 06:02:43.978584    info    httpservice/httpservice.go:183    (*Service).SetHttpHandler() - Register HTTP handlers
+2023-03-14 06:02:43.978691    info    httpservice/httpservice.go:215    (*Service).SetHttpHandler() - Register HTTP handler: HandlerName, Method, FullPath['HealthHandler', 'GET', '/app/system/health']
+2023-03-14 06:02:43.978773    info    httpservice/httpservice.go:215    (*Service).SetHttpHandler() - Register HTTP handler: HandlerName, Method, FullPath['ReadyHandler', 'GET', '/app/system/ready']
+2023-03-14 06:02:43.978898    info    httpservice/httpservice.go:215    (*Service).SetHttpHandler() - Register HTTP handler: HandlerName, Method, FullPath['WpHandlerFactorial', 'POST', '/app/system/wp_factorial']
+2023-03-14 06:02:43.978959    info    httpserver/httpserver.go:57    New() - Creating new HTTP server
+2023-03-14 06:02:43.989827    info    httpserver/httpserver.go:165    New() - Created new TCP listener: network = 'tcp', address['0.0.0.0:8080']
+2023-03-14 06:02:43.990137    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/system/config/loglevel', 'POST']
+2023-03-14 06:02:43.990328    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/system/config/logger', 'GET']
+2023-03-14 06:02:43.990479    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/app/system/health', 'GET']
+2023-03-14 06:02:43.990617    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/app/system/ready', 'GET']
+2023-03-14 06:02:43.990765    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/system/auth/signin', 'POST']
+2023-03-14 06:02:43.990905    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/system/config/httperrlog', 'POST']
+2023-03-14 06:02:43.991064    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/system/config/httplog', 'POST']
+2023-03-14 06:02:43.991201    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/system/config/logger', 'POST']
+2023-03-14 06:02:43.991376    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/app/system/wp_factorial', 'POST']
+2023-03-14 06:02:43.991490    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/system/echo', 'POST']
+2023-03-14 06:02:43.991674    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/system/auth/refresh', 'POST']
+2023-03-14 06:02:43.991826    info    httpserver/httpserver.go:212    New() - HTTP server is created
+2023-03-14 06:02:43.991923    info    daemon/daemon.go:103    New() - New daemon was created
+2023-03-14 06:02:43.992036    info    app/main.go:222    main.func1() - Server is startup: Version['version '2.0.1', commit 'd8bc0c4', build time '2023-03-12_05:06:36'']
+2023-03-14 06:02:43.992151    info    daemon/daemon.go:110    (*Daemon).Run() - Starting daemon
+2023-03-14 06:02:43.992302    info    daemon/daemon.go:118    (*Daemon).Run() - Daemon was running. For exit <CTRL-c>
+2023-03-14 06:02:43.992711    info    httpserver/httpserver.go:234    (*Server).Run() - Starting HTTP server

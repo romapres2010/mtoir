@@ -1,0 +1,14 @@
+Env file: /g/Projects/go/meta_api/deploy/run/local.compose.global.config/.env
+Current directory:
+/g/Projects/go/meta_api/deploy/run
+Go to working directory:
+/g/Projects/go/meta_api /g/Projects/go/meta_api/deploy/run
+Create folder for bind_mounts
+Run compose
+time="2023-08-11T13:06:22+03:00" level=warning msg="Found orphan containers ([utce-liquibase utce-db utce-api]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container app-oracle  Recreate
+ Container app-oracle  Recreated
+ Container app-oracle  Starting
+ Container app-oracle  Started
+Go to current directory:
+/g/Projects/go/meta_api/deploy/run

@@ -1,0 +1,494 @@
+{
+    "status": "ENABLED",
+    "name": "ApprovalState",
+	"storage_name": "Msutoir",
+    "inherit_from": "NamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Approval State",
+        "full_name": "Approval State (Статус утверждения)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "approval_state",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "approval_state",
+        "xml": "approval_state",
+        "xls": "Статус утверждения",
+		"xls_sheet": "Статус утверждения"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },"references": [
+        {
+            "status": "ENABLED",
+            "name": "ApprovalObject",
+            "required": false,
+            "to_entity": "ApprovalObject",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ApprovalObjectId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Approval Object",
+                "full_name": "Approval Object (Объект согласования)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "approval_object,omitempty",
+                "xml": "approval_object",
+                "xls": "Объект согласования"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "NextApprovalState",
+            "required": false,
+            "to_entity": "ApprovalState",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "NextStatusId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Next Approval State",
+                "full_name": "Next Approval State (Следующий статус)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "next_approval_state,omitempty",
+                "xml": "next_approval_state",
+                "xls": "Следующий статус"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "Division",
+            "required": false,
+            "to_entity": "Division",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "DivisionId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Division",
+                "full_name": "Division (Подразделение)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "division,omitempty",
+                "xml": "division",
+                "xls": "Подразделение"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "WorkGroup",
+            "required": false,
+            "to_entity": "WorkGroup",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "WorkGroupId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Work Group",
+                "full_name": "Work Group (Рабочая группа)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "work_group,omitempty",
+                "xml": "work_group",
+                "xls": "Рабочая группа"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "Approver",
+            "required": false,
+            "to_entity": "Users",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ApproverId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Approver",
+                "full_name": "Approver (Согласующий)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "user_approver,omitempty",
+                "xml": "user_approver",
+                "xls": "Согласующий"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "FirstDeputy",
+            "required": false,
+            "to_entity": "Users",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "FirstDeputyId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "First Deputy",
+                "full_name": "First Deputy (Первый заместитель)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "first_deputy,omitempty",
+                "xml": "first_deputy",
+                "xls": "Первый заместитель"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "SecondDeputy",
+            "required": false,
+            "to_entity": "Users",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "SecondDeputyId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Second Deputy",
+                "full_name": "Second Deputy (Второй заместитель)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "second_deputy,omitempty",
+                "xml": "second_deputy",
+                "xls": "Второй заместитель"
+            }
+        }
+    ],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ApprovalObjectId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Approval Object Id",
+                "full_name": "Approval Object Id (Id оъекта согласования)"
+            },
+            "db_storage": {
+                "column_name": "approval_object_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "approval_object_id",
+                "json": "approval_object_id",
+                "xml": "approval_object_id",
+                "xls": "Id оъекта согласования",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'ApprovalObjectId' from association 'ApprovalObject'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "ApprovalObjectId != nil ? ApprovalObjectId : (ApprovalObject?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "ApprovalObjectId",
+                        "ApprovalObject"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "StatusNumber",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Status Number",
+                "full_name": "Status Number (Номер статуса)"
+            },
+            "db_storage": {
+                "column_name": "status_number",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "status_number",
+                "json": "status_number",
+                "xml": "status_number",
+                "xls": "Номер статуса"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "NextStatusId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Next Status Id",
+                "full_name": "Next Status Id (Id следующего статуса)"
+            },
+            "db_storage": {
+                "column_name": "next_status_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "next_status_id",
+                "json": "next_status_id",
+                "xml": "next_status_id",
+                "xls": "Id следующего статуса",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'NextStatusId' from association 'NextApprovalState'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "NextStatusId != nil ? NextStatusId : (NextApprovalState?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "NextStatusId",
+                        "NextApprovalState"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "DivisionId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Division Id",
+                "full_name": "Division Id (Id подразделения)"
+            },
+            "db_storage": {
+                "column_name": "division_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "division_id",
+                "json": "division_id",
+                "xml": "division_id",
+                "xls": "Id подразделения",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'DivisionId' from association 'Division'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "DivisionId != nil ? DivisionId : (Division?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "DivisionId",
+                        "Division"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "IsFinal",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "IsFinal",
+                "full_name": "IsFinal (Последний)"
+            },
+            "db_storage": {
+                "column_name": "is_final",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "is_final",
+                "json": "is_final",
+                "xml": "is_final",
+                "xls": "Последний"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "WorkGroupId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "WorkGroupId",
+                "full_name": "WorkGroupId (Id рабочей группы)"
+            },
+            "db_storage": {
+                "column_name": "work_group_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "work_group_id",
+                "json": "work_group_id",
+                "xml": "work_group_id",
+                "xls": "Id рабочей группы",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'WorkGroupId' from association 'WorkGroup'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "WorkGroupId != nil ? WorkGroupId : (WorkGroup?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "WorkGroupId",
+                        "WorkGroup"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ApproverId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Approver Id",
+                "full_name": "Approver Id (Id утверждающего)"
+            },
+            "db_storage": {
+                "column_name": "approver_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "approver_id",
+                "json": "approver_id",
+                "xml": "approver_id",
+                "xls": "Id утверждающего",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'ApproverId' from association 'Approver'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "ApproverId != nil ? ApproverId : (Approver?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "ApproverId",
+                        "Approver"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "FirstDeputyId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "First Deputy Id",
+                "full_name": "First Deputy Id (Id первого заместителя)"
+            },
+            "db_storage": {
+                "column_name": "first_deputy_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "first_deputy_id",
+                "json": "first_deputy_id",
+                "xml": "first_deputy_id",
+                "xls": "Id первого заместителя",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'FirstDeputyId' from association 'FirstDeputy'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "FirstDeputyId != nil ? FirstDeputyId : (FirstDeputy?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "FirstDeputyId",
+                        "FirstDeputy"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "SecondDeputyId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Second Deputy Id",
+                "full_name": "Second Deputy Id (Id второго заместителя)"
+            },
+            "db_storage": {
+                "column_name": "second_deputy_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "second_deputy_id",
+                "json": "second_deputy_id",
+                "xml": "second_deputy_id",
+                "xls": "Id второго заместителя",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'SecondDeputyId' from association 'SecondDeputy'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "SecondDeputyId != nil ? SecondDeputyId : (SecondDeputy?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "SecondDeputyId",
+                        "SecondDeputy"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ApprovalDate",
+            "internal_type": "null.Time",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Approval Date",
+                "full_name": "Approval Date (Дата утверждения)"
+            },
+            "db_storage": {
+                "column_name": "approval_date",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "approval_date",
+                "json": "approval_date",
+                "xml": "approval_date",
+                "xls": "Дата утверждения"
+            },
+            "modify": {
+                "update_restrict": true
+            }
+        }
+    ]
+}

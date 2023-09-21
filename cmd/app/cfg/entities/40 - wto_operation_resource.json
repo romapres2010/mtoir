@@ -1,0 +1,678 @@
+{
+    "status": "ENABLED",
+    "name": "WtoOperationResource",
+	"storage_name": "Msutoir",
+    "inherit_from": "NamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Wto Operation Resource",
+        "full_name": "Wto Operation Resource (Ресурсы операции задания)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "wto_operation_resource",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "wto_operation_resource",
+        "xml": "wto_operation_resource",
+        "xls": "Ресурсы операции задания",
+        "xls_sheet": "Ресурсы операции задания"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },
+    "keys": [
+        {
+            "status": "DISABLE",
+            "name": "UK1"
+        },
+        {
+            "status": "ENABLED",
+            "name": "UK2",
+            "type": "UK",
+            "fields": [
+                "WorkTaskOrderOperationId",
+                "Code"
+            ],
+            "db_storage": {
+                "direct_sql_where": "deleted_date is null"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "FK1",
+            "type": "FK",
+            "fields": [
+                "WorkTaskOrderOperationId"
+            ],
+            "db_storage": {
+                "direct_sql_where": "deleted_date is null"
+            }
+        }
+	],
+    "references": [
+        {
+            "status": "ENABLED",
+            "name": "WorkTaskOrderOperation",
+            "required": false,
+            "to_entity": "WorkTaskOrderOperation",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "WorkTaskOrderOperationId"
+            ],
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "WorkTask Order Operation",
+                "full_name": "WorkTask Order Operation (Операции заказа)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "work_task_order_operation",
+                "xml": "work_task_order_operation",
+                "xls": "Заказы заданий"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "Resource",
+            "required": false,
+            "to_entity": "Resource",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ResourceId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Resource",
+                "full_name": "Resource (Ресурсы)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "resource,omitempty",
+                "xml": "resource",
+                "xls": "Ресурсы"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "Staff",
+            "required": false,
+            "to_entity": "Users",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "StaffId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Staff",
+                "full_name": "Staff (Работник)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "staff,omitempty",
+                "xml": "staff",
+                "xls": "Работник"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "MeasureUnit",
+            "required": false,
+            "to_entity": "MeasureUnit",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "MeasureUnitId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Measure Unit",
+                "full_name": "Measure Unit (Единицы измерения)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "measure_unit,omitempty",
+                "xml": "measure_unit",
+                "xls": "Единицы измерения"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "Currency",
+            "required": false,
+            "to_entity": "Currency",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "CurrencyId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Currency",
+                "full_name": "Currency (Валюта)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "currency,omitempty",
+                "xml": "currency",
+                "xls": "Валюта"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "Asset",
+            "required": false,
+            "to_entity": "Asset",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "AssetResourceId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Asset",
+                "full_name": "Asset (Объект контроля)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "asset,omitempty",
+                "xml": "asset",
+                "xls": "Объект контроля"
+            }
+        }
+    ],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "name": "Code",
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'Code' from association 'Resource'",
+                    "type": "Calculate",
+                    "action": "PRE_PUT",
+                    "code": "Code.Valid ? Code : (Resource?.FullCode ?? NullString())",
+                    "fields": [
+                        "Code",
+                        "Resource"
+                    ]
+                },
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'Code' from association 'Asset'",
+                    "type": "Calculate",
+                    "action": "PRE_PUT",
+                    "code": "Code.Valid ? Code : (Asset?.FullCode ?? NullString())",
+                    "fields": [
+                        "Code",
+                        "Asset"
+                    ]
+                },
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'Code' from association 'Staff'",
+                    "type": "Calculate",
+                    "action": "PRE_PUT",
+                    "code": "Code.Valid ? Code : (Staff != nil? (StringFrom(Staff.FirstName.String + ' ' + Staff.LastName.String + ' [' + Staff.UserName + ']')) : NullString())",
+                    "fields": [
+                        "Code",
+                        "Staff"
+                    ]
+                },
+                {
+                    "status": "ENABLED",
+                    "name": "Set default code",
+                    "type": "Calculate",
+                    "action": "PRE_PUT",
+                    "code": "Code.Valid ? Code : StringFrom('CODE_NOT_DEFINED')",
+                    "fields": [
+                        "Code"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "name": "Name",
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'Name' from association 'Resource'",
+                    "type": "Calculate",
+                    "action": "PRE_PUT",
+                    "code": "Name.Valid ? Name : (Resource?.Name ?? NullString())",
+                    "fields": [
+                        "Name",
+                        "Resource"
+                    ]
+                },
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'Name' from association 'Asset'",
+                    "type": "Calculate",
+                    "action": "PRE_PUT",
+                    "code": "Name.Valid ? Name : (Asset?.Name ?? NullString())",
+                    "fields": [
+                        "Name",
+                        "Asset"
+                    ]
+                },
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'Name' from association 'Staff'",
+                    "type": "Calculate",
+                    "action": "PRE_PUT",
+                    "code": "Name.Valid ? Name : (Staff != nil? (StringFrom(Staff.FirstName.String + ' ' + Staff.LastName.String + ' [' + Staff.UserName + ']')) : NullString())",
+                    "fields": [
+                        "Name",
+                        "Staff"
+                    ]
+                },
+                {
+                    "status": "ENABLED",
+                    "name": "Set default Name",
+                    "type": "Calculate",
+                    "action": "PRE_PUT",
+                    "code": "Name.Valid ? Name : StringFrom('CODE_NOT_DEFINED')",
+                    "fields": [
+                        "Name"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "WorkTaskOrderOperationId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Work Task Order Operation Id",
+                "full_name": "Work Task Order Operation Id (Id операции задания)"
+            },
+            "db_storage": {
+                "column_name": "work_task_order_operation_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "work_task_order_operation_id",
+                "json": "work_task_order_operation_id",
+                "xml": "work_task_order_operation_id",
+                "xls": "Id операции задания",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'WorkTaskOrderOperationId' from association 'WorkTaskOrderOperation'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "WorkTaskOrderOperationId != nil ? WorkTaskOrderOperationId : (WorkTaskOrderOperation?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "WorkTaskOrderOperationId",
+                        "WorkTaskOrderOperation"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ResourceId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Resource Id",
+                "full_name": "Resource Id (Id ресурса)"
+            },
+            "db_storage": {
+                "column_name": "resource_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "resource_id",
+                "json": "resource_id",
+                "xml": "resource_id",
+                "xls": "Id ресурса",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'ResourceId' from association 'Resource'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "ResourceId != nil ? ResourceId : (Resource?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "ResourceId",
+                        "Resource"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "AssetResourceId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Asset Resource Id",
+                "full_name": "Asset Resource Id (Id объекта контроля)"
+            },
+            "db_storage": {
+                "column_name": "asset_resource_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "asset_resource_id",
+                "json": "asset_resource_id",
+                "xml": "asset_resource_id",
+                "xls": "Id объекта контроля",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'AssetResourceId' from association 'Asset'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "AssetResourceId != nil ? AssetResourceId : (Asset?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "AssetResourceId",
+                        "Asset"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "StaffId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Staff Id",
+                "full_name": "Staff Id (Id работника)"
+            },
+            "db_storage": {
+                "column_name": "staff_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "staff_id",
+                "json": "staff_id",
+                "xml": "staff_id",
+                "xls": "Id работника",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'StaffId' from association 'Staff'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "StaffId != nil ? StaffId : (Staff?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "StaffId",
+                        "Staff"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "CurrencyId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Currency Id",
+                "full_name": "Currency Id (Id валюты)"
+            },
+            "db_storage": {
+                "column_name": "currency_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "currency_id",
+                "json": "currency_id",
+                "xml": "currency_id",
+                "xls": "Id валюты",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'CurrencyId' from association 'Currency'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "CurrencyId != nil ? CurrencyId : (Currency?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "CurrencyId",
+                        "Currency"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "MeasureUnitId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Measure Unit Id",
+                "full_name": "Measure Unit Id (Id единицы измерения)"
+            },
+            "db_storage": {
+                "column_name": "measure_unit_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "measure_unit_id",
+                "json": "measure_unit_id",
+                "xml": "measure_unit_id",
+                "xls": "Id единицы измерения",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'MeasureUnitId' from association 'MeasureUnit'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "MeasureUnitId != nil ? MeasureUnitId : (MeasureUnit?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "MeasureUnitId",
+                        "MeasureUnit"
+                    ]
+                },
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'MeasureUnitId' from association 'Resource'",
+                    "type": "Calculate",
+                    "action": "PRE_PUT",
+                    "code": "MeasureUnitId != nil ? MeasureUnitId : (Resource?.MeasureUnitId ?? PtrEmptyUUID())",
+                    "fields": [
+                        "MeasureUnitId",
+                        "Resource"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Ownership",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Ownership",
+                "full_name": "Ownership (Принадлежность)"
+            },
+            "db_storage": {
+                "column_name": "ownership",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "ownership",
+                "json": "ownership",
+                "xml": "ownership",
+                "xls": "Принадлежность"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "PlanQuantity",
+            "internal_type": "null.Float",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Plan Quantity",
+                "full_name": "Plan Quantity (Количество план)"
+            },
+            "db_storage": {
+                "column_name": "plan_quantity",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "plan_quantity",
+                "json": "plan_quantity",
+                "xml": "plan_quantity",
+                "xls": "Количество план"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "AvailableQuantity",
+            "internal_type": "null.Float",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Available Quantity",
+                "full_name": "Available Quantity (Доступное количество)"
+            },
+            "db_storage": {
+                "column_name": "available_quantity",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "available_quantity",
+                "json": "available_quantity",
+                "xml": "available_quantity",
+                "xls": "Доступное количество"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "FactQuantity",
+            "internal_type": "null.Float",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Fact Quantity",
+                "full_name": "Fact Quantity (Количество факт)"
+            },
+            "db_storage": {
+                "column_name": "fact_quantity",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "fact_quantity",
+                "json": "fact_quantity",
+                "xml": "fact_quantity",
+                "xls": "Количество факт"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "PlanPrice",
+            "internal_type": "null.Float",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Plan Price",
+                "full_name": "Plan Price (Цена план)"
+            },
+            "db_storage": {
+                "column_name": "plan_price",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "plan_price",
+                "json": "plan_price",
+                "xml": "plan_price",
+                "xls": "Цена план"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "PlanCost",
+            "internal_type": "null.Float",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Plan Cost",
+                "full_name": "Plan Cost (Стоимость план)"
+            },
+            "db_storage": {
+                "column_name": "plan_cost",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "plan_cost",
+                "json": "plan_cost",
+                "xml": "plan_cost",
+                "xls": "Стоимость план"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "FactPrice",
+            "internal_type": "null.Float",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Fact Price",
+                "full_name": "Fact Price (Цена факт)"
+            },
+            "db_storage": {
+                "column_name": "fact_price",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "fact_price",
+                "json": "fact_price",
+                "xml": "fact_price",
+                "xls": "Цена факт"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "FactCost",
+            "internal_type": "null.Float",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Fact Cost",
+                "full_name": "Fact Cost (Стоимость факт)"
+            },
+            "db_storage": {
+                "column_name": "fact_cost",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "fact_cost",
+                "json": "fact_cost",
+                "xml": "fact_cost",
+                "xls": "Стоимость факт"
+            }
+        }
+    ]
+}

@@ -1,0 +1,325 @@
+{
+    "status": "ENABLED",
+    "name": "Resource",
+	"storage_name": "Msutoir",
+    "inherit_from": "HierarchicalNamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Resource",
+        "full_name": "Resource (Номенклатура ресурсов)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "resource_",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "resource_",
+        "xml": "resource_",
+        "xls": "Номенклатура ресурсов (заголовок)",
+        "xls_sheet": "Номенклатура ресурсов (лист)"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },
+    "references": [
+        {
+            "name": "Parent",
+            "alias": {
+                "display_name": "Parent Resource",
+                "full_name": "Parent Resource (Номенклатура ресурсов - родитель)"
+            },
+            "tag": {
+                "json": "parent_resource_,omitempty",
+                "xml": "parent_resource_",
+                "xls": "Номенклатура ресурсов - родитель (заголовок)"
+            }
+        },
+        {
+            "name": "Children",
+            "alias": {
+                "display_name": "Child Resource",
+                "full_name": "Child Resource (Номенклатура ресурсов - потомок)"
+            },
+            "tag": {
+                "json": "child_resource_,omitempty",
+                "xml": "child_resource_>resource_",
+                "xls": "Номенклатура ресурсов - потомок (заголовок)",
+                "xls_sheet": "Потомок (лист)"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "WorkGroup",
+            "required": false,
+            "to_entity": "WorkGroup",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "WorkGroupId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Work Group",
+                "full_name": "Work Group (Рабочая группа)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "work_group,omitempty",
+                "xml": "work_group",
+                "xls": "Рабочая группа"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "Currency",
+            "required": false,
+            "to_entity": "Currency",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "CurrencyId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Currency",
+                "full_name": "Currency (Валюта)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "currency,omitempty",
+                "xml": "currency",
+                "xls": "Валюта"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "MeasureUnit",
+            "required": false,
+            "to_entity": "MeasureUnit",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "MeasureUnitId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Measure Unit",
+                "full_name": "Measure Unit (Единица измерения)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "measure_unit,omitempty",
+                "xml": "measure_unit",
+                "xls": "Единица измерения"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "ResourceClass",
+            "required": false,
+            "to_entity": "ResourceClass",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ResourceClassId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Resource Class",
+                "full_name": "Resource Class (Класс номенклатуры ресурсов)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "resource_class,omitempty",
+                "xml": "resource_class",
+                "xls": "Класс номенклатуры ресурсов"
+            }
+        }
+    ],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ResourceClassId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Resource Class Id",
+                "full_name": "Resource Class Id (Id класса номенклатуры ресурсов)"
+            },
+            "db_storage": {
+                "column_name": "resource_class_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "resource_class_id",
+                "json": "resource_class_id",
+                "xml": "resource_class_id",
+                "xls": "Id класса номенклатуры ресурсов",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'ResourceClassId' from association 'ResourceClass'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "ResourceClassId != nil ? ResourceClassId : (ResourceClass?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "ResourceClassId",
+                        "ResourceClass"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "CurrencyId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Currency Id",
+                "full_name": "Currency Id (Id валюты)"
+            },
+            "db_storage": {
+                "column_name": "currency_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "currency_id",
+                "json": "currency_id",
+                "xml": "currency_id",
+                "xls": "Id валюты",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'CurrencyId' from association 'Currency'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "CurrencyId != nil ? CurrencyId : (Currency?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "CurrencyId",
+                        "Currency"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "WorkGroupId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "WorkGroupId",
+                "full_name": "WorkGroupId (Id рабочей группы)"
+            },
+            "db_storage": {
+                "column_name": "work_group_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "work_group_id",
+                "json": "work_group_id",
+                "xml": "work_group_id",
+                "xls": "Id рабочей группы",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'WorkGroupId' from association 'WorkGroup'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "WorkGroupId != nil ? WorkGroupId : (WorkGroup?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "WorkGroupId",
+                        "WorkGroup"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "MeasureUnitId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Measure Unit Id",
+                "full_name": "Measure Unit Id (Id единицы измерения)"
+            },
+            "db_storage": {
+                "column_name": "measure_unit_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "measure_unit_id",
+                "json": "measure_unit_id",
+                "xml": "measure_unit_id",
+                "xls": "Id единицы измерения",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'MeasureUnitId' from association 'MeasureUnit'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "MeasureUnitId != nil ? MeasureUnitId : (MeasureUnit?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "MeasureUnitId",
+                        "MeasureUnit"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Price",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Price",
+                "full_name": "Price (Цена)"
+            },
+            "db_storage": {
+                "column_name": "price",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "price",
+                "json": "price",
+                "xml": "price",
+                "xls": "Цена"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ResourceType",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Resource Type",
+                "full_name": "Resource Type (Тип номенклатуры ресурсов)"
+            },
+            "db_storage": {
+                "column_name": "resource_type",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "resource_type",
+                "json": "resource_type",
+                "xml": "resource_type",
+                "xls": "Тип номенклатуры ресурсов"
+            }
+        }
+    ]
+}

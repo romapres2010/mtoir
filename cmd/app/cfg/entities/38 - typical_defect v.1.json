@@ -1,0 +1,377 @@
+{
+    "status": "ENABLED",
+    "name": "TypicalDefect",
+	"storage_name": "Msutoir",
+    "inherit_from": "NamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Typical Defect",
+        "full_name": "Typical Defect (Типовое несоответствие)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "typical_defect",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "typical_defect",
+        "xml": "typical_defect",
+        "xls": "Типовое несоответствие",
+        "xls_sheet": "Типовое несоответствие"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },
+    "references": [
+        {
+            "status": "ENABLED",
+            "name": "AssetClass",
+            "required": false,
+            "to_entity": "AssetClass",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "AssetClassId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Asset Class",
+                "full_name": "Asset Class (Класс объекта контроля)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "asset_class,omitempty",
+                "xml": "asset_class",
+                "xls": "Класс объекта контроля"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "AssetNode",
+            "required": false,
+            "to_entity": "AssetNode",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "AssetNodeId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "AssetNode",
+                "full_name": "AssetNode (Узел объекта контроля)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "asset_node,omitempty",
+                "xml": "asset_node",
+                "xls": "Узел объекта контроля"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "WorkGroup",
+            "required": false,
+            "to_entity": "WorkGroup",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "WorkGroupId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Work Group",
+                "full_name": "Work Group (Рабочая группа)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "work_group,omitempty",
+                "xml": "work_group",
+                "xls": "Рабочая группа"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "TechnicalCard",
+            "required": false,
+            "to_entity": "TechnicalCard",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "TechnicalCardId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Technical Card",
+                "full_name": "Technical Card (Техкарта)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "technical_card,omitempty",
+                "xml": "technical_card",
+                "xls": "Техкарта"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "ParentTypicalDefect",
+            "required": false,
+            "to_entity": "TypicalDefect",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ParentId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Parent Typical Defect",
+                "full_name": "Parent Typical Defect (Наследованное типовое несоответствие)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "parent_typical_defect,omitempty",
+                "xml": "parent_typical_defect",
+                "xls": "Наследованное типовое несоответствие"
+            }
+        }
+    ],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "AssetClassId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Asset Class Id",
+                "full_name": "Asset Class Id (Id класса объектов контроля)"
+            },
+            "db_storage": {
+                "column_name": "asset_class_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "asset_class_id",
+                "json": "asset_class_id",
+                "xml": "asset_class_id",
+                "xls": "Id класса объектов контроля",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'AssetClassId' from association 'AssetClass'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "AssetClassId != nil ? AssetClassId : (AssetClass?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "AssetClassId",
+                        "AssetClass"
+                    ]
+                }
+            ]
+        },{
+            "status": "ENABLED",
+            "required": true,
+            "name": "AssetNodeId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Asset Node Id",
+                "full_name": "Asset Node Id (Id узла объекта контроля)"
+            },
+            "db_storage": {
+                "column_name": "asset_node_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "asset_node_id",
+                "json": "asset_node_id",
+                "xml": "asset_node_id",
+                "xls": "Id узла объекта контроля",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'AssetNodeId' from association 'AssetNode'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "AssetNodeId != nil ? AssetNodeId : (AssetNode?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "AssetNodeId",
+                        "AssetNode"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ParentId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Parent Id",
+                "full_name": "Parent Id (Id наследуемого несоответствия)"
+            },
+            "db_storage": {
+                "column_name": "parent_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "parent_id",
+                "json": "parent_id",
+                "xml": "parent_id",
+                "xls": "Id наследуемого несоответствия",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'ParentId' from association 'ParentTypicalDefect'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "ParentId != nil ? ParentId : (ParentTypicalDefect?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "ParentId",
+                        "ParentTypicalDefect"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "TechnicalCardId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Technical Card Id",
+                "full_name": "Technical Card Id (Id техкарты)"
+            },
+            "db_storage": {
+                "column_name": "technical_card_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "technical_card_id",
+                "json": "technical_card_id",
+                "xml": "technical_card_id",
+                "xls": "Id техкарты",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'TechnicalCardId' from association 'TechnicalCard'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "TechnicalCardId != nil ? TechnicalCardId : (TechnicalCard?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "TechnicalCardId",
+                        "TechnicalCard"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "WorkGroupId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "WorkGroupId",
+                "full_name": "WorkGroupId (Id рабочей группы)"
+            },
+            "db_storage": {
+                "column_name": "work_group_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "work_group_id",
+                "json": "work_group_id",
+                "xml": "work_group_id",
+                "xls": "Id рабочей группы",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'WorkGroupId' from association 'WorkGroup'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "WorkGroupId != nil ? WorkGroupId : (WorkGroup?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "WorkGroupId",
+                        "WorkGroup"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Unlinked",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Unlinked",
+                "full_name": "Unlinked (Не связанная)"
+            },
+            "db_storage": {
+                "column_name": "unlinked",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "unlinked",
+                "json": "unlinked",
+                "xml": "unlinked",
+                "xls": "Не связанная"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "DefectCriticality",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Defect Criticality",
+                "full_name": "Defect Criticality (Критичность несоответствия)"
+            },
+            "db_storage": {
+                "column_name": "defect_criticality",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "defect_criticality",
+                "json": "defect_criticality",
+                "xml": "defect_criticality",
+                "xls": "Критичность несоответствия"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Recommendation",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Recommendation",
+                "full_name": "Recommendation (Рекомендации)"
+            },
+            "db_storage": {
+                "column_name": "recommendation",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "recommendation",
+                "json": "recommendation",
+                "xml": "recommendation",
+                "xls": "Рекомендации"
+            }
+        }
+    ]
+}

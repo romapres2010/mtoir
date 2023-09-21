@@ -1,0 +1,370 @@
+{
+    "status": "ENABLED",
+    "name": "RepairCycle",
+	"storage_name": "Msutoir",
+    "inherit_from": "NamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Repair Cycle",
+        "full_name": "Repair Cycle (Ремонтный цикл)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "repair_cycle_rule_condition",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "repair_cycle_rule_condition",
+        "xml": "repair_cycle_rule_condition",
+        "xls": "Ремонтный цикл",
+        "xls_sheet": "Ремонтный цикл"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },
+    "references": [
+        {
+            "status": "ENABLED",
+            "name": "ServiceRule",
+            "required": false,
+            "to_entity": "ServiceRule",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ServiceRuleId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Service Rule",
+                "full_name": "Service Rule (Правило ППР)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "service_rule,omitempty",
+                "xml": "service_rule",
+                "xls": "Правило ППР"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "ServiceType",
+            "required": false,
+            "to_entity": "ServiceType",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ServiceTypeId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Service Type",
+                "full_name": "Service Type (Вид воздействия)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "service_type,omitempty",
+                "xml": "service_type",
+                "xls": "Вид воздействия"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "ParentDateInterval",
+            "required": false,
+            "to_entity": "DateInterval",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ParentId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Parent Date Interval",
+                "full_name": "Parent Date Interval (Наследованный интервал)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "parent_date_interval,omitempty",
+                "xml": "parent_date_interval",
+                "xls": "Наследованный интервал"
+            }
+        }
+
+    ],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ServiceTypeId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "ServiceTypeId",
+                "full_name": "ServiceTypeId (Id вида воздействия)"
+            },
+            "db_storage": {
+                "column_name": "service_type_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "service_type_id",
+                "json": "service_type_id",
+                "xml": "service_type_id",
+                "xls": "Id вида воздействия",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'ServiceTypeId' from association 'ServiceType'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "ServiceTypeId != nil ? ServiceTypeId : (ServiceType?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "ServiceTypeId",
+                        "ServiceType"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ServiceRuleId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Service Rule Id",
+                "full_name": "Service Rule Id (Id правила ППР)"
+            },
+            "db_storage": {
+                "column_name": "service_rule_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "service_rule_id",
+                "json": "service_rule_id",
+                "xml": "service_rule_id",
+                "xls": "Id правила ППР",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'ServiceRuleId' from association 'ServiceRule'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "ServiceRuleId != nil ? ServiceRuleId : (ServiceRule?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "ServiceRuleId",
+                        "ServiceRule"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ParentId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Parent Id",
+                "full_name": "Parent Id (Id наследуемого интервала)"
+            },
+            "db_storage": {
+                "column_name": "parent_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "parent_id",
+                "json": "parent_id",
+                "xml": "parent_id",
+                "xls": "Id наследуемого интервала",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'ParentId' from association 'ParentDateInterval'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "ParentId != nil ? ParentId : (ParentDateInterval?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "ParentId",
+                        "ParentDateInterval"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Unlinked",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Unlinked",
+                "full_name": "Unlinked (Не связанная)"
+            },
+            "db_storage": {
+                "column_name": "unlinked",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "unlinked",
+                "json": "unlinked",
+                "xml": "unlinked",
+                "xls": "Не связанная"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Duration",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Duration",
+                "full_name": "Duration (Длительность)"
+            },
+            "db_storage": {
+                "column_name": "duration",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "duration",
+                "json": "duration",
+                "xml": "duration",
+                "xls": "Длительность"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Priority",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Priority",
+                "full_name": "Priority (Приоритет)"
+            },
+            "db_storage": {
+                "column_name": "priority",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "priority",
+                "json": "priority",
+                "xml": "priority",
+                "xls": "Приоритет"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Interval",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Interval",
+                "full_name": "Interval (Интервал)"
+            },
+            "db_storage": {
+                "column_name": "interval_",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "interval_",
+                "json": "interval_",
+                "xml": "interval_",
+                "xls": "Интервал"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Countdown",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Countdown",
+                "full_name": "Countdown (Отсчет)"
+            },
+            "db_storage": {
+                "column_name": "countdown",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "countdown",
+                "json": "countdown",
+                "xml": "countdown",
+                "xls": "Отсчет"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "DaysBefore",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Days Before",
+                "full_name": "Days Before (Дней до)"
+            },
+            "db_storage": {
+                "column_name": "days_before",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "days_before",
+                "json": "days_before",
+                "xml": "days_before",
+                "xls": "Дней до"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "DaysAfter",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Days After",
+                "full_name": "Days After (Дней после)"
+            },
+            "db_storage": {
+                "column_name": "days_after",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "days_after",
+                "json": "days_after",
+                "xml": "days_after",
+                "xls": "Дней после"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ServiceNumber",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Service Number",
+                "full_name": "Service Number (Номер)"
+            },
+            "db_storage": {
+                "column_name": "service_number",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "service_number",
+                "json": "service_number",
+                "xml": "service_number",
+                "xls": "Номер"
+            }
+        }
+    ]
+}

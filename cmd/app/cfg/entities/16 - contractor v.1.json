@@ -1,0 +1,459 @@
+{
+    "status": "ENABLED",
+    "name": "Contractor",
+	"storage_name": "Msutoir",
+    "inherit_from": "NamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Contractor",
+        "full_name": "Contractor (Подрядные организации)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "contractor",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "contractor",
+        "xml": "contractor",
+        "xls": "Подрядные организации",
+		"xls_sheet": "Подрядные организации"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },
+	"references": [
+		{
+            "status": "ENABLED",
+            "name": "Positions",
+            "required": false,
+            "to_entity": "Positions",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "ContactPositionId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Positions",
+                "full_name": "Positions (Должность)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "positions,omitempty",
+                "xml": "positions",
+                "xls": "Должность"
+            }
+        },
+		{
+            "status": "ENABLED",
+            "name": "WorkGroup",
+            "required": false,
+            "to_entity": "WorkGroup",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "WorkGroupId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Work Group",
+                "full_name": "Work Group (Рабочая группа)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "work_group,omitempty",
+                "xml": "work_group",
+                "xls": "Рабочая группа"
+            }
+        }
+    ],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "WorkGroupId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "WorkGroupId",
+                "full_name": "WorkGroupId (Id рабочей группы)"
+            },
+            "db_storage": {
+                "column_name": "work_group_id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "work_group_id",
+                "json": "work_group_id",
+                "xml": "work_group_id",
+                "xls": "Id рабочей группы",
+                "sql": ",type:uuid"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'WorkGroupId' from association 'WorkGroup'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "WorkGroupId != nil ? WorkGroupId : (WorkGroup?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "WorkGroupId",
+                        "WorkGroup"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "LegalAddress",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Legal Address",
+                "full_name": "Legal Address (Юр. адрес подразделения)"
+            },
+            "db_storage": {
+                "column_name": "legal_address",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "legal_address",
+                "json": "legal_address",
+                "xml": "legal_address",
+                "xls": "Юр. адрес подразделения"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "PostalAddress",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Postal Address",
+                "full_name": "Postal Address (Почтовый адрес подразделения)"
+            },
+            "db_storage": {
+                "column_name": "postal_address",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "postal_address",
+                "json": "postal_address",
+                "xml": "postal_address",
+                "xls": "Почтовый адрес подразделения"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "PhoneNumber",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Phone Number",
+                "full_name": "Phone Number (Телефон)"
+            },
+            "db_storage": {
+                "column_name": "phone_number",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "phone_number",
+                "json": "phone_number",
+                "xml": "phone_number",
+                "xls": "Телефон"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "FaxNumber",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Fax Number",
+                "full_name": "Fax Number (Факс)"
+            },
+            "db_storage": {
+                "column_name": "fax_number",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "fax_number",
+                "json": "fax_number",
+                "xml": "fax_number",
+                "xls": "Факс"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Email",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Email",
+                "full_name": "Email (Email)"
+            },
+            "db_storage": {
+                "column_name": "email",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "email",
+                "json": "email",
+                "xml": "email",
+                "xls": "Email"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Website",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Website",
+                "full_name": "Website (Сайт)"
+            },
+            "db_storage": {
+                "column_name": "website",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "website",
+                "json": "website",
+                "xml": "website",
+                "xls": "Сайт"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "OGRN",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "OGRN",
+                "full_name": "OGRN (ОГРН)"
+            },
+            "db_storage": {
+                "column_name": "ogrn",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "ogrn",
+                "json": "ogrn",
+                "xml": "ogrn",
+                "xls": "ОГРН"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "INN",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "INN",
+                "full_name": "INN (ИНН)"
+            },
+            "db_storage": {
+                "column_name": "inn",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "inn",
+                "json": "inn",
+                "xml": "inn",
+                "xls": "ИНН"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "KPP",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "KPP",
+                "full_name": "KPP (КПП)"
+            },
+            "db_storage": {
+                "column_name": "kpp",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "kpp",
+                "json": "kpp",
+                "xml": "kpp",
+                "xls": "КПП"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "OKPO",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "OKPO",
+                "full_name": "OKPO (ОКПО)"
+            },
+            "db_storage": {
+                "column_name": "okpo",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "okpo",
+                "json": "okpo",
+                "xml": "okpo",
+                "xls": "ОКПО"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "OKVED",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "OKVED",
+                "full_name": "OKVED (ОКВЭД)"
+            },
+            "db_storage": {
+                "column_name": "okved",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "okved",
+                "json": "okved",
+                "xml": "okved",
+                "xls": "ОКВЭД"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "BIK",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "BIK",
+                "full_name": "BIK (БИК)"
+            },
+            "db_storage": {
+                "column_name": "bik",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "bik",
+                "json": "bik",
+                "xml": "bik",
+                "xls": "БИК"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "RS",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "RS",
+                "full_name": "RS (Р/С)"
+            },
+            "db_storage": {
+                "column_name": "rs",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "rs",
+                "json": "rs",
+                "xml": "rs",
+                "xls": "Р/С"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "KS",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "KS",
+                "full_name": "KS (К/С)"
+            },
+            "db_storage": {
+                "column_name": "ks",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "ks",
+                "json": "ks",
+                "xml": "ks",
+                "xls": "К/С"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ContactPerson",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Contact Person",
+                "full_name": "Contact Person (Контактное лицо)"
+            },
+            "db_storage": {
+                "column_name": "contact_person",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "contact_person",
+                "json": "contact_person",
+                "xml": "contact_person",
+                "xls": "Контактное лицо"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ContactPositionId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Contact Position Id",
+                "full_name": "Contact Position Id (Id должности контакта)"
+            },
+            "db_storage": {
+                "column_name": "contact_position_id",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "contact_position_id",
+                "json": "contact_position_id",
+                "xml": "contact_position_id",
+                "xls": "-"
+            },
+            "modify": {},
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'ContactPositionId' from association 'Positions'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                    "code": "ContactPositionId != nil ? ContactPositionId : (Positions?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "ContactPositionId",
+                        "Positions"
+                    ]
+                }
+            ]
+        }
+    ]
+}

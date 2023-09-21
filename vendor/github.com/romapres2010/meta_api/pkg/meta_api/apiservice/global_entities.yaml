@@ -1,0 +1,126 @@
+source_dir: "./../../../cmd/app/cfg/entities/"
+definition:
+    -   name: VersionedEntity
+        source: File
+        format: json
+        source_file: "0.1 - VersionedEntity v.2.json"
+    -   name: NamedEntity
+        source: File
+        format: json
+        source_file: "0.2 - NamedEntity v.2.json"
+    -   name: HierarchicalNamedEntity
+        source: File
+        format: json
+        source_file: "0.3 - HierarchicalNamedEntity v.2.json"
+    -   name:   WorkGroup
+        source: File
+        format: json
+        source_file: "0.4 - work_group v.1.json"
+    -   name: HierarchicalEntity
+        source: File
+        format: json
+        source_file: "0.5 - HierarchicalEntity.json"
+    -   name:   AssetClass
+        source: File
+        format: json
+        source_file: "1 - asset_class v.2.json"
+    -   name:   AssetCriticality
+        source: File
+        format: json
+        source_file: "2 - asset_criticality v.2.json"
+    -   name:   AssetStatus
+        source: File
+        format: json
+        source_file: "3 - asset_status v.2.json"
+    -   name:   AssetType
+        source: File
+        format: json
+        source_file: "4 - asset_type v.2.json"
+    -   name:   Positions
+        source: File
+        format: json
+        source_file: "4.9 - position v.1.json"
+    -   name:   Division
+        source: File
+        format: json
+        source_file: "5 - division v.2.json"
+    -   name:   Asset
+        source: File
+        format: json
+        source_file: "6 - assert v.2.json"
+    -   name:   AssetFilter
+        source: File
+        format: json
+        source_file: "6.1 - assert_filter v.2.json"
+    -   name:   AssetOracle
+        source: File
+        format: json
+        source_file: "6 - AssertOracle v.2.json"
+    -   name:   Users
+        source: File
+        format: json
+        source_file: "8 - user v.1.json"
+    -   name:   Qualification
+        source: File
+        format: json
+        source_file: "9 - qualification v.1.json"
+    -   name:   UserQualification
+        source: File
+        format: json
+        source_file: "10 - user_qualification v.1.json"
+    -   name:   ApprovalObject
+        source: File
+        format: json
+        source_file: "11 - approval_object v.1.json"
+    -   name:   ApprovalState
+        source: File
+        format: json
+        source_file: "12 - approval_state v.1.json"
+    -   name:   WorkCalendar
+        source: File
+        format: json
+        source_file: "13 - work_calendar v.1.json"
+    -   name:   DivisionCalendar
+        source: File
+        format: json
+        source_file: "14 - division_calendar v.1.json"
+    -   name:   WorkShiftsCycle
+        source: File
+        format: json
+        source_file: "15 - work_shifts_cycle v.1.json"
+    -   name:   Contractor
+        source: File
+        format: json
+        source_file: "16 - contractor v.1.json"
+    -   name:   ResourceClass
+        source: File
+        format: json
+        source_file: "17 - resource_class v.1.json"
+    -   name:   Currency
+        source: File
+        format: json
+        source_file: "18 - currency v.1.json"
+    -   name:   MeasureUnit
+        source: File
+        format: json
+        source_file: "19 - measure_unit v.1.json"
+    -   name:   Resource
+        source: File
+        format: json
+        source_file: "20 - resource v.1.json"
+    -   name:   ServiceType
+        source: File
+        format: json
+        source_file: "21 - service_type v.1.json"
+    -   name:   TechnicalCard
+        source: File
+        format: json
+        source_file: "22 - technical_card v.1.json"
+    -   name:   AssetNode
+        source: File
+        format: json
+        source_file: "23 - asset_node v.1.json"
+    -   name:   ResultInputOption
+        source: File
+        format: json
+        source_file: "24 - result_input_option v.1.json"

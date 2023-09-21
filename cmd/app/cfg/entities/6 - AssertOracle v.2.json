@@ -1,0 +1,356 @@
+{
+    "status": "ENABLED",
+    "name": "AssetOracle",
+    "storage_name": "ComposeOracle",
+    "inherit_from": "HierarchicalNamedEntity",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Asset",
+        "full_name": "Asset (Объект контроля)"
+    },
+    "db_storage": {
+        "schema_name": "system",
+        "table_name": "asset",
+        "direct_sql_where": "deleted_date is null",
+        "direct_sql_from": "select , , , from left join on name=$Name"
+    },
+    "tag": {
+        "json": "asset",
+        "xml": "asset",
+        "xls": "Объект контроля"
+    },
+    "modify": {
+        "update_restrict": true,
+        "delete_restrict": true
+    },
+    "expressions": [
+        {
+            "status": "ENABLED",
+            "name": "Filter Child Assert",
+            "type": "Filter",
+            "action": "POST_GET",
+            "code": "filter(Children, {.Code in ['ФТ', 'ФП']})",
+            "fields": [
+                "Children"
+            ]
+        }
+    ],
+    "references": [
+        {
+            "status": "ENABLED",
+            "name": "AssetType",
+            "required": false,
+            "to_entity": "AssetType",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "AssetTypeId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Asset Type",
+                "full_name": "Asset Type (Тип объекта контроля)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "asset_type,omitempty",
+                "xml": "asset_type",
+                "xls": "Тип объекта контроля"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "AssetCriticality",
+            "required": false,
+            "to_entity": "AssetCriticality",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "AssetCriticalityId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Asset Сriticality",
+                "full_name": "Asset Сriticality (Критичность объекта контроля)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "asset_criticality,omitempty",
+                "xml": "asset_criticality",
+                "xls": "Критичность объекта контроля"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "AssetStatus",
+            "required": false,
+            "to_entity": "AssetStatus",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "AssetStatusId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Asset Status",
+                "full_name": "Asset Status (Статус объекта контроля)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "asset_status,omitempty",
+                "xml": "asset_status",
+                "xls": "Статус объекта контроля"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "DivisionOwner",
+            "required": false,
+            "to_entity": "Division",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "DivisionOwnerId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Division Owner",
+                "full_name": "Division Owner (Подразделение-владелец)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "division_owner,omitempty",
+                "xml": "division_owner",
+                "xls": "Подразделение-владелец"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "DivisionService",
+            "required": false,
+            "to_entity": "Division",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "DivisionServiceId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Division Service",
+                "full_name": "Division Service (Подразделение обслуживания)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "division_service,omitempty",
+                "xml": "division_service",
+                "xls": "Подразделение обслуживания"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "name": "AssetClass",
+            "required": false,
+            "to_entity": "AssetClass",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "AssetClassId"
+            ],
+            "validate_rule": "",
+            "alias": {
+                "display_name": "Asset Class",
+                "full_name": "Asset Class (Класс объекта контроля)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "asset_class,omitempty",
+                "xml": "asset_class",
+                "xls": "Класс объекта контроля"
+            }
+        },
+        {
+            "name": "Parent",
+            "alias": {
+                "display_name": "Parent Asset",
+                "full_name": "Parent Asset (Объект контроля - родитель)"
+            },
+            "tag": {
+                "json": "parent_asset,omitempty",
+                "xml": "parent_asset",
+                "xls": "Объект контроля - родитель (заголовок)"
+            }
+        },
+        {
+            "name": "Children",
+            "alias": {
+                "display_name": "Child Asset",
+                "full_name": "Child Asset (Объект контроля - потомок)"
+            },
+            "tag": {
+                "json": "child_asset,omitempty",
+                "xml": "child_asset>asset",
+                "xls": "Объект контроля - потомок (заголовок)",
+                "xls_sheet": "Потомок (лист)"
+            },
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Filter Child Assert",
+                    "type": "Filter",
+                    "action": "POST_GET",
+                    "code": "filter(Children, {.Code in ['ФТ', 'ИТД']})",
+                    "fields": [
+                        "Children"
+                    ]
+                }
+            ]
+        }
+    ],
+    "fields": [
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "AssetClassId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Asset Class Id",
+                "full_name": "Asset Class Id (Id класса объекта контроля)"
+            },
+            "db_storage": {
+                "column_name": "asset_class_id",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "asset_class_id",
+                "json": "asset_class_id",
+                "xml": "asset_class_id",
+                "xls": "-"
+            },
+            "modify": {},
+            "expressions": [
+                {
+                    "status": "ENABLED",
+                    "name": "Get 'AssetClassId' from association 'AssetClass'",
+                    "type": "Calculate",
+                    "action": "POST_MARSHAL",
+                        "code": "AssetClassId != nil ? AssetClassId : (AssetClass?.Id ?? PtrEmptyUUID())",
+                    "fields": [
+                        "AssetClassId",
+                        "AssetClass"
+                    ]
+                }
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "DivisionOwnerId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Division Owner Id",
+                "full_name": "Division Owner Id (Id подразделения-владельца)"
+            },
+            "db_storage": {
+                "column_name": "division_owner_id",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "division_owner_id",
+                "json": "division_owner_id",
+                "xml": "division_owner_id",
+                "xls": "-"
+            },
+            "modify": {}
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "DivisionServiceId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Division Service Id",
+                "full_name": "Division Service Id (Id подразделения обслуживания)"
+            },
+            "db_storage": {
+                "column_name": "division_service_id",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "division_service_id",
+                "json": "division_service_id",
+                "xml": "division_service_id",
+                "xls": "-"
+            },
+            "modify": {}
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "AssetCriticalityId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Asset Сriticality Id",
+                "full_name": "Asset Сriticality Id (Id критичности объекта контроля)"
+            },
+            "db_storage": {
+                "column_name": "asset_criticality_id",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "asset_criticality_id",
+                "json": "asset_criticality_id",
+                "xml": "asset_criticality_id",
+                "xls": "-"
+            },
+            "modify": {}
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "AssetTypeId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Asset Type Id",
+                "full_name": "Asset Type Id (Id типа объекта контроля)"
+            },
+            "db_storage": {
+                "column_name": "asset_type_id",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "asset_type_id",
+                "json": "asset_type_id",
+                "xml": "asset_type_id",
+                "xls": "-"
+            },
+            "modify": {}
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "AssetStatusId",
+            "internal_type": "*UIID",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Asset Status Id",
+                "full_name": "Asset Status Id (Id статуса объекта контроля)"
+            },
+            "db_storage": {
+                "column_name": "asset_status_id",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "asset_status_id",
+                "json": "asset_status_id",
+                "xml": "asset_status_id",
+                "xls": "-"
+            },
+            "modify": {}
+        }
+    ]
+}
