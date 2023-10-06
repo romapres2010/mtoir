@@ -319,7 +319,7 @@
                     "status": "ENABLED",
                     "name": "Get 'DivisionId' from association 'Division'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "DivisionId != nil ? DivisionId : (Division?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "DivisionId",
@@ -375,7 +375,7 @@
                     "status": "ENABLED",
                     "name": "Get 'PositionId' from association 'Positions'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "PositionId != nil ? PositionId : (Positions?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "PositionId",

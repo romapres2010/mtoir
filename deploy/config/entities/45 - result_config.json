@@ -1,0 +1,248 @@
+{
+    "status": "ENABLED",
+    "name": "ResultConfig",
+    "storage_name": "Msutoir",
+    "skip_cache": true,
+    "alias": {
+        "display_name": "Result Config",
+        "full_name": "Result Config (Результирующая конфигурация)"
+    },
+    "db_storage": {
+        "schema_name": "msutoir",
+        "table_name": "result_input_option",
+        "direct_sql_where": "deleted_date is null"
+    },
+    "tag": {
+        "json": "result_config",
+        "xml": "result_config",
+        "xls": "Результирующая конфигурация",
+        "xls_sheet": "Результирующая конфигурация"
+    },
+	    "keys": [
+        {
+            "status": "ENABLED",
+            "name": "PK",
+            "type": "PK",
+            "fields": [
+                "Id"
+            ]
+        },
+        {
+            "status": "ENABLED",
+            "name": "FK1",
+            "type": "FK",
+            "fields": [
+                "Id"
+            ]
+        }
+    ],
+    "references": [
+        {
+            "status": "ENABLED",
+            "name": "ResultInputOption",
+            "required": false,
+            "to_entity": "ResultInputOption",
+            "to_key": "PK",
+            "type": "Association",
+            "fields": [
+                "Id"
+            ],
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Result Input Option",
+                "full_name": "Result Input Option(Вариант ввода результата)"
+            },
+            "db_storage": {},
+            "tag": {
+                "json": "result_input_option",
+                "xml": "result_input_option",
+                "xls": "Вариант ввода результата"
+            }
+        }
+    ],
+    "fields": [
+		    {
+            "status": "ENABLED",
+            "required": true,
+            "name": "Id",
+            "internal_type": "*UIID",
+            "format": "PK_AUTO_GENERATED",
+            "validate_rule": "required",
+            "alias": {
+                "display_name": "Id",
+                "full_name": "Id (Id объекта)"
+            },
+            "db_storage": {
+                "column_name": "id",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "id",
+                "json": "id",
+                "xml": "id",
+                "xls": "Id объекта",
+                "sql": ",type:uuid"
+            },
+			"expressions": [
+               {
+                   "status": "ENABLED",
+                   "name": "Get 'ResultInputOption' from association 'ResultInputOption'",
+                   "type": "Calculate",
+                   "action": "INSIDE_MARSHAL",
+                   "code": "Id != nil ? Id : (ResultInputOption?.Id ?? PtrEmptyUUID())",
+                   "fields": [
+                       "Id",
+                       "ResultInputOption"
+                   ]
+               }
+           ]
+        },
+		{
+            "status": "ENABLED",
+            "required": true,
+            "name": "ConfigurationIsDefect",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Configuration Is Defect",
+                "full_name": "Configuration Is Defect (Несоответствие)"
+            },
+            "db_storage": {
+                "column_name": "configuration_is_defect",
+                "column_mandatory": true
+            },
+            "tag": {
+                "db": "configuration_is_defect",
+                "json": "configuration_is_defect",
+                "xml": "configuration_is_defect",
+                "xls": "Несоответствие"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ConfigurationMaxValue",
+            "internal_type": "null.Float",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Configuration Max Value",
+                "full_name": "Configuration Max Value (Максимальное значение)"
+            },
+            "db_storage": {
+                "column_name": "configuration_max_value",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "configuration_max_value",
+                "json": "configuration_max_value",
+                "xml": "configuration_max_value",
+                "xls": "Максимальное значение"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ConfigurationMinValue",
+            "internal_type": "null.Float",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Configuration Min Value",
+                "full_name": "Configuration Min Value (Минимальное значение)"
+            },
+            "db_storage": {
+                "column_name": "configuration_min_value",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "configuration_min_value",
+                "json": "configuration_min_value",
+                "xml": "configuration_min_value",
+                "xls": "Минимальное значение"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ConfigurationNumberPrecision",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Configuration Number Precision",
+                "full_name": "Configuration Number Precision (Точность)"
+            },
+            "db_storage": {
+                "column_name": "configuration_number_precision",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "configuration_number_precision",
+                "json": "configuration_number_precision",
+                "xml": "configuration_number_precision",
+                "xls": "Точность"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ConfigurationNumberScale",
+            "internal_type": "null.Int",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Configuration Number Scale",
+                "full_name": "Configuration Number Scale (Всего знаков)"
+            },
+            "db_storage": {
+                "column_name": "configuration_number_scale",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "configuration_number_scale",
+                "json": "configuration_number_scale",
+                "xml": "configuration_number_scale",
+                "xls": "Всего знаков"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ConfigurationTextValue",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "Configuration Text Value",
+                "full_name": "Configuration Text Value (Текст)"
+            },
+            "db_storage": {
+                "column_name": "configuration_text_value",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "configuration_text_value",
+                "json": "configuration_text_value",
+                "xml": "configuration_text_value",
+                "xls": "Текст"
+            }
+        },
+        {
+            "status": "ENABLED",
+            "required": true,
+            "name": "ConfigurationAggregationFunction",
+            "internal_type": "null.String",
+            "validate_rule": "-",
+            "alias": {
+                "display_name": "ConfigurationAggregationFunction",
+                "full_name": "ConfigurationAggregationFunction (Агрегатная функция)"
+            },
+            "db_storage": {
+                "column_name": "configuration_aggregation_function",
+                "column_mandatory": false
+            },
+            "tag": {
+                "db": "configuration_aggregation_function",
+                "json": "configuration_aggregation_function",
+                "xml": "configuration_aggregation_function",
+                "xls": "Агрегатная функция"
+            }
+        }
+    ]
+}

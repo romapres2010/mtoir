@@ -206,7 +206,7 @@
                     "status": "ENABLED",
                     "name": "Get 'AssetClassId' from association 'AssetClass'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "AssetClassId != nil ? AssetClassId : (AssetClass?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "AssetClassId",
@@ -240,7 +240,7 @@
                     "status": "ENABLED",
                     "name": "Get 'AssetId' from association 'Asset'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "AssetId != nil ? AssetId : (Asset?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "AssetId",
@@ -275,7 +275,7 @@
                     "status": "ENABLED",
                     "name": "Get 'WorkGroupId' from association 'WorkGroup'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "WorkGroupId != nil ? WorkGroupId : (WorkGroup?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "WorkGroupId",
@@ -310,7 +310,7 @@
                     "status": "ENABLED",
                     "name": "Get 'ServiceTypeId' from association 'ServiceType'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "ServiceTypeId != nil ? ServiceTypeId : (ServiceType?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "ServiceTypeId",
@@ -345,7 +345,7 @@
                     "status": "ENABLED",
                     "name": "Get 'ApprovalStatusId' from association 'ApprovalState'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "ApprovalStatusId != nil ? ApprovalStatusId : (ApprovalState?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "ApprovalStatusId",
@@ -404,7 +404,7 @@
                     "status": "ENABLED",
                     "name": "Get 'ApprovedById' from association 'ApprovedBy'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "ApprovedById != nil ? ApprovedById : (ApprovedBy?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "ApprovedById",
@@ -439,7 +439,7 @@
                     "status": "ENABLED",
                     "name": "Get 'ParentId' from association 'ParentTechnicalCard'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "ParentId != nil ? ParentId : (ParentTechnicalCard?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "ParentId",

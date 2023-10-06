@@ -124,7 +124,7 @@
                     "status": "ENABLED",
                     "name": "Get 'ParentId' from association 'Parent'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "ParentId != nil ? ParentId : (Parent?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "ParentId",
@@ -186,7 +186,7 @@
                     "status": "ENABLED",
                     "name": "FullCode calculation",
                     "type": "Calculate",
-                    "action": "PRE_PUT",
+                    "action": "POST_MARSHAL",
                     "code": "FullCode.Valid ? FullCode : ((Parent?.FullCode.Valid ?? false) ? StringFrom((Parent?.FullCode.String) + '.' + (Code.String)) : StringFrom(Code.String))",
                     "fields": [
                         "Code",

@@ -62,7 +62,7 @@
                     "status": "ENABLED",
                     "name": "NewUUID",
                     "type": "Calculate",
-                    "action": "PRE_MARSHAL",
+                    "action": "PRE_CREATE",
                     "code": "PtrUUID(Id)",
                     "fields": [
                         "Id"
@@ -74,7 +74,7 @@
             "status": "ENABLED",
             "required": true,
             "name": "Code",
-            "internal_type": "string",
+            "internal_type": "null.String",
             "validate_rule": "required",
             "alias": {
                 "display_name": "Code",
@@ -95,7 +95,7 @@
             "status": "ENABLED",
             "required": true,
             "name": "Name",
-            "internal_type": "string",
+            "internal_type": "null.String",
             "validate_rule": "required",
             "alias": {
                 "display_name": "Name",

@@ -205,7 +205,7 @@
                     "status": "ENABLED",
                     "name": "Get 'ApprovalObjectId' from association 'ApprovalObject'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "ApprovalObjectId != nil ? ApprovalObjectId : (ApprovalObject?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "ApprovalObjectId",
@@ -261,7 +261,7 @@
                     "status": "ENABLED",
                     "name": "Get 'NextStatusId' from association 'NextApprovalState'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "NextStatusId != nil ? NextStatusId : (NextApprovalState?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "NextStatusId",
@@ -296,7 +296,7 @@
                     "status": "ENABLED",
                     "name": "Get 'DivisionId' from association 'Division'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "DivisionId != nil ? DivisionId : (Division?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "DivisionId",
@@ -352,7 +352,7 @@
                     "status": "ENABLED",
                     "name": "Get 'WorkGroupId' from association 'WorkGroup'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "WorkGroupId != nil ? WorkGroupId : (WorkGroup?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "WorkGroupId",
@@ -387,7 +387,7 @@
                     "status": "ENABLED",
                     "name": "Get 'ApproverId' from association 'Approver'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "ApproverId != nil ? ApproverId : (Approver?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "ApproverId",
@@ -422,7 +422,7 @@
                     "status": "ENABLED",
                     "name": "Get 'FirstDeputyId' from association 'FirstDeputy'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "FirstDeputyId != nil ? FirstDeputyId : (FirstDeputy?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "FirstDeputyId",
@@ -457,7 +457,7 @@
                     "status": "ENABLED",
                     "name": "Get 'SecondDeputyId' from association 'SecondDeputy'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "SecondDeputyId != nil ? SecondDeputyId : (SecondDeputy?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "SecondDeputyId",

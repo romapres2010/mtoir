@@ -1,0 +1,702 @@
+2023-10-06 08:53:46.431736    info    metrics/metrics.go:105    New() - Creating new metrics service
+2023-10-06 08:53:46.436885    info    metrics/metrics.go:141    New() - Dependency: ['
+app_name
+  github.com/antonmedv/expr:  v1.15.3
+  github.com/beorn7/perks:  v1.0.1
+  github.com/bufbuild/protocompile:  v0.6.0
+  github.com/bytedance/sonic:  v1.10.1
+  github.com/cespare/xxhash/v2:  v2.2.0
+  github.com/chenzhuoyu/base64x:  v0.0.0-20230717121745-296ad89f973d
+  github.com/chenzhuoyu/iasm:  v0.9.0
+  github.com/cpuguy83/go-md2man/v2:  v2.0.2
+  github.com/dgraph-io/ristretto:  v0.1.1
+  github.com/dgrijalva/jwt-go:  v3.2.0&#43;incompatible
+  github.com/dustin/go-humanize:  v1.0.1
+  github.com/fatih/color:  v1.15.0
+  github.com/gabriel-vasile/mimetype:  v1.4.2
+  github.com/go-playground/locales:  v0.14.1
+  github.com/go-playground/universal-translator:  v0.18.1
+  github.com/go-playground/validator/v10:  v10.15.4
+  github.com/gogo/protobuf:  v1.3.2
+  github.com/golang/glog:  v1.1.2
+  github.com/golang/protobuf:  v1.5.3
+  github.com/google/uuid:  v1.3.1
+  github.com/gorilla/mux:  v1.8.0
+  github.com/jackc/pgx:  v3.6.2&#43;incompatible
+  github.com/jhump/protoreflect:  v1.15.2
+  github.com/jmoiron/sqlx:  v1.3.5
+  github.com/klauspost/cpuid/v2:  v2.2.5
+  github.com/leodido/go-urn:  v1.2.4
+  github.com/lib/pq:  v1.10.9
+  github.com/mattn/go-colorable:  v0.1.13
+  github.com/mattn/go-isatty:  v0.0.19
+  github.com/matttproud/golang_protobuf_extensions:  v1.0.4
+  github.com/mohae/deepcopy:  v0.0.0-20170929034955-c48cc78d4826
+  github.com/pkg/errors:  v0.9.1
+  github.com/povilasv/prommod:  v0.0.12
+  github.com/prometheus/client_golang:  v1.16.0
+  github.com/prometheus/client_model:  v0.4.0
+  github.com/prometheus/common:  v0.44.0
+  github.com/prometheus/procfs:  v0.11.1
+  github.com/richardlehane/mscfb:  v1.0.4
+  github.com/richardlehane/msoleps:  v1.0.3
+  github.com/romapres2010/meta_api:  v0.3.1
+  github.com/romapres2010/mtoir:  (devel)
+  github.com/russross/blackfriday/v2:  v2.1.0
+  github.com/sijms/go-ora/v2:  v2.7.18
+  github.com/tidwall/gjson:  v1.16.0
+  github.com/tidwall/match:  v1.1.1
+  github.com/tidwall/pretty:  v1.2.1
+  github.com/twitchyliquid64/golang-asm:  v0.15.1
+  github.com/ugorji/go/codec:  v1.2.11
+  github.com/urfave/cli:  v1.22.14
+  github.com/xuri/efp:  v0.0.0-20230802181842-ad255f2331ca
+  github.com/xuri/excelize/v2:  v2.8.0
+  github.com/xuri/nfp:  v0.0.0-20230919160717-d98342af3f05
+  go.uber.org/multierr:  v1.11.0
+  go.uber.org/zap:  v1.26.0
+  golang.org/x/arch:  v0.5.0
+  golang.org/x/crypto:  v0.13.0
+  golang.org/x/net:  v0.15.0
+  golang.org/x/sync:  v0.3.0
+  golang.org/x/sys:  v0.12.0
+  golang.org/x/text:  v0.13.0
+  google.golang.org/protobuf:  v1.31.0
+  gopkg.in/asn1-ber.v1:  v1.0.0-20181015200546-f715ec2f112d
+  gopkg.in/guregu/null.v4:  v4.0.0
+  gopkg.in/korylprince/go-ad-auth.v2:  v2.2.0
+  gopkg.in/ldap.v3:  v3.1.0
+  gopkg.in/natefinch/lumberjack.v2:  v2.2.1
+  gopkg.in/src-d/go-parse-utils.v1:  v1.1.2
+  gopkg.in/src-d/proteus.v1:  v1.3.3
+  gopkg.in/yaml.v3:  v3.0.1']
+2023-10-06 08:53:46.440364    info    app/main.go:235    main() - Starting up server
+2023-10-06 08:53:46.440489    info    app/main.go:192    main.func1() - Load config file 'configfile'='/app/defcfg/app.global.yaml' from environment 'APP_CONFIG_FILE'
+2023-10-06 08:53:46.440540    info    config/config.go:135    (*Config).LoadYamlConfig() - Loading config from file: FileName['/app/defcfg/app.global.yaml']
+2023-10-06 08:53:46.440652    info    config/config.go:143    (*Config).LoadYamlConfig() - Config file exist: FileName, FileInfo['/app/defcfg/app.global.yaml', '&{app.global.yaml 34443 493 {0 63827799886 0x33a16c0} {1048729 1095772 1 33261 0 0 0 0 34443 4096 72 {1696582425 422043000} {1692203086 0} {1696582425 172043000} [0 0 0]}}']
+2023-10-06 08:53:46.443366    info    config/config.go:118    replaceCfgArgsEnv() - YAML config parameter 'http_server.listen_spec'='0.0.0.0:8080' was replaced with environment 'APP_HTTP_LISTEN_SPEC'='0.0.0.0:8080'
+2023-10-06 08:53:46.443434    info    config/config.go:118    replaceCfgArgsEnv() - YAML config parameter 'logger.global_level'='INFO' was replaced with environment 'APP_LOG_LEVEL'='INFO'
+2023-10-06 08:53:46.443460    info    config/config.go:118    replaceCfgArgsEnv() - YAML config parameter 'logger.log_file'='/app/log/app.log' was replaced with environment 'APP_LOG_FILE'='/app/log/app.log'
+2023-10-06 08:53:46.443484    info    config/config.go:118    replaceCfgArgsEnv() - YAML config parameter 'api_service.entity_config_file'='/app/defcfg/entities/global_entities.yaml' was replaced with environment 'APP_META_ENTITY_CONFIG_FILE'='/app/defcfg/entities/global_entities.yaml'
+2023-10-06 08:53:46.443561    error    logger/logger.go:420    CloseLogger() - sync /dev/stdout: invalid argument
+github.com/romapres2010/meta_api/pkg/common/logger.CloseLogger
+	/app/vendor/github.com/romapres2010/meta_api/pkg/common/logger/logger.go:420
+github.com/romapres2010/meta_api/pkg/common/logger.SetGlobalConfig
+	/app/vendor/github.com/romapres2010/meta_api/pkg/common/logger/logger.go:186
+main.main.func1
+	/app/cmd/app/main.go:202
+github.com/urfave/cli.HandleAction
+	/app/vendor/github.com/urfave/cli/app.go:524
+github.com/urfave/cli.(*App).Run
+	/app/vendor/github.com/urfave/cli/app.go:286
+main.main
+	/app/cmd/app/main.go:238
+runtime.main
+	/usr/local/go/src/runtime/proc.go:267
+2023-10-06 08:53:46.443640    info    logger/logger.go:155    gClose() - Logger - close all
+2023-10-06 08:53:46.443674    info    logger/logger.go:251    newZapLogger() - Setup zap logger
+2023-10-06 08:53:46.443744    info    logger/logger.go:273    newZapLogger() - Zap logger - add core: minLevel, maxLevel, log_to, encoding['', 'INFO', 'lumberjack', 'console']
+2023-10-06 08:53:46.443773    info    logger/logger.go:213    NewFileLogger() - File logger - log to file: FileName['/app/log/app.log.debug.log']
+2023-10-06 08:53:46.443848    info    logger/logger.go:273    newZapLogger() - Zap logger - add core: minLevel, maxLevel, log_to, encoding['ERROR', '', 'lumberjack', 'console']
+2023-10-06 08:53:46.443909    info    logger/logger.go:213    NewFileLogger() - File logger - log to file: FileName['/app/log/app.log.error.log']
+2023-10-06 08:53:46.443942    info    logger/logger.go:273    newZapLogger() - Zap logger - add core: minLevel, maxLevel, log_to, encoding['', '', 'stdout', 'console']
+2023-10-06 08:53:46.444040    info    logger/logger.go:314    newZapLogger() - Zap logger - core DISABLE: log_to, encoding['stderr', 'console']
+2023-10-06 08:53:46.444109    info    logger/logger.go:203    SetGlobalConfig() - Logger settings applied: cfg['{true INFO /app/log/app.log {true false false error false [{true  INFO lumberjack  console 0xc0000312c0 {msg level ts log caller  stacktrace false 
+ lower iso8601 2006-01-02 15:04:05.000000 ms short     }} {true ERROR  lumberjack  console 0xc000031350 {msg level ts log caller  stacktrace false 
+ lower iso8601 2006-01-02 15:04:05.000000 ms short     }} {true   stdout  console <nil> {msg level ts log caller  stacktrace false 
+ lower iso8601 2006-01-02 15:04:05.000000 ms short     }} {false ERROR  stderr  console <nil> {msg level ts log caller  stacktrace false 
+ lower iso8601 2006-01-02 15:04:05.000000 ms short     }}] <nil>}}']
+2023-10-06 08:53:46.470044    info    app/main.go:210    main.func1() - Configuration: 
+['
+memory_limit: 2000000000
+config_file: /app/defcfg/app.global.yaml
+shutdown_timeout: 30s
+args_config_file: ""
+args_meta_config_file: ""
+args_http_listen_spec: ""
+args_http_user: ""
+args_http_pass: ""
+args_jwt_key: ""
+args_log_level: ""
+args_log_file: ""
+args_pg_host: ""
+args_pg_port: ""
+args_pg_dbname: ""
+args_pg_user: ""
+args_pg_pass: ""
+env_config_file: /app/defcfg/app.global.yaml
+env_meta_config_file: /app/defcfg/entities/global_entities.yaml
+env_http_listen_spec: 0.0.0.0:8080
+env_http_user: ""
+env_http_pass: ""
+env_jwt_key: ""
+env_log_level: INFO
+env_log_file: /app/log/app.log
+env_pg_host: app-db-host
+env_pg_port: "5432"
+env_pg_dbname: postgres
+env_pg_user: postgres
+env_pg_pass: postgres
+logger:
+    enable: true
+    global_level: INFO
+    global_filename: /app/log/app.log
+    zap:
+        enable: true
+        disable_caller: false
+        disable_stacktrace: false
+        stacktrace_level: error
+        development: false
+        core:
+            - enable: true
+              min_level: ""
+              max_level: INFO
+              log_to: lumberjack
+              logging_path: ""
+              encoding: console
+              file:
+                filename: .debug.log
+                max_size: 10
+                max_age: 7
+                max_backups: 10
+                local_time: true
+                compress: false
+              encoder_config:
+                message_key: msg
+                level_key: level
+                time_key: ts
+                name_key: log
+                caller_key: caller
+                function_key: ""
+                stacktrace_key: stacktrace
+                skip_line_ending: false
+                line_ending: |4+
+                encode_level: lower
+                encode_time: iso8601
+                encode_time_custom: "2006-01-02 15:04:05.000000"
+                encode_duration: ms
+                encode_caller: short
+                console_separator: '    '
+            - enable: true
+              min_level: ERROR
+              max_level: ""
+              log_to: lumberjack
+              logging_path: ""
+              encoding: console
+              file:
+                filename: .error.log
+                max_size: 10
+                max_age: 7
+                max_backups: 10
+                local_time: true
+                compress: false
+              encoder_config:
+                message_key: msg
+                level_key: level
+                time_key: ts
+                name_key: log
+                caller_key: caller
+                function_key: ""
+                stacktrace_key: stacktrace
+                skip_line_ending: false
+                line_ending: |4+
+                encode_level: lower
+                encode_time: iso8601
+                encode_time_custom: "2006-01-02 15:04:05.000000"
+                encode_duration: ms
+                encode_caller: short
+                console_separator: '    '
+            - enable: true
+              min_level: ""
+              max_level: ""
+              log_to: stdout
+              logging_path: ""
+              encoding: console
+              file: null
+              encoder_config:
+                message_key: msg
+                level_key: level
+                time_key: ts
+                name_key: log
+                caller_key: caller
+                function_key: ""
+                stacktrace_key: stacktrace
+                skip_line_ending: false
+                line_ending: |4+
+                encode_level: lower
+                encode_time: iso8601
+                encode_time_custom: "2006-01-02 15:04:05.000000"
+                encode_duration: ms
+                encode_caller: short
+                console_separator: '    '
+            - enable: false
+              min_level: ERROR
+              max_level: ""
+              log_to: stderr
+              logging_path: ""
+              encoding: console
+              file: null
+              encoder_config:
+                message_key: msg
+                level_key: level
+                time_key: ts
+                name_key: log
+                caller_key: caller
+                function_key: ""
+                stacktrace_key: stacktrace
+                skip_line_ending: false
+                line_ending: |4+
+                encode_level: lower
+                encode_time: iso8601
+                encode_time_custom: "2006-01-02 15:04:05.000000"
+                encode_duration: ms
+                encode_caller: short
+                console_separator: '    '
+        sampling: null
+http_server:
+    listen_spec: 0.0.0.0:8080
+    read_timeout: 1h0m0s
+    write_timeout: 1h0m0s
+    idle_timeout: 1h0m0s
+    shutdown_timeout: 30s
+    max_header_bytes: 262144
+    use_go_profile: false
+    use_tls: false
+    tls_cert_file: ""
+    tls_key_file: ""
+    tls_min_version: 0
+    tls_max_version: 0
+http_service:
+    auth_type: NONE
+    max_body_bytes: 0
+    use_hsts: false
+    use_jwt: false
+    jwt_expires_at: 0
+    msad_server: ""
+    msad_port: 0
+    msad_base_dn: ""
+    msad_security: 0
+    use_buf_pool: false
+    buf_pooled_size: 65536
+    buf_pooled_max_size: 131072
+    log_error_to_http_header: true
+    log_error_to_http_body: true
+    http_header_max_size: 512
+    handlers:
+        ApiConvertHandler:
+            enabled: true
+            application: app
+            module: system
+            service: entity_convert
+            version: v1.0.0
+            full_path: /app/system/entities/convert
+            params: '{entity}/{format}'
+            method: POST
+            handler_name: ApiConvertHandler
+        ApiCreateEntityMetaHandler:
+            enabled: true
+            application: app
+            module: system
+            service: entity_meta_create
+            version: v1.0.0
+            full_path: /app/system/entity_meta
+            params: '{format}'
+            method: POST
+            handler_name: ApiCreateEntityMetaHandler
+        ApiCreateHandler:
+            enabled: true
+            application: app
+            module: system
+            service: entity_create
+            version: v1.0.0
+            full_path: /app/system/entities
+            params: '{entity}/{format}'
+            method: POST
+            handler_name: ApiCreateHandler
+        ApiGetEntityMetaHandler:
+            enabled: true
+            application: app
+            module: system
+            service: entity_meta_get
+            version: v1.0.0
+            full_path: /app/system/entity_meta
+            params: '{entity}/{format}'
+            method: GET
+            handler_name: ApiGetEntityMetaHandler
+        ApiGetHandler:
+            enabled: true
+            application: app
+            module: system
+            service: entity_get
+            version: v1.0.0
+            full_path: /app/system/entities
+            params: '{entity}/{id}/{format}'
+            method: GET
+            handler_name: ApiGetHandler
+        ApiSelectHandler:
+            enabled: true
+            application: app
+            module: system
+            service: entity_select
+            version: v1.0.0
+            full_path: /app/system/entities
+            params: '{entity}/{format}'
+            method: GET
+            handler_name: ApiSelectHandler
+        ApiUpdateEntityMetaHandler:
+            enabled: true
+            application: app
+            module: system
+            service: entity_meta_update
+            version: v1.0.0
+            full_path: /app/system/entity_meta
+            params: '{entity}/{format}'
+            method: PUT
+            handler_name: ApiUpdateEntityMetaHandler
+        ApiXlsHandler:
+            enabled: true
+            application: app
+            module: system
+            service: entity_select_xls
+            version: v1.0.0
+            full_path: /app/system/xls
+            params: '{entity}'
+            method: POST
+            handler_name: ApiXlsHandler
+        HealthHandler:
+            enabled: true
+            application: app
+            module: system
+            service: health
+            version: v1.0.0
+            full_path: /app/system/health
+            params: ""
+            method: GET
+            handler_name: HealthHandler
+        ReadyHandler:
+            enabled: true
+            application: app
+            module: system
+            service: ready
+            version: v1.0.0
+            full_path: /app/system/ready
+            params: ""
+            method: GET
+            handler_name: ReadyHandler
+        WpHandlerFactorial:
+            enabled: true
+            application: app
+            module: system
+            service: ready
+            version: v1.0.0
+            full_path: /app/system/wp_factorial
+            params: ""
+            method: POST
+            handler_name: WpHandlerFactorial
+http_handler: {}
+http_logger:
+    enable: false
+    log_in_req: true
+    log_out_req: true
+    log_in_resp: true
+    log_out_resp: true
+    log_body: true
+    file:
+        filename: /app/log/app_http.log
+        max_size: 10
+        max_age: 7
+        max_backups: 10
+        local_time: true
+        compress: false
+worker_pool_service:
+    total_timeout: 100ms
+    shutdown_timeout: 30s
+    worker_pool:
+        task_queue_size: 0
+        task_timeout: 20ms
+        worker_concurrency: 8
+        worker_timeout: 30ms
+metrics:
+    metrics_namespace: com
+    metrics_subsystem: meta_app
+    collect_meta_count_vec: true
+    collect_meta_duration_vec: true
+    collect_meta_duration: true
+    collect_db_count_vec: true
+    collect_db_duration_vec: true
+    collect_db_duration: true
+    collect_http_requests_count_vec: true
+    collect_http_error_requests_count_vec: true
+    collect_http_requests_duration_vec: true
+    collect_http_active_requests_count: true
+    collect_http_requests_duration: true
+    collect_http_client_call_count_vec: true
+    collect_http_client_call_duration_vec: true
+    collect_calc_count_vec: false
+    collect_calc_duration_vec: false
+    collect_marshaling_duration_vec: true
+    collect_un_marshaling_duration_vec: true
+    collect_wp_task_queue_buffer_len_vec: true
+    collect_wp_add_task_wait_count_vec: true
+    collect_wp_worker_process_count_vec: true
+    collect_wp_task_process_duration_ms_by_name: true
+api_service:
+    entity_config_file: /app/defcfg/entities/global_entities.yaml
+    populate_cache_on_start: false
+    query_option:
+        delimiter_start: '['
+        delimiter_end: ']'
+        from_entity: from_entity
+        fields: fields
+        skip_cache: skip_cache
+        skip_calculation: ""
+        use_cache: use_cache
+        embed_error: embed_error
+        cascade_up: cascade_up
+        cascade_down: cascade_down
+        tx: tx
+        ignore_extra_field: ignore_extra_field
+        name_format: name_format
+        out_format: out_format
+        out_trace: ""
+        validate: validate
+        multi_row: multi_row
+        filter: filter
+        static_filtering: static_filtering
+        persist: ""
+        db_order: db_order
+        db_where: ""
+        db_limit: ""
+        db_offset: ""
+    entity_config:
+        source_dir: ""
+    meta: null
+api_cache:
+    num_counters: 10000000
+    max_cost: 1000000000
+    buffer_items: 64
+    metrics: false
+    ignore_internal_cost: false
+api_db_storage:
+    storages:
+        Msutoir:
+            name: Msutoir
+            host: srvk01.borlas.ru
+            port: "5432"
+            dbname: msutoir
+            ssl_mode: disable
+            user: msutoir
+            pass: msutoir
+            conn_max_lifetime: 1s
+            max_open_conns: 16
+            max_idle_conns: 8
+            driver_name: pgx
+        Utce:
+            name: Utce
+            host: srvk01.borlas.ru
+            port: "5432"
+            dbname: postgres
+            ssl_mode: disable
+            user: msutoir
+            pass: msutoir
+            conn_max_lifetime: 1s
+            max_open_conns: 16
+            max_idle_conns: 8
+            driver_name: pgx
+']
+2023-10-06 08:53:46.470901    info    metrics/metrics.go:105    New() - Creating new metrics service
+2023-10-06 08:53:46.472064    info    metrics/metrics.go:141    New() - Dependency: ['
+app_name
+  github.com/antonmedv/expr:  v1.15.3
+  github.com/beorn7/perks:  v1.0.1
+  github.com/bufbuild/protocompile:  v0.6.0
+  github.com/bytedance/sonic:  v1.10.1
+  github.com/cespare/xxhash/v2:  v2.2.0
+  github.com/chenzhuoyu/base64x:  v0.0.0-20230717121745-296ad89f973d
+  github.com/chenzhuoyu/iasm:  v0.9.0
+  github.com/cpuguy83/go-md2man/v2:  v2.0.2
+  github.com/dgraph-io/ristretto:  v0.1.1
+  github.com/dgrijalva/jwt-go:  v3.2.0&#43;incompatible
+  github.com/dustin/go-humanize:  v1.0.1
+  github.com/fatih/color:  v1.15.0
+  github.com/gabriel-vasile/mimetype:  v1.4.2
+  github.com/go-playground/locales:  v0.14.1
+  github.com/go-playground/universal-translator:  v0.18.1
+  github.com/go-playground/validator/v10:  v10.15.4
+  github.com/gogo/protobuf:  v1.3.2
+  github.com/golang/glog:  v1.1.2
+  github.com/golang/protobuf:  v1.5.3
+  github.com/google/uuid:  v1.3.1
+  github.com/gorilla/mux:  v1.8.0
+  github.com/jackc/pgx:  v3.6.2&#43;incompatible
+  github.com/jhump/protoreflect:  v1.15.2
+  github.com/jmoiron/sqlx:  v1.3.5
+  github.com/klauspost/cpuid/v2:  v2.2.5
+  github.com/leodido/go-urn:  v1.2.4
+  github.com/lib/pq:  v1.10.9
+  github.com/mattn/go-colorable:  v0.1.13
+  github.com/mattn/go-isatty:  v0.0.19
+  github.com/matttproud/golang_protobuf_extensions:  v1.0.4
+  github.com/mohae/deepcopy:  v0.0.0-20170929034955-c48cc78d4826
+  github.com/pkg/errors:  v0.9.1
+  github.com/povilasv/prommod:  v0.0.12
+  github.com/prometheus/client_golang:  v1.16.0
+  github.com/prometheus/client_model:  v0.4.0
+  github.com/prometheus/common:  v0.44.0
+  github.com/prometheus/procfs:  v0.11.1
+  github.com/richardlehane/mscfb:  v1.0.4
+  github.com/richardlehane/msoleps:  v1.0.3
+  github.com/romapres2010/meta_api:  v0.3.1
+  github.com/romapres2010/mtoir:  (devel)
+  github.com/russross/blackfriday/v2:  v2.1.0
+  github.com/sijms/go-ora/v2:  v2.7.18
+  github.com/tidwall/gjson:  v1.16.0
+  github.com/tidwall/match:  v1.1.1
+  github.com/tidwall/pretty:  v1.2.1
+  github.com/twitchyliquid64/golang-asm:  v0.15.1
+  github.com/ugorji/go/codec:  v1.2.11
+  github.com/urfave/cli:  v1.22.14
+  github.com/xuri/efp:  v0.0.0-20230802181842-ad255f2331ca
+  github.com/xuri/excelize/v2:  v2.8.0
+  github.com/xuri/nfp:  v0.0.0-20230919160717-d98342af3f05
+  go.uber.org/multierr:  v1.11.0
+  go.uber.org/zap:  v1.26.0
+  golang.org/x/arch:  v0.5.0
+  golang.org/x/crypto:  v0.13.0
+  golang.org/x/net:  v0.15.0
+  golang.org/x/sync:  v0.3.0
+  golang.org/x/sys:  v0.12.0
+  golang.org/x/text:  v0.13.0
+  google.golang.org/protobuf:  v1.31.0
+  gopkg.in/asn1-ber.v1:  v1.0.0-20181015200546-f715ec2f112d
+  gopkg.in/guregu/null.v4:  v4.0.0
+  gopkg.in/korylprince/go-ad-auth.v2:  v2.2.0
+  gopkg.in/ldap.v3:  v3.1.0
+  gopkg.in/natefinch/lumberjack.v2:  v2.2.1
+  gopkg.in/src-d/go-parse-utils.v1:  v1.1.2
+  gopkg.in/src-d/proteus.v1:  v1.3.3
+  gopkg.in/yaml.v3:  v3.0.1']
+2023-10-06 08:53:46.472774    info    app/main.go:219    main.func1() - Set Memory Limit: MemoryLimit['2000000000']
+2023-10-06 08:53:46.473440    info    daemon/daemon.go:61    New() - Create new daemon
+2023-10-06 08:53:46.473791    info    httplog/httplog.go:42    New() - Creating new HTTP traffic logger
+2023-10-06 08:53:46.474302    info    httplog/httplog.go:72    (*Logger).SetConfig() - Set HTTP logger config: cfg['{false true true true true true 0xc000031470}']
+2023-10-06 08:53:46.474762    info    storagedb/storage_db.go:53    New() - Creating new API service
+2023-10-06 08:53:46.475149    info    sqlxx/sqlxx.go:106    New() - Testing connect to DB server: name, host, port, dbname, sslmode, user['Utce', 'srvk01.borlas.ru', '5432', 'postgres', 'disable', 'msutoir']
+2023-10-06 08:53:46.769967    info    sqlxx/sqlxx.go:125    New() - Success connect to DB server: name, host, port, dbname, sslmode, user['Utce', 'srvk01.borlas.ru', '5432', 'postgres', 'disable', 'msutoir']
+2023-10-06 08:53:46.770352    info    sqlxx/sqlxx.go:106    New() - Testing connect to DB server: name, host, port, dbname, sslmode, user['Msutoir', 'srvk01.borlas.ru', '5432', 'msutoir', 'disable', 'msutoir']
+2023-10-06 08:53:46.942680    info    sqlxx/sqlxx.go:125    New() - Success connect to DB server: name, host, port, dbname, sslmode, user['Msutoir', 'srvk01.borlas.ru', '5432', 'msutoir', 'disable', 'msutoir']
+2023-10-06 08:53:46.943112    info    storagedb/storage_db.go:95    New() - DB API service was created
+2023-10-06 08:53:46.943475    info    cacheristretto/cache_ristretto.go:57    New() - Creating new Ristretto Cache service
+2023-10-06 08:53:46.947033    info    cacheristretto/cache_ristretto.go:92    New() - Ristretto Cache service was created
+2023-10-06 08:53:46.947490    info    apiservice/apiservice.go:160    New() - Creating new API service
+2023-10-06 08:53:46.947795    info    apiservice/apiservice.go:266    (*Config).loadYamlConfig() - Loading meta config from file: FileName['/app/defcfg/entities/global_entities.yaml']
+2023-10-06 08:53:46.948871    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['VersionedEntity', '/app/defcfg/entities/', '0.1 - VersionedEntity v.2.json']
+2023-10-06 08:53:46.949200    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['VersionedEntity', 'json', 'File', '0.1 - VersionedEntity v.2.json']
+2023-10-06 08:53:46.956741    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['NamedEntity', '/app/defcfg/entities/', '0.2 - NamedEntity v.2.json']
+2023-10-06 08:53:46.957404    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['NamedEntity', 'json', 'File', '0.2 - NamedEntity v.2.json']
+2023-10-06 08:53:46.961312    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['HierarchicalNamedEntity', '/app/defcfg/entities/', '0.3 - HierarchicalNamedEntity v.2.json']
+2023-10-06 08:53:46.961831    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['HierarchicalNamedEntity', 'json', 'File', '0.3 - HierarchicalNamedEntity v.2.json']
+2023-10-06 08:53:46.965595    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['WorkGroup', '/app/defcfg/entities/', '0.4 - work_group v.1.json']
+2023-10-06 08:53:46.966087    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['WorkGroup', 'json', 'File', '0.4 - work_group v.1.json']
+2023-10-06 08:53:46.969478    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['HierarchicalEntity', '/app/defcfg/entities/', '0.5 - HierarchicalEntity.json']
+2023-10-06 08:53:46.970101    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['HierarchicalEntity', 'json', 'File', '0.5 - HierarchicalEntity.json']
+2023-10-06 08:53:46.974293    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['AssetClass', '/app/defcfg/entities/', '1 - asset_class v.2.json']
+2023-10-06 08:53:46.974861    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['AssetClass', 'json', 'File', '1 - asset_class v.2.json']
+2023-10-06 08:53:46.978973    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['AssetCriticality', '/app/defcfg/entities/', '2 - asset_criticality v.2.json']
+2023-10-06 08:53:46.979582    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['AssetCriticality', 'json', 'File', '2 - asset_criticality v.2.json']
+2023-10-06 08:53:46.983799    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['AssetStatus', '/app/defcfg/entities/', '3 - asset_status v.2.json']
+2023-10-06 08:53:46.984450    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['AssetStatus', 'json', 'File', '3 - asset_status v.2.json']
+2023-10-06 08:53:46.988836    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['AssetType', '/app/defcfg/entities/', '4 - asset_type v.2.json']
+2023-10-06 08:53:46.989640    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['AssetType', 'json', 'File', '4 - asset_type v.2.json']
+2023-10-06 08:53:46.993403    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['Positions', '/app/defcfg/entities/', '4.9 - position v.1.json']
+2023-10-06 08:53:46.993986    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['Positions', 'json', 'File', '4.9 - position v.1.json']
+2023-10-06 08:53:46.999369    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['Division', '/app/defcfg/entities/', '5 - division v.2.json']
+2023-10-06 08:53:46.999912    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['Division', 'json', 'File', '5 - division v.2.json']
+2023-10-06 08:53:47.004303    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['Asset', '/app/defcfg/entities/', '6 - assert v.2.json']
+2023-10-06 08:53:47.005323    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['Asset', 'json', 'File', '6 - assert v.2.json']
+2023-10-06 08:53:47.016767    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['AssetFilter', '/app/defcfg/entities/', '6.1 - assert_filter v.2.json']
+2023-10-06 08:53:47.017304    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['AssetFilter', 'json', 'File', '6.1 - assert_filter v.2.json']
+2023-10-06 08:53:47.021277    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['AssetOracle', '/app/defcfg/entities/', '6 - AssertOracle v.2.json']
+2023-10-06 08:53:47.021836    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['AssetOracle', 'json', 'File', '6 - AssertOracle v.2.json']
+2023-10-06 08:53:47.026634    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['Users', '/app/defcfg/entities/', '8 - user v.1.json']
+2023-10-06 08:53:47.027102    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['Users', 'json', 'File', '8 - user v.1.json']
+2023-10-06 08:53:47.031393    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['Qualification', '/app/defcfg/entities/', '9 - qualification v.1.json']
+2023-10-06 08:53:47.031929    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['Qualification', 'json', 'File', '9 - qualification v.1.json']
+2023-10-06 08:53:47.035859    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['UserQualification', '/app/defcfg/entities/', '10 - user_qualification v.1.json']
+2023-10-06 08:53:47.036676    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['UserQualification', 'json', 'File', '10 - user_qualification v.1.json']
+2023-10-06 08:53:47.040258    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['ApprovalObject', '/app/defcfg/entities/', '11 - approval_object v.1.json']
+2023-10-06 08:53:47.040814    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['ApprovalObject', 'json', 'File', '11 - approval_object v.1.json']
+2023-10-06 08:53:47.045488    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['ApprovalState', '/app/defcfg/entities/', '12 - approval_state v.1.json']
+2023-10-06 08:53:47.046035    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['ApprovalState', 'json', 'File', '12 - approval_state v.1.json']
+2023-10-06 08:53:47.050049    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['WorkCalendar', '/app/defcfg/entities/', '13 - work_calendar v.1.json']
+2023-10-06 08:53:47.050544    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['WorkCalendar', 'json', 'File', '13 - work_calendar v.1.json']
+2023-10-06 08:53:47.053972    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['DivisionCalendar', '/app/defcfg/entities/', '14 - division_calendar v.1.json']
+2023-10-06 08:53:47.054465    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['DivisionCalendar', 'json', 'File', '14 - division_calendar v.1.json']
+2023-10-06 08:53:47.058412    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['WorkShiftsCycle', '/app/defcfg/entities/', '15 - work_shifts_cycle v.1.json']
+2023-10-06 08:53:47.058883    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['WorkShiftsCycle', 'json', 'File', '15 - work_shifts_cycle v.1.json']
+2023-10-06 08:53:47.062070    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['Contractor', '/app/defcfg/entities/', '16 - contractor v.1.json']
+2023-10-06 08:53:47.062634    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['Contractor', 'json', 'File', '16 - contractor v.1.json']
+2023-10-06 08:53:47.066441    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['ResourceClass', '/app/defcfg/entities/', '17 - resource_class v.1.json']
+2023-10-06 08:53:47.067088    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['ResourceClass', 'json', 'File', '17 - resource_class v.1.json']
+2023-10-06 08:53:47.070058    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['Currency', '/app/defcfg/entities/', '18 - currency v.1.json']
+2023-10-06 08:53:47.070564    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['Currency', 'json', 'File', '18 - currency v.1.json']
+2023-10-06 08:53:47.073858    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['MeasureUnit', '/app/defcfg/entities/', '19 - measure_unit v.1.json']
+2023-10-06 08:53:47.074379    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['MeasureUnit', 'json', 'File', '19 - measure_unit v.1.json']
+2023-10-06 08:53:47.077764    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['Resource', '/app/defcfg/entities/', '20 - resource v.1.json']
+2023-10-06 08:53:47.078343    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['Resource', 'json', 'File', '20 - resource v.1.json']
+2023-10-06 08:53:47.082063    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['ServiceType', '/app/defcfg/entities/', '21 - service_type v.1.json']
+2023-10-06 08:53:47.082578    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['ServiceType', 'json', 'File', '21 - service_type v.1.json']
+2023-10-06 08:53:47.086521    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['TechnicalCard', '/app/defcfg/entities/', '22 - technical_card v.1.json']
+2023-10-06 08:53:47.087077    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['TechnicalCard', 'json', 'File', '22 - technical_card v.1.json']
+2023-10-06 08:53:47.090715    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['AssetNode', '/app/defcfg/entities/', '23 - asset_node v.1.json']
+2023-10-06 08:53:47.091254    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['AssetNode', 'json', 'File', '23 - asset_node v.1.json']
+2023-10-06 08:53:47.094752    info    meta/meta_definition.go:40    (*Definition).LoadFromFile() - Loading entity definition from file: Entity, sourceDir, SourceFileName['ResultInputOption', '/app/defcfg/entities/', '24 - result_input_option v.1.json']
+2023-10-06 08:53:47.095278    info    apiservice/apiservice.go:479    (*Service).setEntityFromDefinitionUnsafe() - Register entity from definition: definition.Name, definition.Format, definition.Source, definition.SourceFileName['ResultInputOption', 'json', 'File', '24 - result_input_option v.1.json']
+2023-10-06 08:53:47.099484    info    apiservice/apiservice.go:447    (*Service).metaInitUnsafe() - Init full meta
+2023-10-06 08:53:47.133671    info    cacheristretto/cache_ristretto.go:187    (*Service).ClearAll() - Clear full cache
+2023-10-06 08:53:47.184950    info    apiservice/apiservice.go:355    (*Service).InitValidator() - START: Configure validator
+2023-10-06 08:53:47.185510    info    apiservice/apiservice.go:371    (*Service).initValidatorUnsafe() - START: Configure validator
+2023-10-06 08:53:47.186158    info    apiservice/apiservice.go:251    New() - API service was created
+2023-10-06 08:53:47.186410    info    httpservice/httpservice.go:135    New() - Creating new HTTP service
+2023-10-06 08:53:47.186623    info    httpservice/httpservice.go:175    New() - HTTP service was created
+2023-10-06 08:53:47.186891    info    httphandler/httphandler.go:39    New() - Creating new HTTP service
+2023-10-06 08:53:47.187109    info    httphandler/httphandler.go:67    New() - HTTP service was created
+2023-10-06 08:53:47.187382    info    httpservice/httpservice.go:183    (*Service).SetHttpHandler() - Register HTTP handlers
+2023-10-06 08:53:47.187761    info    httpservice/httpservice.go:215    (*Service).SetHttpHandler() - Register HTTP handler: HandlerName, Method, FullPath['HealthHandler', 'GET', '/app/system/health']
+2023-10-06 08:53:47.188009    info    httpservice/httpservice.go:215    (*Service).SetHttpHandler() - Register HTTP handler: HandlerName, Method, FullPath['ReadyHandler', 'GET', '/app/system/ready']
+2023-10-06 08:53:47.188315    info    httpservice/httpservice.go:215    (*Service).SetHttpHandler() - Register HTTP handler: HandlerName, Method, FullPath['ApiSelectHandler', 'GET', '/app/system/entities']
+2023-10-06 08:53:47.188603    info    httpservice/httpservice.go:215    (*Service).SetHttpHandler() - Register HTTP handler: HandlerName, Method, FullPath['ApiXlsHandler', 'POST', '/app/system/xls']
+2023-10-06 08:53:47.188858    info    httpservice/httpservice.go:215    (*Service).SetHttpHandler() - Register HTTP handler: HandlerName, Method, FullPath['ApiGetHandler', 'GET', '/app/system/entities']
+2023-10-06 08:53:47.189146    info    httpservice/httpservice.go:215    (*Service).SetHttpHandler() - Register HTTP handler: HandlerName, Method, FullPath['ApiGetEntityMetaHandler', 'GET', '/app/system/entity_meta']
+2023-10-06 08:53:47.189404    info    httpservice/httpservice.go:215    (*Service).SetHttpHandler() - Register HTTP handler: HandlerName, Method, FullPath['ApiCreateEntityMetaHandler', 'POST', '/app/system/entity_meta']
+2023-10-06 08:53:47.189694    info    httpservice/httpservice.go:215    (*Service).SetHttpHandler() - Register HTTP handler: HandlerName, Method, FullPath['ApiUpdateEntityMetaHandler', 'PUT', '/app/system/entity_meta']
+2023-10-06 08:53:47.189927    info    httpservice/httpservice.go:215    (*Service).SetHttpHandler() - Register HTTP handler: HandlerName, Method, FullPath['WpHandlerFactorial', 'POST', '/app/system/wp_factorial']
+2023-10-06 08:53:47.190164    info    httpservice/httpservice.go:215    (*Service).SetHttpHandler() - Register HTTP handler: HandlerName, Method, FullPath['ApiConvertHandler', 'POST', '/app/system/entities/convert']
+2023-10-06 08:53:47.190455    info    httpservice/httpservice.go:215    (*Service).SetHttpHandler() - Register HTTP handler: HandlerName, Method, FullPath['ApiCreateHandler', 'POST', '/app/system/entities']
+2023-10-06 08:53:47.190709    info    httpserver/httpserver.go:57    New() - Creating new HTTP server
+2023-10-06 08:53:47.191221    info    httpserver/httpserver.go:165    New() - Created new TCP listener: network = 'tcp', address['0.0.0.0:8080']
+2023-10-06 08:53:47.191474    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/system/auth/signin', 'POST']
+2023-10-06 08:53:47.191753    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/system/auth/refresh', 'POST']
+2023-10-06 08:53:47.192109    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/system/config/httplog', 'POST']
+2023-10-06 08:53:47.192384    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/app/system/ready', 'GET']
+2023-10-06 08:53:47.192647    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/app/system/xls/{entity}', 'POST']
+2023-10-06 08:53:47.192943    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/app/system/entities/{entity}/{format}', 'POST']
+2023-10-06 08:53:47.193187    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/system/config/httperrlog', 'POST']
+2023-10-06 08:53:47.193480    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/app/system/entities/{entity}/{format}', 'GET']
+2023-10-06 08:53:47.193911    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/app/system/entity_meta/{entity}/{format}', 'GET']
+2023-10-06 08:53:47.194200    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/app/system/wp_factorial', 'POST']
+2023-10-06 08:53:47.194507    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/system/echo', 'POST']
+2023-10-06 08:53:47.194785    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/system/config/loglevel', 'POST']
+2023-10-06 08:53:47.195046    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/system/config/logger', 'GET']
+2023-10-06 08:53:47.195307    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/system/config/logger', 'POST']
+2023-10-06 08:53:47.195574    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/app/system/entity_meta/{format}', 'POST']
+2023-10-06 08:53:47.195889    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/app/system/entity_meta/{entity}/{format}', 'PUT']
+2023-10-06 08:53:47.196235    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/app/system/entities/convert/{entity}/{format}', 'POST']
+2023-10-06 08:53:47.196509    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/app/system/health', 'GET']
+2023-10-06 08:53:47.196842    info    httpserver/httpserver.go:188    New() - Handler is registered: Path, Method['/app/system/entities/{entity}/{id}/{format}', 'GET']
+2023-10-06 08:53:47.197115    info    httpserver/httpserver.go:212    New() - HTTP server is created
+2023-10-06 08:53:47.197340    info    daemon/daemon.go:148    New() - New daemon was created
+2023-10-06 08:53:47.197804    info    app/main.go:229    main.func1() - Server is startup: Version['version '2.1.1', commit '05bbcc1', build time '2023-10-06_11:52:34'']
+2023-10-06 08:53:47.198047    info    daemon/daemon.go:155    (*Daemon).Run() - Starting daemon
+2023-10-06 08:53:47.198351    info    daemon/daemon.go:163    (*Daemon).Run() - Daemon was running. For exit <CTRL-c>
+2023-10-06 08:53:47.198556    info    httpserver/httpserver.go:234    (*Server).Run() - Starting HTTP server

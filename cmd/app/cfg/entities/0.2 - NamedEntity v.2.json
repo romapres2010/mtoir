@@ -62,7 +62,7 @@
                     "status": "ENABLED",
                     "name": "NewUUID",
                     "type": "Calculate",
-                    "action": "PRE_MARSHAL",
+                    "action": "PRE_CREATE",
                     "code": "PtrUUID(Id)",
                     "fields": [
                         "Id"

@@ -118,7 +118,7 @@
                     "status": "ENABLED",
                     "name": "Get 'AssetClassId' from association 'AssetClass'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "AssetClassId != nil ? AssetClassId : (AssetClass?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "AssetClassId",
@@ -153,7 +153,7 @@
                     "status": "ENABLED",
                     "name": "Get 'WorkGroupId' from association 'WorkGroup'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "WorkGroupId != nil ? WorkGroupId : (WorkGroup?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "WorkGroupId",
@@ -188,7 +188,7 @@
                     "status": "ENABLED",
                     "name": "Get 'ParentId' from association 'ParentAssetNode'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "ParentId != nil ? ParentId : (ParentAssetNode?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "ParentId",

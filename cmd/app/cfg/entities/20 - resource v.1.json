@@ -165,7 +165,7 @@
                     "status": "ENABLED",
                     "name": "Get 'ResourceClassId' from association 'ResourceClass'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "ResourceClassId != nil ? ResourceClassId : (ResourceClass?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "ResourceClassId",
@@ -200,7 +200,7 @@
                     "status": "ENABLED",
                     "name": "Get 'CurrencyId' from association 'Currency'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "CurrencyId != nil ? CurrencyId : (Currency?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "CurrencyId",
@@ -235,7 +235,7 @@
                     "status": "ENABLED",
                     "name": "Get 'WorkGroupId' from association 'WorkGroup'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "WorkGroupId != nil ? WorkGroupId : (WorkGroup?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "WorkGroupId",
@@ -270,7 +270,7 @@
                     "status": "ENABLED",
                     "name": "Get 'MeasureUnitId' from association 'MeasureUnit'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "MeasureUnitId != nil ? MeasureUnitId : (MeasureUnit?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "MeasureUnitId",

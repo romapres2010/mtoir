@@ -181,6 +181,16 @@ http_service:
             params: "{entity}/{format}"                 # Параметры сервиса с виде {id:[0-9]+}
             method: "POST"                              # HTTP метод: GET, POST, ...
             handler_name: "ApiCreateHandler"            # Имя функции обработчика
+        ApiUpdateHandler:               # Сервис отвечает за создание строки в БД
+            enabled: true                               # Признак включен ли сервис
+            application: "app"                          # Приложение к которому относится сервис
+            module: "system"                            # Модуль к которому относится сервис
+            service: "entity_update"                    # Имя сервиса
+            version: "v1.0.0"                           # Версия сервиса
+            full_path: "/app/system/entities"           # URI сервиса /Application.Module.Service.APIVersion или /Application/APIVersion/Module/Service
+            params: "{entity}/{format}"                 # Параметры сервиса с виде {id:[0-9]+}
+            method: "PUT"                               # HTTP метод: GET, POST, ...
+            handler_name: "ApiUpdateHandler"            # Имя функции обработчика
         ApiGetEntityMetaHandler:               # Сервис отвечает за извлечение мата данные entity
             enabled: true                               # Признак включен ли сервис
             application: "app"                          # Приложение к которому относится сервис
@@ -314,7 +324,9 @@ api_service:
         db_order: "db_order"                      # [db_order] последовательность сортировки строк в ответе
         db_where: "db_where"                      # [db_where] фраза where для встраивания в запрос
         db_limit: "db_limit"                      # [db_limit] ограничение на выборку данных в запросе
-        db_offset: "db_offset"                    # [db_offset] сдвиг строки, с которой начать выводить данные в запросе
+        persist_restrict_fields: "persist_restrict_fields"     # [persist_restrict_fields] ограничить поля сохранения, теми, что пришли на вход в Marshal
+        persist_use_uk: "persist_use_uk"                       # [persist_use_uk] для сохранения использовать UK, если не заполнен PK
+        persist_update_all_fields: "persist_update_all_fields" # [persist_update_all_fields] обновлять все поля объекта
     entity_config:
         db:
             name: meta                  # имя подключения

@@ -37,6 +37,18 @@
                 "update_restrict": true,
                 "delete_restrict": true
             }
+        },
+        {
+            "status": "ENABLED",
+            "name": "UK1",
+            "type": "UK",
+            "fields": [
+                "UserName"
+            ],
+            "modify": {
+                "update_restrict": true,
+                "delete_restrict": true
+            }
         }
     ],
     "references": [
@@ -177,7 +189,7 @@
             }
         },
         {
-            "status": "ENABLED",
+            "status": "DISABLED",
             "required": true,
             "name": "Password",
             "internal_type": "null.String",
@@ -307,7 +319,7 @@
                     "status": "ENABLED",
                     "name": "Get 'DivisionId' from association 'Division'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "DivisionId != nil ? DivisionId : (Division?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "DivisionId",
@@ -363,7 +375,7 @@
                     "status": "ENABLED",
                     "name": "Get 'PositionId' from association 'Positions'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "PositionId != nil ? PositionId : (Positions?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "PositionId",

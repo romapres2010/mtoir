@@ -181,6 +181,16 @@ http_service:
             params: "{entity}/{format}"                 # Параметры сервиса с виде {id:[0-9]+}
             method: "POST"                              # HTTP метод: GET, POST, ...
             handler_name: "ApiCreateHandler"            # Имя функции обработчика
+        ApiUpdateHandler:               # Сервис отвечает за создание строки в БД
+            enabled: true                               # Признак включен ли сервис
+            application: "app"                          # Приложение к которому относится сервис
+            module: "system"                            # Модуль к которому относится сервис
+            service: "entity_update"                    # Имя сервиса
+            version: "v1.0.0"                           # Версия сервиса
+            full_path: "/app/system/entities"           # URI сервиса /Application.Module.Service.APIVersion или /Application/APIVersion/Module/Service
+            params: "{entity}/{format}"                 # Параметры сервиса с виде {id:[0-9]+}
+            method: "PUT"                               # HTTP метод: GET, POST, ...
+            handler_name: "ApiUpdateHandler"            # Имя функции обработчика
         ApiGetEntityMetaHandler:               # Сервис отвечает за извлечение мата данные entity
             enabled: true                               # Признак включен ли сервис
             application: "app"                          # Приложение к которому относится сервис
@@ -230,15 +240,6 @@ http_logger:
 
 # конфигурация сервиса БД для API
 api_db_storage:
-    query_option:
-#        delimiter: "[]"            # [] разделить для определения спец параметров
-        delimiter_start: "["        # [ разделить начала для определения спец параметров
-        delimiter_end: "]"          # ] разделить конца для определения спец параметров
-        name_format: "name_format"  # [name_format] формат именования полей в параметрах запроса 'json', 'yaml', 'xml', 'xsl', 'name'
-        db_order: "db_order"        # [db_order] последовательность сортировки строк в ответе
-        db_where: "db_where"        # [db_where] фраза where для встраивания в запрос
-        db_limit: "db_limit"        # [db_limit] ограничение на выборку данных в запросе
-        db_offset: "db_offset"      # [db_offset] сдвиг строки, с которой начать выводить данные в запросе
     storages:
         Utce:
             name: Utce                  # имя подключения
@@ -301,13 +302,13 @@ api_service:
     entity_config_file: /app/defcfg/entities/global_entities.yaml  # глобальное имя файл с описанием meta, каждая сущность россыпью в каталоге
     populate_cache_on_start: false                   # наполнить cache при старте из БД
     query_option:
-#        delimiter: "[]"                          # [] разделить для определения спец параметров
         delimiter_start: "["                      # [ разделить начала для определения спец параметров
         delimiter_end: "]"                        # ] разделить конца для определения спец параметров
         tx: "tx"                                  # [tx] идентификатор внешней транзакции
         fields: "fields"                          # [fields] фильтрация список полей в ответе
         from_entity: "from_entity"                # [from_entity] имя входной сущности
         skip_cache: "skip_cache"                  # [skip_cache] принудительно считать из внешнего источника
+        skip_calculation: "skip_calculation"      # [skip_calculation] принудительно отключить все вычисления
         use_cache: "use_cache"                    # [use_cache] принудительно использовать кеширование - имеет приоритет над skip_cache
         embed_error: "embed_error"                # [embed_error] встраивать отдельные типы некритичных ошибок в текст ответа
         cascade_up: "cascade_up"                  # [cascade_up] сколько уровней вверх по FK
@@ -315,11 +316,17 @@ api_service:
         name_format: "name_format"                # [name_format] формат именования полей в параметрах запроса 'json', 'yaml', 'xml', 'xsl', 'name'
         out_format: "out_format"                  # [out_format] формат вывода результата 'json', 'yaml', 'xml', 'xsl'
         ignore_extra_field: "ignore_extra_field"  # [ignore_extra_field] идентификатор внешней транзакции
-        db_order: "db_order"                      # [db_order] последовательность сортировки строк в ответе
         validate: "validate"                      # [validate] проверка данных
         multi_row: "multi_row"                    # [multi_row] признак многострочной обработки
-        filter: "filter"                          # [filter] признак статической фильтрации
+        filter: "filter"                          # [filter] признак фильтрации
         static_filtering: "static_filtering"      # [static_filtering] признак статической фильтрации
+        persist: "persist"                        # [persist] признак, что отправлять данные в хранилище
+        db_order: "db_order"                      # [db_order] последовательность сортировки строк в ответе
+        db_where: "db_where"                      # [db_where] фраза where для встраивания в запрос
+        db_limit: "db_limit"                      # [db_limit] ограничение на выборку данных в запросе
+        persist_restrict_fields: "persist_restrict_fields"     # [persist_restrict_fields] ограничить поля сохранения, теми, что пришли на вход в Marshal
+        persist_use_uk: "persist_use_uk"                       # [persist_use_uk] для сохранения использовать UK, если не заполнен PK
+        persist_update_all_fields: "persist_update_all_fields" # [persist_update_all_fields] обновлять все поля объекта
     entity_config:
         db:
             name: meta                  # имя подключения

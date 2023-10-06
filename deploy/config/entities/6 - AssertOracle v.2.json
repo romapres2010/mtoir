@@ -233,7 +233,7 @@
                     "status": "ENABLED",
                     "name": "Get 'AssetClassId' from association 'AssetClass'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                         "code": "AssetClassId != nil ? AssetClassId : (AssetClass?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "AssetClassId",

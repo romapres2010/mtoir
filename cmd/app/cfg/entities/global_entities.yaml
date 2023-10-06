@@ -200,3 +200,7 @@ definition:
         source: File
         format: json
         source_file: "44 - work_task_order_cost_fact v.1.json"
+    -   name: ResultConfig
+        source: File
+        format: json
+        source_file: "45 - result_config.json"

@@ -206,7 +206,7 @@
                     "status": "ENABLED",
                     "name": "Get 'WorkCalendarId' from association 'WorkCalendar'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "WorkCalendarId != nil ? WorkCalendarId : (WorkCalendar?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "WorkCalendarId",

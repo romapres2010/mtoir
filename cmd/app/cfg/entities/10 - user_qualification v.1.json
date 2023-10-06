@@ -96,7 +96,7 @@
                     "status": "ENABLED",
                     "name": "Get 'QualificationId' from association 'Qualification'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "QualificationId != nil ? QualificationId : (Qualification?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "QualificationId",
@@ -242,7 +242,7 @@
                     "status": "ENABLED",
                     "name": "Get 'CurrentUserId' from association 'Users'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "CurrentUserId != nil ? CurrentUserId : (Users?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "CurrentUserId",

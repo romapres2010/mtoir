@@ -99,7 +99,7 @@
                     "status": "ENABLED",
                     "name": "Get 'WorkGroupId' from association 'WorkGroup'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "WorkGroupId != nil ? WorkGroupId : (WorkGroup?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "WorkGroupId",

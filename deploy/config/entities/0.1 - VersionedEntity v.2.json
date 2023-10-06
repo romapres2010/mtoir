@@ -38,7 +38,7 @@
                     "status": "ENABLED",
                     "name": "Version default",
                     "type": "Calculate",
-                    "action": "PRE_MARSHAL",
+                    "action": "PRE_CREATE",
                     "code": "Version.Valid ? Version : IntFrom(1)",
                     "fields": [
                         "Version"
@@ -96,7 +96,7 @@
                     "status": "ENABLED",
                     "name": "TimeNow",
                     "type": "Calculate",
-                    "action": "PRE_MARSHAL",
+                    "action": "PRE_CREATE",
                     "code": "NullTimeNow()"
                 }
             ]
@@ -150,7 +150,14 @@
                     "status": "ENABLED",
                     "name": "TimeNow",
                     "type": "Calculate",
-                    "action": "PRE_MARSHAL",
+                    "action": "PRE_CREATE",
+                    "code": "NullTimeNow()"
+                },
+                {
+                    "status": "ENABLED",
+                    "name": "TimeNow",
+                    "type": "Calculate",
+                    "action": "PRE_UPDATE",
                     "code": "NullTimeNow()"
                 }
             ]

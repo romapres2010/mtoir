@@ -124,7 +124,7 @@
                     "status": "ENABLED",
                     "name": "Get 'ParentId' from association 'Parent'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "ParentId != nil ? ParentId : (Parent?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "ParentId",

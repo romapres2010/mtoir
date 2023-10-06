@@ -118,7 +118,7 @@
                     "status": "ENABLED",
                     "name": "Get 'DivisionId' from association 'Division'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "DivisionId != nil ? DivisionId : (Division?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "DivisionId",
@@ -174,7 +174,7 @@
                     "status": "ENABLED",
                     "name": "Get 'ApprovalStatusId' from association 'ApprovalState'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "ApprovalStatusId != nil ? ApprovalStatusId : (ApprovalState?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "ApprovalStatusId",
@@ -233,7 +233,7 @@
                     "status": "ENABLED",
                     "name": "Get 'ApprovedById' from association 'ApprovedBy'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "ApprovedById != nil ? ApprovedById : (ApprovedBy?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "ApprovedById",

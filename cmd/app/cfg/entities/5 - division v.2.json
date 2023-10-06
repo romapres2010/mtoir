@@ -414,7 +414,7 @@
                     "status": "ENABLED",
                     "name": "Get 'ContactPositionId' from association 'Positions'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "ContactPositionId != nil ? ContactPositionId : (Positions?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "ContactPositionId",

@@ -209,7 +209,7 @@
                     "status": "ENABLED",
                     "name": "Get 'AssetClassId' from association 'AssetClass'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "AssetClassId != nil ? AssetClassId : (AssetClass?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "AssetClassId",
@@ -244,7 +244,7 @@
                     "status": "ENABLED",
                     "name": "Get 'DivisionOwnerId' from association 'DivisionOwner'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "DivisionOwnerId != nil ? DivisionOwnerId : (DivisionOwner?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "DivisionOwnerId",
@@ -279,7 +279,7 @@
                     "status": "ENABLED",
                     "name": "Get 'DivisionServiceId' from association 'DivisionService'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "DivisionServiceId != nil ? DivisionServiceId : (DivisionService?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "DivisionServiceId",
@@ -314,7 +314,7 @@
                     "status": "ENABLED",
                     "name": "Get 'AssetCriticalityId' from association 'AssetCriticality'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "AssetCriticalityId != nil ? AssetCriticalityId : (AssetCriticality?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "AssetCriticalityId",
@@ -349,7 +349,7 @@
                     "status": "ENABLED",
                     "name": "Get 'AssetTypeId' from association 'AssetType'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "AssetTypeId != nil ? AssetTypeId : (AssetType?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "AssetTypeId",
@@ -384,7 +384,7 @@
                     "status": "ENABLED",
                     "name": "Get 'AssetStatusId' from association 'AssetStatus'",
                     "type": "Calculate",
-                    "action": "POST_MARSHAL",
+                    "action": "INSIDE_MARSHAL",
                     "code": "AssetStatusId != nil ? AssetStatusId : (AssetStatus?.Id ?? PtrEmptyUUID())",
                     "fields": [
                         "AssetStatusId",
