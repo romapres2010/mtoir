@@ -35,13 +35,14 @@ func (s *Service) ConvertMarshal(ctx context.Context, entityName string, inBuf [
 		s.metaRLock()
 		defer s.metaRUnLock()
 
-		if entity = s.getEntityUnsafe(entityName); entity == nil {
+		if entity = s.GetEntityUnsafe(entityName); entity == nil {
 			return nil, inFormat, _err.NewTyped(_err.ERR_ERROR, requestID, fmt.Sprintf("Entity with name '%s' does not exists", entityName)).PrintfError()
 		}
 
-		if options, err = s.parseQueryOptions(localCtx, requestID, entity.Name, entity, nil, queryOptions, nil); err != nil {
+		if options, err = s.ParseQueryOptions(localCtx, requestID, entity.Name, entity, nil, queryOptions, nil); err != nil {
 			return nil, inFormat, err
 		}
+		options.Global.InFormat = inFormat
 
 		if options.FromEntity == nil {
 			return nil, inFormat, _err.NewTyped(_err.ERR_ERROR, requestID, fmt.Sprintf("Entity '%s' - query parameter '%s' does not defined - can not convert", entity.Name, s.cfg.QueryOption.FromEntity)).PrintfError()
@@ -54,12 +55,12 @@ func (s *Service) ConvertMarshal(ctx context.Context, entityName string, inBuf [
 
 		if options.Global.MultiRow {
 			// Распарсить многострочный запрос в формате FromEntity
-			if fromObject, err = s.unmarshalMulti(requestID, options.FromEntity, options, inBuf, inFormat, options.Global.IgnoreExtraField); err != nil {
+			if fromObject, err = s.UnmarshalMultiObject(requestID, options.FromEntity, options, inBuf, inFormat, options.Global.IgnoreExtraField); err != nil {
 				return nil, inFormat, err
 			}
 		} else {
 			// Распарсить однострочный запрос в формате FromEntity
-			if fromObject, err = s.unmarshalSingle(requestID, options.FromEntity, options, inBuf, inFormat, options.Global.IgnoreExtraField); err != nil {
+			if fromObject, err = s.UnmarshalSingleObject(requestID, options.FromEntity, options, inBuf, inFormat, options.Global.IgnoreExtraField); err != nil {
 				return nil, inFormat, err
 			}
 		}
@@ -102,9 +103,9 @@ func (s *Service) ConvertMarshal(ctx context.Context, entityName string, inBuf [
 		// сформируем ответ, возможно с уже встроенной ошибкой
 		if outObject != nil {
 			var errInner error
-			outBuf, errInner = s.marshal(requestID, outObject.Value, "Convert", entityName, options.Global.OutFormat)
+			outBuf, errInner = s.MarshalEntity(requestID, outObject.Value, "Convert", entityName, options.Global.OutFormat)
 			if errInner != nil {
-				_log.Debug("ERROR - marshal: requestID, entityName, duration", requestID, entityName, time.Now().Sub(tic))
+				_log.Debug("ERROR - MarshalEntity: requestID, entityName, duration", requestID, entityName, time.Now().Sub(tic))
 				return nil, inFormat, errInner
 			} else {
 				_log.Debug("SUCCESS: requestID, entityName, duration", requestID, entityName, time.Now().Sub(tic))
@@ -252,7 +253,7 @@ func (s *Service) convertSingleUnsafe(ctx context.Context, requestID uint64, ent
 
 			// В ходе предобработки нужно вычислить поля, перед их вставкой
 			localErrors := _err.Errors{} // локальные ошибки вложенного метода
-			if err, localErrors = s.processMarshal(ctx, requestID, rowFrom, PERSIST_ACTION_CREATE, _meta.EXPR_ACTION_PRE_PUT, -1, -1, rowFrom.Options.Global.Validate, true, false); err != nil {
+			if err, localErrors = s.processPrePersist(ctx, requestID, rowFrom, PERSIST_ACTION_CREATE, _meta.EXPR_ACTION_PRE_PUT, -1, -1, &processOptions{validate: rowFrom.Options.Global.Validate, calculate: true, addCrossRef: true}); err != nil {
 				errors.Append(requestID, err)
 			}
 			innerErrors.AppendErrors(localErrors)
@@ -280,7 +281,7 @@ func (s *Service) convertSingleUnsafe(ctx context.Context, requestID uint64, ent
 		//
 		//	for _, key := range entityIn.Keys {
 		//		if key != nil {
-		//			exists, _, keyArgs, err := s.getByKeyUnsafe(ctx, requestID, txId, entityIn, queryOptions, rowFrom, key.FieldsMap(), useCache, false, false, outTrace, keepRLock, key)
+		//			exists, _, keyArgs, err := s.GetSingleByKeyUnsafe(ctx, requestID, txId, entityIn, queryOptions, rowFrom, key.FieldsMap(), useCache, false, false, outTrace, keepRLock, key)
 		//			if err != nil {
 		//				errors.Append(requestID, err)
 		//			} else {

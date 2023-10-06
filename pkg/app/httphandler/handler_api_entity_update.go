@@ -15,12 +15,12 @@ import (
 	apiservice "github.com/romapres2010/meta_api/pkg/meta_api/apiservice"
 )
 
-// ApiCreateHandler Сервис отвечает за создание строки в БД
-func (s *Service) ApiCreateHandler(w http.ResponseWriter, r *http.Request) {
+// ApiUpdateHandler Сервис отвечает за создание строки в БД
+func (s *Service) ApiUpdateHandler(w http.ResponseWriter, r *http.Request) {
 	_log.Debug("START   ==================================================================================")
 
 	// Запускаем типовой Process, возврат ошибки игнорируем
-	_ = s.httpService.Process(false, "POST", w, r, func(ctx context.Context, requestBuf []byte, buf []byte) ([]byte, _http.Header, int, error) {
+	_ = s.httpService.Process(false, "PUT", w, r, func(ctx context.Context, requestBuf []byte, buf []byte) ([]byte, _http.Header, int, error) {
 		requestID := _ctx.FromContextHTTPRequestID(ctx) // RequestID передается через context
 		queryOptions := _http.UrlValuesToMap(r.URL.Query())
 		vars := mux.Vars(r) // Считаем параметры из URL path
@@ -35,7 +35,7 @@ func (s *Service) ApiCreateHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// вызываем сервис
-		responseBuf, outFormat, err, innerErrors := s.apiService.PersistMarshal(ctx, apiservice.PERSIST_ACTION_CREATE, entityName, requestBuf, inFormat, queryOptions)
+		responseBuf, outFormat, err, innerErrors := s.apiService.PersistMarshal(ctx, apiservice.PERSIST_ACTION_UPDATE, entityName, requestBuf, inFormat, queryOptions)
 
 		// подготавливаем заголовок ответа
 		// TODO - вынести общий код

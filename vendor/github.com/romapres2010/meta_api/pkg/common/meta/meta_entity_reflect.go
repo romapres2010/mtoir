@@ -45,10 +45,10 @@ func (entity *Entity) FieldRV(field *Field, row *Object) (value reflect.Value, e
 			if fieldValue.IsValid() {
 				return fieldValue, nil
 			} else {
-				return reflect.Value{}, _err.NewTyped(_err.ERR_ERROR, _err.ERR_UNDEFINED_ID, fmt.Sprintf("Entity '%s', field '%s' - does not exists or not valid, index '%v'", entity.Name, field.Name, fieldIndex)).PrintfError()
+				return reflect.Value{}, _err.NewTypedTraceEmpty(_err.ERR_ERROR, _err.ERR_UNDEFINED_ID, fmt.Sprintf("Entity '%s', field '%s' - does not exists or not valid, index '%v'", entity.Name, field.Name, fieldIndex))
 			}
 		} else {
-			return reflect.Value{}, _err.NewTyped(_err.ERR_ERROR, _err.ERR_UNDEFINED_ID, fmt.Sprintf("Entity '%s' - index of field '%s' not found", entity.Name, field.Name)).PrintfError()
+			return reflect.Value{}, _err.NewTypedTraceEmpty(_err.ERR_ERROR, _err.ERR_UNDEFINED_ID, fmt.Sprintf("Entity '%s' - index of field '%s' not found", entity.Name, field.Name))
 		}
 	}
 	return reflect.Value{}, _err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, _err.ERR_UNDEFINED_ID, "if entity != nil && field != nil && row != nil && entity == row.Entity {}", []interface{}{entity, field, row}).PrintfError()
@@ -130,7 +130,7 @@ func (entity *Entity) FieldsRV(fields Fields, row *Object) (values []reflect.Val
 			if field != nil {
 				fieldRV, errInner := entity.FieldRV(field, row)
 				if errInner != nil {
-					return nil, _err.WithCauseTyped(_err.ERR_ERROR, _err.ERR_UNDEFINED_ID, errInner, fmt.Sprintf("Entity '%s' - ERROR get field '%s' by in index", entity.Name, field.Name)).PrintfError()
+					return nil, err
 				} else {
 					values = append(values, fieldRV) // Дорогая операция
 				}
@@ -142,6 +142,56 @@ func (entity *Entity) FieldsRV(fields Fields, row *Object) (values []reflect.Val
 		return values, nil
 	}
 	return nil, _err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, _err.ERR_UNDEFINED_ID, "if entity != nil && fields != nil && row != nil && len(fields) > 0 && entity == row.Entity {}", []interface{}{entity, fields, row}).PrintfError()
+}
+
+// ZeroFieldsRV - очистить в указанной структуре поля по списку
+func (entity *Entity) ZeroFieldsRV(fields Fields, row *Object) (err error) {
+	if entity != nil && fields != nil && len(fields) > 0 && row != nil && entity == row.Entity {
+
+		if !row.RV.IsValid() {
+			return _err.NewTyped(_err.ERR_ERROR, _err.ERR_UNDEFINED_ID, fmt.Sprintf("Entity '%s' - 'row' is not valid", entity.Name)).PrintfError()
+		}
+
+		// Сформируем список критериев для поиска по ключу - порядок полей должен совпадать
+		for i, field := range fields {
+			if field != nil {
+				errInner := entity.ZeroFieldRV(field, row)
+				if errInner != nil {
+					return _err.WithCauseTyped(_err.ERR_ERROR, _err.ERR_UNDEFINED_ID, errInner, fmt.Sprintf("Entity '%s' - ERROR set zero field '%s' by in index", entity.Name, field.Name)).PrintfError()
+				}
+			} else {
+				return _err.NewTyped(_err.ERR_ERROR, _err.ERR_UNDEFINED_ID, fmt.Sprintf("Entity '%s' - empty field pointer '%v'", entity.Name, i)).PrintfError()
+			}
+		}
+
+		return nil
+	}
+	return _err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, _err.ERR_UNDEFINED_ID, "if entity != nil && fields != nil && row != nil && len(fields) > 0 && entity == row.Entity {}", []interface{}{entity, fields, row}).PrintfError()
+}
+
+// SetFieldsRV - установить в указанной структуре поля по списку
+func (entity *Entity) SetFieldsRV(fields Fields, row *Object, valuesRV []reflect.Value) (err error) {
+	if entity != nil && fields != nil && len(fields) > 0 && row != nil && entity == row.Entity {
+
+		if !row.RV.IsValid() {
+			return _err.NewTyped(_err.ERR_ERROR, _err.ERR_UNDEFINED_ID, fmt.Sprintf("Entity '%s' - 'row' is not valid", entity.Name)).PrintfError()
+		}
+
+		// Сформируем список критериев для поиска по ключу - порядок полей должен совпадать
+		for i, field := range fields {
+			if field != nil {
+				errInner := entity.SetFieldRV(field, row, valuesRV[i])
+				if errInner != nil {
+					return _err.WithCauseTyped(_err.ERR_ERROR, _err.ERR_UNDEFINED_ID, errInner, fmt.Sprintf("Entity '%s' - ERROR set field '%s' by in index", entity.Name, field.Name)).PrintfError()
+				}
+			} else {
+				return _err.NewTyped(_err.ERR_ERROR, _err.ERR_UNDEFINED_ID, fmt.Sprintf("Entity '%s' - empty field pointer '%v'", entity.Name, i)).PrintfError()
+			}
+		}
+
+		return nil
+	}
+	return _err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, _err.ERR_UNDEFINED_ID, "if entity != nil && fields != nil && row != nil && len(fields) > 0 && entity == row.Entity {}", []interface{}{entity, fields, row}).PrintfError()
 }
 
 // KeyFieldsValue - получить в указанной структуре поля ключа

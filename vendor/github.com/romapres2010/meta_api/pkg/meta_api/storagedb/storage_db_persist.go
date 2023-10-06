@@ -45,7 +45,7 @@ func (s *Storage) persist(ctx context.Context, requestID uint64, action Action, 
 
 		// Проверить если все аргументы пустые - то сразу отказ
 		if _meta.ArgsAllEmpty(keyArgs) {
-			return _err.NewTypedTraceEmpty(_err.ERR_ERROR, requestID, fmt.Sprintf("Entity '%s', Key '%s'['%s'] - error update - got all empty values", rowIn.Entity.Name, pkKey.Name, pkKey.FieldsString()))
+			return _err.NewTypedTraceEmpty(_err.ERR_ERROR, requestID, fmt.Sprintf("Entity '%s', Key '%s'['%s'] - error persist - got all empty values", rowIn.Entity.Name, pkKey.Name, pkKey.FieldsString()))
 		}
 
 		switch action {
@@ -108,7 +108,7 @@ func (s *Storage) persist(ctx context.Context, requestID uint64, action Action, 
 
 			// 0 строк обновлено - трактовать как ошибку
 			if !exists {
-				return _err.NewTypedTraceEmpty(_err.ERR_ERROR, requestID, fmt.Sprintf("Entity '%s', Key '%s'['%s'] - error '%s' - row does not exists or 0 row affected", rowIn.Entity.Name, pkKey.Name, action, pkKey.FieldsString()))
+				return _err.NewTypedTraceEmpty(_err.ERR_ERROR, requestID, fmt.Sprintf("Entity '%s', Key ['%s'] - error '%s' - row does not exists or 0 row affected", rowIn.Entity.Name, rowIn.KeysValueString(), action))
 			}
 
 			// Oracle не поддерживает returning - отдельно запросим после обработки
@@ -118,7 +118,7 @@ func (s *Storage) persist(ctx context.Context, requestID uint64, action Action, 
 					return err
 				}
 				if !exists {
-					return _err.NewTypedTraceEmpty(_err.ERR_ERROR, requestID, fmt.Sprintf("Entity '%s', Key '%s'['%s'] - error query after '%s' - row does not exists", rowIn.Entity.Name, pkKey.Name, action, pkKey.FieldsString()))
+					return _err.NewTypedTraceEmpty(_err.ERR_ERROR, requestID, fmt.Sprintf("Entity '%s', Key ['%s'] - error query after '%s' - row does not exists", rowIn.Entity.Name, rowIn.KeysValueString(), action))
 				}
 			}
 

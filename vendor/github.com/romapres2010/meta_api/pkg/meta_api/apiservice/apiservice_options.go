@@ -2,6 +2,7 @@ package apiservice
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"strconv"
 	"strings"
@@ -64,10 +65,10 @@ func (s *Service) SetOptionToCache(ctx context.Context, key string, options *_me
 	}
 }
 
-func (s *Service) parseQueryOptions(ctx context.Context, requestID uint64, key string, entity *_meta.Entity, referenceField *_meta.Field, queryOptions _meta.QueryOptions, gopt *_meta.GlobalOptions) (opt *_meta.Options, err error) {
+func (s *Service) ParseQueryOptions(ctx context.Context, requestID uint64, key string, entity *_meta.Entity, referenceField *_meta.Field, queryOptions _meta.QueryOptions, gopt *_meta.GlobalOptions) (opt *_meta.Options, err error) {
 	if s != nil && entity != nil {
 
-		_log.Debug("START: requestID, key, entityName", requestID, key, entity.Name)
+		//_log.Debug("START: requestID, key, entityName", requestID, key, entity.Name)
 
 		// Ищем в globalCache, переданном через context
 		if opt = s.GetOptionFromCache(ctx, key); opt == nil {
@@ -97,7 +98,7 @@ func (s *Service) parseQueryOptions(ctx context.Context, requestID uint64, key s
 				}
 
 				if fromEntityOption := queryOptions[s.cfg.QueryOption.FromEntityFull]; fromEntityOption != "" {
-					if opt.FromEntity = s.getEntityUnsafe(fromEntityOption); opt.Entity == nil {
+					if opt.FromEntity = s.GetEntityUnsafe(fromEntityOption); opt.Entity == nil {
 						return nil, _err.NewTyped(_err.ERR_ERROR, requestID, fmt.Sprintf("Entity '%s' - '%s'='%s' does not exists", entity.Name, s.cfg.QueryOption.FromEntity, fromEntityOption)).PrintfError()
 					}
 				}
@@ -168,7 +169,7 @@ func (s *Service) parseQueryOptions(ctx context.Context, requestID uint64, key s
 
 					if len(outFields) > 0 {
 						// Подготовим map с полями, которые нужны
-						opt.Fields, err = s.constructFieldsMap(requestID, opt.Entity, outFields, opt.Global.NameFormat, opt.Global.IgnoreExtraField, false)
+						opt.Fields, err = s.constructFieldsMap(requestID, opt.Entity, outFields, opt.Global.NameFormat, opt.Global.IgnoreExtraField, false, false)
 						if err != nil {
 							return nil, err
 						}
@@ -335,66 +336,23 @@ func (s *Service) parseGlobalOptions(requestID uint64, entity *_meta.Entity, que
 	if s != nil && queryOptions != nil && gopt != nil && entity != nil {
 
 		var (
-			//skipCacheOption       string // принудительно считать из внешнего источника
-			//useCacheOption        string // принудительно использовать кеширование - имеет приоритет над skip_cache
-			//embedErrorOption      string // встраивать отдельные типы некритичных ошибок в текст ответа
-			//validateOption        string // выполнять валидация данных
-			//txExternalOption      string // идентификатор внешней транзакции
-			//ignoreExtraField      string // игнорировать лишние поля в параметрах запроса
-			//nameFormatOption      string // формат именования полей в параметрах запроса 'json', 'yaml', 'xml', 'xsl', 'name'
-			//outFormatOption       string // формат вывода результата 'json', 'yaml', 'xml', 'xsl'
-			//outTraceOption        string // вывод трассировки
-			//multiRowOption        string // признак многострочной обработки
-			//staticFilteringOption string // признак статической фильтрации
-			//persistOption         string // признак, что отправлять данные в хранилище
-			//skipCalculationOption string // принудительно отключить все вычисления
-			skipCacheOption       = queryOptions[s.cfg.QueryOption.SkipCacheFull]        // принудительно считать из внешнего источника
-			useCacheOption        = queryOptions[s.cfg.QueryOption.UseCacheFull]         // принудительно использовать кеширование - имеет приоритет над skip_cache
-			embedErrorOption      = queryOptions[s.cfg.QueryOption.EmbedErrorFull]       // встраивать отдельные типы некритичных ошибок в текст ответа
-			validateOption        = queryOptions[s.cfg.QueryOption.ValidateFull]         // выполнять валидация данных
-			txExternalOption      = queryOptions[s.cfg.QueryOption.TxExternalFull]       // идентификатор внешней транзакции
-			ignoreExtraField      = queryOptions[s.cfg.QueryOption.IgnoreExtraFieldFull] // игнорировать лишние поля в параметрах запроса
-			nameFormatOption      = queryOptions[s.cfg.QueryOption.NameFormatFull]       // формат именования полей в параметрах запроса 'json', 'yaml', 'xml', 'xsl', 'name'
-			outFormatOption       = queryOptions[s.cfg.QueryOption.OutFormatFull]        // формат вывода результата 'json', 'yaml', 'xml', 'xsl'
-			outTraceOption        = queryOptions[s.cfg.QueryOption.OutTraceFull]         // вывод трассировки
-			multiRowOption        = queryOptions[s.cfg.QueryOption.MultiRowFull]         // признак многострочной обработки
-			staticFilteringOption = queryOptions[s.cfg.QueryOption.StaticFilteringFull]  // признак статической фильтрации
-			persistOption         = queryOptions[s.cfg.QueryOption.PersistFull]          // признак, что отправлять данные в хранилище
-			skipCalculationOption = queryOptions[s.cfg.QueryOption.SkipCalculationFull]  // принудительно отключить все вычисления
+			skipCacheOption              = queryOptions[s.cfg.QueryOption.SkipCacheFull]              // принудительно считать из внешнего источника
+			useCacheOption               = queryOptions[s.cfg.QueryOption.UseCacheFull]               // принудительно использовать кеширование - имеет приоритет над skip_cache
+			embedErrorOption             = queryOptions[s.cfg.QueryOption.EmbedErrorFull]             // встраивать отдельные типы некритичных ошибок в текст ответа
+			validateOption               = queryOptions[s.cfg.QueryOption.ValidateFull]               // выполнять валидация данных
+			txExternalOption             = queryOptions[s.cfg.QueryOption.TxExternalFull]             // идентификатор внешней транзакции
+			ignoreExtraField             = queryOptions[s.cfg.QueryOption.IgnoreExtraFieldFull]       // игнорировать лишние поля в параметрах запроса
+			nameFormatOption             = queryOptions[s.cfg.QueryOption.NameFormatFull]             // формат именования полей в параметрах запроса 'json', 'yaml', 'xml', 'xsl', 'name'
+			outFormatOption              = queryOptions[s.cfg.QueryOption.OutFormatFull]              // формат вывода результата 'json', 'yaml', 'xml', 'xsl'
+			outTraceOption               = queryOptions[s.cfg.QueryOption.OutTraceFull]               // вывод трассировки
+			multiRowOption               = queryOptions[s.cfg.QueryOption.MultiRowFull]               // признак многострочной обработки
+			staticFilteringOption        = queryOptions[s.cfg.QueryOption.StaticFilteringFull]        // признак статической фильтрации
+			persistOption                = queryOptions[s.cfg.QueryOption.PersistFull]                // признак, что отправлять данные в хранилище
+			skipCalculationOption        = queryOptions[s.cfg.QueryOption.SkipCalculationFull]        // принудительно отключить все вычисления
+			persistRestrictFieldsOption  = queryOptions[s.cfg.QueryOption.PersistRestrictFieldsFull]  // ограничить поля сохранения, теми, что пришли на вход в Marshal
+			persistUseUKOption           = queryOptions[s.cfg.QueryOption.PersistUseUKFull]           // для сохранения использовать UK, если не заполнен PK
+			persistUpdateAllFieldsOption = queryOptions[s.cfg.QueryOption.PersistUpdateAllFieldsFull] // обновлять все поля объекта
 		)
-
-		//for optionName, optionVal := range queryOptions {
-		//	switch optionName {
-		//	case s.cfg.QueryOption.SkipCacheFull:
-		//		skipCacheOption = optionVal
-		//	case s.cfg.QueryOption.UseCacheFull:
-		//		useCacheOption = optionVal
-		//	case s.cfg.QueryOption.EmbedErrorFull:
-		//		embedErrorOption = optionVal
-		//	case s.cfg.QueryOption.ValidateFull:
-		//		validateOption = optionVal
-		//	case s.cfg.QueryOption.TxExternalFull:
-		//		txExternalOption = optionVal
-		//	case s.cfg.QueryOption.IgnoreExtraFieldFull:
-		//		ignoreExtraField = optionVal
-		//	case s.cfg.QueryOption.NameFormatFull:
-		//		nameFormatOption = optionVal
-		//	case s.cfg.QueryOption.OutFormatFull:
-		//		outFormatOption = optionVal
-		//	case s.cfg.QueryOption.OutTraceFull:
-		//		outTraceOption = optionVal
-		//	case s.cfg.QueryOption.MultiRowFull:
-		//		multiRowOption = optionVal
-		//	case s.cfg.QueryOption.StaticFilteringFull:
-		//		staticFilteringOption = optionVal
-		//	case s.cfg.QueryOption.PersistFull:
-		//		persistOption = optionVal
-		//	case s.cfg.QueryOption.SkipCalculationFull:
-		//		skipCalculationOption = optionVal
-		//	default:
-		//		continue
-		//	}
-		//}
 
 		_log.Debug("START: requestID", requestID)
 
@@ -434,6 +392,12 @@ func (s *Service) parseGlobalOptions(requestID uint64, entity *_meta.Entity, que
 
 		gopt.Persist = persistOption == "true"
 
+		gopt.PersistRestrictFields = persistRestrictFieldsOption == "true"
+
+		gopt.PersistUseUK = persistUseUKOption == "true"
+
+		gopt.PersistUpdateAllFields = persistUpdateAllFieldsOption == "true"
+
 		gopt.SkipCalculation = skipCalculationOption == "true"
 
 		gopt.OutTrace = outTraceOption == "true"
@@ -453,7 +417,7 @@ func (s *Service) parseGlobalOptions(requestID uint64, entity *_meta.Entity, que
 }
 
 // constructFieldsMap сформировать набор полей для ограничения возвращаемых полей
-func (s *Service) constructFieldsMap(requestID uint64, entity *_meta.Entity, fieldsName []string, nameFormat string, ignoreExtra bool, addRefFields bool) (fieldsMap _meta.FieldsMap, err error) {
+func (s *Service) constructFieldsMap(requestID uint64, entity *_meta.Entity, fieldsName []string, nameFormat string, ignoreExtra bool, addRefFields bool, addUKFields bool) (fieldsMap _meta.FieldsMap, err error) {
 	if s != nil && entity != nil {
 		isRestrictFieldsTag := fieldsName != nil && len(fieldsName) > 0
 
@@ -473,6 +437,7 @@ func (s *Service) constructFieldsMap(requestID uint64, entity *_meta.Entity, fie
 
 					// Если поле является ссылкой, то нужно добавить все поля этой ссылки, чтобы они выбирались из БД
 					if field.InternalType == _meta.FIELD_TYPE_ASSOCIATION || field.InternalType == _meta.FIELD_TYPE_COMPOSITION {
+
 						ref := field.Reference()
 						if ref != nil {
 							ref.AddFieldsToMap(&fieldsMap)
@@ -493,7 +458,6 @@ func (s *Service) constructFieldsMap(requestID uint64, entity *_meta.Entity, fie
 					}
 
 				} else {
-
 					// не найденные поля игнорируем, если в них есть "." - это может относиться к вложенным сущностям
 					if !(ignoreExtra || strings.ContainsAny(fieldName, ".")) {
 						errDetail = append(errDetail, fmt.Sprintf("Entity '%s' has not have enabled field '%s', '%s'='%s'", entity.Name, fieldName, s.cfg.QueryOption.NameFormat, nameFormat))
@@ -501,22 +465,52 @@ func (s *Service) constructFieldsMap(requestID uint64, entity *_meta.Entity, fie
 				}
 			}
 
+			// Добавим реверсивную ссылку Composition-Association
+			if addRefFields {
+				// создадим в момент первого использования, так как может и не существовать запрошенного поля
+				if fieldsMap == nil {
+					fieldsMap = make(_meta.FieldsMap, len(entity.StructFields())) // максимальное количество равно всем полям структуры
+				}
+
+				for _, ref := range entity.References() {
+					if ref.Type == _meta.REFERENCE_TYPE_ASSOCIATION {
+						if refField := ref.Field(); refField != nil {
+							fieldsMap[refField.Name] = refField
+						}
+					}
+				}
+			}
+
+			if addUKFields {
+				// создадим в момент первого использования, так как может и не существовать запрошенного поля
+				if fieldsMap == nil {
+					fieldsMap = make(_meta.FieldsMap, len(entity.StructFields())) // максимальное количество равно всем полям структуры
+				}
+				for _, key := range entity.KeysUK() {
+					//if key.Type == _meta.KEY_TYPE_UK {
+					key.AddFieldsToMap(&fieldsMap)
+					//}
+				}
+			}
+
 			// Обработаем накопленные ошибки
 			if len(errDetail) > 0 {
-				myErr := _err.NewTyped(_err.ERR_ERROR, requestID, "Common error")
-				myErr.Details = errDetail
+				errMy := _err.NewTyped(_err.ERR_ERROR, requestID, "Error process Entity fields")
+				errMy.Details = errDetail
 				// вернем ожидаемый формат структуры
-				if rowExpected, err := s.newRowAll(requestID, entity, nil); err == nil {
-					//myErr.Extra = rowExpected.PtrValue
-					myErr.Extra = rowExpected.Value
+				if rowExpected, err := s.NewRowAll(requestID, entity, nil); err == nil {
+					valJson, _ := json.MarshalIndent(rowExpected.Value, "", "    ")
+					outMes := fmt.Sprintf("{\"expected_fields\": " + string(valJson) + "}")
+					errMy.MessageJson = []byte(outMes)
+					//errMy.Extra = rowExpected.Value
 				}
-				return nil, myErr
+				return nil, errMy
 			}
 
 		} else {
 			// Если нет ограничения на состав полей, то передаем все
 			//fieldsMap = entity.StructFieldsMap() // TODO - копия снижает производительность. Проверить затраты
-			//deepcopy.Copy()
+			//deepcopy.Clone()
 			return nil, nil
 		}
 

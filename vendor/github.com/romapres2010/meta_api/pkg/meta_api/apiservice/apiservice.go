@@ -15,7 +15,7 @@ import (
 	_recover "github.com/romapres2010/meta_api/pkg/common/recover"
 	_validator "github.com/romapres2010/meta_api/pkg/common/validator"
 
-	cache "github.com/romapres2010/meta_api/pkg/meta_api/cacheservice"
+	_cache "github.com/romapres2010/meta_api/pkg/meta_api/cacheservice"
 	_storage "github.com/romapres2010/meta_api/pkg/meta_api/storageservice"
 )
 
@@ -35,56 +35,62 @@ type EntityConfig struct {
 }
 
 type QueryOptionConfig struct {
-	DelimiterStart   string `yaml:"delimiter_start" json:"delimiter_start"`       // [ разделить начало для определения спец параметров
-	DelimiterEnd     string `yaml:"delimiter_end" json:"delimiter_end"`           // ] разделить конец для определения спец параметров
-	FromEntity       string `yaml:"from_entity" json:"from_entity"`               // [from_entity] имя входной сущности
-	Fields           string `yaml:"fields" json:"fields"`                         // [fields] фильтрация список полей в ответе
-	SkipCache        string `yaml:"skip_cache" json:"skip_cache"`                 // [skip_cache] принудительно считать из внешнего источника
-	SkipCalculation  string `yaml:"skip_calculation" json:"skip_calculation"`     // [skip_calculation] принудительно отключить все вычисления
-	UseCache         string `yaml:"use_cache" json:"use_cache"`                   // [use_cache] принудительно использовать кеширование - имеет приоритет над skip_cache
-	EmbedError       string `yaml:"embed_error" json:"embed_error"`               // [embed_error] встраивать отдельные типы некритичных ошибок в текст ответа
-	CascadeUp        string `yaml:"cascade_up" json:"cascade_up"`                 // [cascade_up] сколько уровней вверх по FK
-	CascadeDown      string `yaml:"cascade_down" json:"cascade_down"`             // [cascade_down] сколько уровней вниз по FK
-	TxExternal       string `yaml:"tx" json:"tx"`                                 // [tx] идентификатор внешней транзакции
-	IgnoreExtraField string `yaml:"ignore_extra_field" json:"ignore_extra_field"` // [ignore_extra_field] игнорировать лишние поля в параметрах запроса
-	NameFormat       string `yaml:"name_format" json:"name_format"`               // [name_format] формат именования полей в параметрах запроса 'json', 'yaml', 'xml', 'xsl', 'name'
-	OutFormat        string `yaml:"out_format" json:"out_format"`                 // [out_format] формат вывода результата 'json', 'yaml', 'xml', 'xsl'
-	OutTrace         string `yaml:"out_trace" json:"out_trace"`                   // [out_trace] вывод трассировки
-	Validate         string `yaml:"validate" json:"validate"`                     // [validate] проверка данных
-	MultiRow         string `yaml:"multi_row" json:"multi_row"`                   // [multi_row] признак многострочной обработки
-	Filter           string `yaml:"filter" json:"filter"`                         // [filter] признак  фильтрации
-	StaticFiltering  string `yaml:"static_filtering" json:"static_filtering"`     // [static_filtering] признак статической фильтрации
-	Persist          string `yaml:"persist" json:"persist"`                       // [persist] признак, что отправлять данные в хранилище
-	DbOrder          string `yaml:"db_order" json:"db_order"`                     // [db_order] последовательность сортировки строк в ответе
-	DbWhere          string `yaml:"db_where" json:"db_where"`                     // [db_where] фраза where для встраивания в запрос
-	DbLimit          string `yaml:"db_limit" json:"db_limit"`                     // [db_limit] ограничение на выборку данных в запросе
-	DbOffset         string `yaml:"db_offset" json:"db_offset"`                   // [db_offset] сдвиг строки, с которой начать выводить данные в запросе
+	DelimiterStart         string `yaml:"delimiter_start" json:"delimiter_start"`                     // [ разделить начало для определения спец параметров
+	DelimiterEnd           string `yaml:"delimiter_end" json:"delimiter_end"`                         // ] разделить конец для определения спец параметров
+	FromEntity             string `yaml:"from_entity" json:"from_entity"`                             // [from_entity] имя входной сущности
+	Fields                 string `yaml:"fields" json:"fields"`                                       // [fields] фильтрация список полей в ответе
+	SkipCache              string `yaml:"skip_cache" json:"skip_cache"`                               // [skip_cache] принудительно считать из внешнего источника
+	SkipCalculation        string `yaml:"skip_calculation" json:"skip_calculation"`                   // [skip_calculation] принудительно отключить все вычисления
+	UseCache               string `yaml:"use_cache" json:"use_cache"`                                 // [use_cache] принудительно использовать кеширование - имеет приоритет над skip_cache
+	EmbedError             string `yaml:"embed_error" json:"embed_error"`                             // [embed_error] встраивать отдельные типы некритичных ошибок в текст ответа
+	CascadeUp              string `yaml:"cascade_up" json:"cascade_up"`                               // [cascade_up] сколько уровней вверх по FK
+	CascadeDown            string `yaml:"cascade_down" json:"cascade_down"`                           // [cascade_down] сколько уровней вниз по FK
+	TxExternal             string `yaml:"tx" json:"tx"`                                               // [tx] идентификатор внешней транзакции
+	IgnoreExtraField       string `yaml:"ignore_extra_field" json:"ignore_extra_field"`               // [ignore_extra_field] игнорировать лишние поля в параметрах запроса
+	NameFormat             string `yaml:"name_format" json:"name_format"`                             // [name_format] формат именования полей в параметрах запроса 'json', 'yaml', 'xml', 'xsl', 'name'
+	OutFormat              string `yaml:"out_format" json:"out_format"`                               // [out_format] формат вывода результата 'json', 'yaml', 'xml', 'xsl'
+	OutTrace               string `yaml:"out_trace" json:"out_trace"`                                 // [out_trace] вывод трассировки
+	Validate               string `yaml:"validate" json:"validate"`                                   // [validate] проверка данных
+	MultiRow               string `yaml:"multi_row" json:"multi_row"`                                 // [multi_row] признак многострочной обработки
+	Filter                 string `yaml:"filter" json:"filter"`                                       // [filter] признак  фильтрации
+	StaticFiltering        string `yaml:"static_filtering" json:"static_filtering"`                   // [static_filtering] признак статической фильтрации
+	Persist                string `yaml:"persist" json:"persist"`                                     // [persist] признак, что отправлять данные в хранилище
+	DbOrder                string `yaml:"db_order" json:"db_order"`                                   // [db_order] последовательность сортировки строк в ответе
+	DbWhere                string `yaml:"db_where" json:"db_where"`                                   // [db_where] фраза where для встраивания в запрос
+	DbLimit                string `yaml:"db_limit" json:"db_limit"`                                   // [db_limit] ограничение на выборку данных в запросе
+	DbOffset               string `yaml:"db_offset" json:"db_offset"`                                 // [db_offset] сдвиг строки, с которой начать выводить данные в запросе
+	PersistRestrictFields  string `yaml:"persist_restrict_fields" json:"persist_restrict_fields"`     // [persist_restrict_fields] ограничить поля сохранения, теми, что пришли на вход в Marshal
+	PersistUseUK           string `yaml:"persist_use_uk" json:"persist_use_uk"`                       // [persist_use_uk] для сохранения использовать UK, если не заполнен PK
+	PersistUpdateAllFields string `yaml:"persist_update_all_fields" json:"persist_update_all_fields"` // [persist_update_all_fields] обновлять все поля объекта
 
-	DelimiterStartFilter string `yaml:"-" json:"-"`
-	DelimiterStartFull   string `yaml:"-" json:"-"`
-	DelimiterEndFull     string `yaml:"-" json:"-"`
-	FromEntityFull       string `yaml:"-" json:"-"`
-	FieldsFull           string `yaml:"-" json:"-"`
-	SkipCacheFull        string `yaml:"-" json:"-"`
-	SkipCalculationFull  string `yaml:"-" json:"-"`
-	UseCacheFull         string `yaml:"-" json:"-"`
-	EmbedErrorFull       string `yaml:"-" json:"-"`
-	CascadeUpFull        string `yaml:"-" json:"-"`
-	CascadeDownFull      string `yaml:"-" json:"-"`
-	TxExternalFull       string `yaml:"-" json:"-"`
-	IgnoreExtraFieldFull string `yaml:"-" json:"-"`
-	NameFormatFull       string `yaml:"-" json:"-"`
-	OutFormatFull        string `yaml:"-" json:"-"`
-	OutTraceFull         string `yaml:"-" json:"-"`
-	ValidateFull         string `yaml:"-" json:"-"`
-	MultiRowFull         string `yaml:"-" json:"-"`
-	FilterFull           string `yaml:"-" json:"-"`
-	StaticFilteringFull  string `yaml:"-" json:"-"`
-	PersistFull          string `yaml:"-" json:"-"`
-	DbOrderFull          string `yaml:"-" json:"-"`
-	DbWhereFull          string `yaml:"-" json:"-"`
-	DbLimitFull          string `yaml:"-" json:"-"`
-	DbOffsetFull         string `yaml:"-" json:"-"`
+	DelimiterStartFilter       string `yaml:"-" json:"-"`
+	DelimiterStartFull         string `yaml:"-" json:"-"`
+	DelimiterEndFull           string `yaml:"-" json:"-"`
+	FromEntityFull             string `yaml:"-" json:"-"`
+	FieldsFull                 string `yaml:"-" json:"-"`
+	SkipCacheFull              string `yaml:"-" json:"-"`
+	SkipCalculationFull        string `yaml:"-" json:"-"`
+	UseCacheFull               string `yaml:"-" json:"-"`
+	EmbedErrorFull             string `yaml:"-" json:"-"`
+	CascadeUpFull              string `yaml:"-" json:"-"`
+	CascadeDownFull            string `yaml:"-" json:"-"`
+	TxExternalFull             string `yaml:"-" json:"-"`
+	IgnoreExtraFieldFull       string `yaml:"-" json:"-"`
+	NameFormatFull             string `yaml:"-" json:"-"`
+	OutFormatFull              string `yaml:"-" json:"-"`
+	OutTraceFull               string `yaml:"-" json:"-"`
+	ValidateFull               string `yaml:"-" json:"-"`
+	MultiRowFull               string `yaml:"-" json:"-"`
+	FilterFull                 string `yaml:"-" json:"-"`
+	StaticFilteringFull        string `yaml:"-" json:"-"`
+	PersistFull                string `yaml:"-" json:"-"`
+	DbOrderFull                string `yaml:"-" json:"-"`
+	DbWhereFull                string `yaml:"-" json:"-"`
+	DbLimitFull                string `yaml:"-" json:"-"`
+	DbOffsetFull               string `yaml:"-" json:"-"`
+	PersistRestrictFieldsFull  string `yaml:"-" json:"-"`
+	PersistUseUKFull           string `yaml:"-" json:"-"`
+	PersistUpdateAllFieldsFull string `yaml:"-" json:"-"`
 }
 
 func (cfg *QueryOptionConfig) init() {
@@ -117,6 +123,9 @@ func (cfg *QueryOptionConfig) init() {
 		cfg.DbWhereFull = delimiterStart + cfg.DbWhere + delimiterEnd
 		cfg.DbOffsetFull = delimiterStart + cfg.DbOffset + delimiterEnd
 		cfg.DbLimitFull = delimiterStart + cfg.DbLimit + delimiterEnd
+		cfg.PersistRestrictFieldsFull = delimiterStart + cfg.PersistRestrictFields + delimiterEnd
+		cfg.PersistUseUKFull = delimiterStart + cfg.PersistUseUK + delimiterEnd
+		cfg.PersistUpdateAllFieldsFull = delimiterStart + cfg.PersistUpdateAllFields + delimiterEnd
 	}
 }
 
@@ -136,6 +145,33 @@ type ctxKeType int
 const ctxCacheKey ctxKeType = 3
 const ctxTxIdKey ctxKeType = 4
 
+// processOptions - опции каскадной обработки
+type processOptions struct {
+	validate               bool // Признак - выполнять валидация данных
+	calculate              bool // Признак - выполнять расчеты данных
+	addCrossRef            bool // Признак - добавлять кросс ссылки composition-association
+	isAssociation          bool // Признак - является association TODO - вынести в параметры
+	isComposition          bool // Признак - является composition TODO - вынести в параметры
+	filter                 bool // Признак - выполнять фильтрацию данных
+	checkExists            bool // Признак - проверять существование по PK UK
+	checkNotExists         bool // Признак - проверять НЕ существование по PK UK
+	persistRestrictFields  bool // Признак - ограничить поля сохранения, теми, что пришли на вход в Marshal
+	persistUseUK           bool // Признак - для сохранения использовать UK, если не заполнен PK
+	persistUpdateAllFields bool // Признак - обновлять все поля объекта
+	addRefFields           bool // Признак - добавлять ссылочные поля для соответствующих Reference
+	addUKFields            bool // Признак - добавлять поля всех UK
+}
+
+func (opt *processOptions) Clone() (out *processOptions) {
+	if opt != nil {
+		out = &processOptions{}
+		*out = *opt
+
+		return out
+	}
+	return nil
+}
+
 // Service represent API service
 type Service struct {
 	ctx    context.Context    // корневой контекст при инициации сервиса
@@ -146,14 +182,14 @@ type Service struct {
 
 	meta        *_meta.Meta                 // метаданные сервиса
 	storageMap  map[string]_storage.Service // Сервисы внешнего хранения данных
-	globalCache cache.CacheService          // Глобальный сервис кеширования данных
+	globalCache _cache.CacheService         // Глобальный сервис кеширования данных
 	validator   *_validator.Validator       // Валидатор модели данных, настроенный по правилам
 
 	mx sync.RWMutex
 }
 
 // New returns a new Service
-func New(ctx context.Context, errCh chan<- error, cfg *Config, storageMap map[string]_storage.Service, cache cache.CacheService, gMeta *_meta.Meta) (*Service, error) {
+func New(ctx context.Context, errCh chan<- error, cfg *Config, storageMap map[string]_storage.Service, cache _cache.CacheService, gMeta *_meta.Meta) (*Service, error) {
 	var err error
 	var requestID = _err.ERR_UNDEFINED_ID
 
@@ -427,13 +463,13 @@ func (s *Service) GetEntity(entityName string) *_meta.Entity {
 		defer s.mx.RUnlock()
 
 		return s.meta.GetEntity(entityName)
-		//return s.getEntityUnsafe(entityName)
+		//return s.GetEntityUnsafe(entityName)
 	}
 	_ = _err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, _err.ERR_UNDEFINED_ID, "if s != nil && s.meta != nil {}", []interface{}{s}).PrintfError()
 	return nil
 }
 
-func (s *Service) getEntityUnsafe(entityName string) *_meta.Entity {
+func (s *Service) GetEntityUnsafe(entityName string) *_meta.Entity {
 	if s != nil && s.meta != nil {
 		return s.meta.GetEntityUnsafe(entityName)
 	}

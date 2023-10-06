@@ -34,6 +34,7 @@ func (s *Service) processExprs(ctx context.Context, requestID uint64, rowIn *_me
 }
 
 // processExprs выполнить расчет полей
+// TODO - добавить игнорирование ошибок и пустого результата
 func (s *Service) processFieldsExprs(ctx context.Context, requestID uint64, rowIn *_meta.Object, row *_meta.Object, action _meta.ExprAction) (err error) {
 	if s != nil && row != nil {
 
@@ -80,12 +81,14 @@ func (s *Service) processFieldsExprs(ctx context.Context, requestID uint64, rowI
 						// Вычислим поля
 						if output, err := ex.CalculateField(requestID, row, exprVm); err != nil {
 							errors.Append(requestID, err)
+							_log.Debug("Error calculate: entityName, exprName, action, output", row.Entity.Name, ex.Name, action, output)
 						} else {
 							_log.Debug("Success calculate: entityName, exprName, action, output", row.Entity.Name, ex.Name, action, output)
 						}
 					} else if ex.Type == _meta.EXPR_DB_CALCULATE {
 						if output, err := s.calculateFieldDb(ctx, requestID, row, ex); err != nil {
 							errors.Append(requestID, err)
+							_log.Debug("Error DB calculate: entityName, exprName, action, output", row.Entity.Name, ex.Name, action, output)
 						} else {
 							_log.Debug("Success DB calculate: entityName, exprName, action, output", row.Entity.Name, ex.Name, action, output)
 						}
@@ -93,6 +96,7 @@ func (s *Service) processFieldsExprs(ctx context.Context, requestID uint64, rowI
 						// Скопируем поля из входной структуры, если ее нет - то не считать ошибкой
 						if output, err := ex.CopyField(requestID, rowIn, row, exprVm); err != nil {
 							errors.Append(requestID, err)
+							_log.Debug("Error copy: entityName, exprName, action, output", row.Entity.Name, ex.Name, action, output)
 						} else {
 							_log.Debug("Success copy: entityName, exprName, action, output", row.Entity.Name, ex.Name, action, output)
 						}

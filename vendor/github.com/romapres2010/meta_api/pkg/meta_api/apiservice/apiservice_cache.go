@@ -11,7 +11,7 @@ import (
 	_recover "github.com/romapres2010/meta_api/pkg/common/recover"
 
 	apicacheservice "github.com/romapres2010/meta_api/pkg/meta_api/cacheristretto"
-	cache "github.com/romapres2010/meta_api/pkg/meta_api/cacheservice"
+	_cache "github.com/romapres2010/meta_api/pkg/meta_api/cacheservice"
 )
 
 var defLocalCacheCfg = &apicacheservice.Config{
@@ -22,7 +22,7 @@ var defLocalCacheCfg = &apicacheservice.Config{
 	IgnoreInternalCost: false,
 }
 
-func (s *Service) newLocalCache(ctx context.Context, cfg *apicacheservice.Config) (cache cache.CacheService, err error) {
+func (s *Service) newLocalCache(ctx context.Context, cfg *apicacheservice.Config) (cache _cache.CacheService, err error) {
 	if s != nil {
 		if cfg == nil {
 			cfg = defLocalCacheCfg
@@ -80,7 +80,7 @@ func (s *Service) newLocalCache(ctx context.Context, cfg *apicacheservice.Config
 //	return nil // не используется globalCache
 //}
 
-func (s *Service) cacheSetRowUnsafe(cache cache.CacheService, key *_meta.Key, row *_meta.Object) (err error) {
+func (s *Service) cacheSetRowUnsafe(cache _cache.CacheService, key *_meta.Key, row *_meta.Object) (err error) {
 	if s != nil {
 
 		if cache == nil {
@@ -91,11 +91,9 @@ func (s *Service) cacheSetRowUnsafe(cache cache.CacheService, key *_meta.Key, ro
 
 			if key == nil {
 				// Если key пустой, кешируем на все ключи, которые есть в сущности
-				for _, k := range row.Entity.Keys() {
-					if k.Type == _meta.KEY_TYPE_PK || k.Type == _meta.KEY_TYPE_UK {
-						if err = s.cacheSetRowUnsafeByKey(cache, k, row); err != nil {
-							return err
-						}
+				for _, k := range row.Entity.KeysUK() {
+					if err = s.cacheSetRowUnsafeByKey(cache, k, row); err != nil {
+						return err
 					}
 				}
 			} else {
@@ -140,7 +138,7 @@ func (s *Service) cacheSetRowUnsafe(cache cache.CacheService, key *_meta.Key, ro
 //	return nil // не используется globalCache
 //}
 
-func (s *Service) cacheSetRowUnsafeByKey(cache cache.CacheService, key *_meta.Key, row *_meta.Object) (err error) {
+func (s *Service) cacheSetRowUnsafeByKey(cache _cache.CacheService, key *_meta.Key, row *_meta.Object) (err error) {
 	if s != nil {
 
 		if cache == nil {
@@ -176,7 +174,7 @@ func (s *Service) cacheSetRowUnsafeByKey(cache cache.CacheService, key *_meta.Ke
 	return nil // не используется globalCache
 }
 
-func (s *Service) cacheGetRowUnsafeByKey(cache cache.CacheService, entity *_meta.Entity, key *_meta.Key, keepRLock bool, keyArgs ...interface{}) (cacheHit bool, rowOut *_meta.Object, err error) {
+func (s *Service) cacheGetRowUnsafeByKey(cache _cache.CacheService, entity *_meta.Entity, key *_meta.Key, keepRLock bool, keyArgs ...interface{}) (cacheHit bool, rowOut *_meta.Object, err error) {
 	if s != nil {
 
 		if cache == nil {

@@ -12,15 +12,15 @@ import (
 	_recover "github.com/romapres2010/meta_api/pkg/common/recover"
 )
 
-type processAssociationFn func(ctx context.Context, requestID uint64, rowIn *_meta.Object, rowOut *_meta.Object, associationField *_meta.Field, action Action, exprAction _meta.ExprAction, cascadeUp int, cascadeDown int, validate bool, calculate bool) (associationRow *_meta.Object, keyArgs []interface{}, err error, errors _err.Errors)
+type processAssociationFn func(ctx context.Context, requestID uint64, rowIn *_meta.Object, rowOut *_meta.Object, associationField *_meta.Field, action Action, exprAction _meta.ExprAction, cascadeUp int, cascadeDown int, opt *processOptions) (associationRow *_meta.Object, keyArgs []interface{}, err error, errors _err.Errors)
 
-func (s *Service) processAssociations(ctx context.Context, requestID uint64, rowIn *_meta.Object, rowOut *_meta.Object, action Action, exprAction _meta.ExprAction, cascadeUp int, cascadeDown int, validate bool, calculate bool, processFn processAssociationFn) (err error, errors _err.Errors) {
+func (s *Service) processAssociations(ctx context.Context, requestID uint64, rowIn *_meta.Object, rowOut *_meta.Object, action Action, exprAction _meta.ExprAction, cascadeUp int, cascadeDown int, opt *processOptions, processFn processAssociationFn) (err error, errors _err.Errors) {
 	if s != nil && rowOut != nil && processFn != nil {
 
 		innerErrors := _err.Errors{} // Ошибки вложенных методов
 		entity := rowOut.Entity
 
-		_log.Debug("START: requestID, entityName", requestID, entity.Name)
+		//_log.Debug("START: requestID, entityName", requestID, entity.Name)
 
 		// Консолидируем все ошибки
 		defer func() {
@@ -79,7 +79,10 @@ func (s *Service) processAssociations(ctx context.Context, requestID uint64, row
 			}
 
 			// Обработаем Association
-			associationRow, keyArgs, err, localErrors := processFn(ctx, requestID, rowIn, rowOut, associationField, action, exprAction, cascadeUp, cascadeDown, validate, calculate)
+			localOpt := opt.Clone()
+			localOpt.isComposition = false
+			localOpt.isAssociation = true
+			associationRow, keyArgs, err, localErrors := processFn(ctx, requestID, rowIn, rowOut, associationField, action, exprAction, cascadeUp, cascadeDown, localOpt)
 			innerErrors.AppendErrors(localErrors)
 			if err != nil {
 				errors.Append(requestID, err)
@@ -112,7 +115,7 @@ func (s *Service) processAssociations(ctx context.Context, requestID uint64, row
 					_log.Debug("Reference Association - Entity NOT FOUND: requestID, entityName, reference.Name, toEntity.Name, toKey.Name, toKey.fields, keyArgs", requestID, entity.Name, reference.Name, toEntity.Name, toKey.Name, toKey.FieldsString(), keyArgs)
 
 					associationFieldRV.Set(reflect.Zero(_meta.FIELD_TYPE_ASSOCIATION_RT)) // Очищаем associationFieldRV
-					delete(rowOut.CompositionMap, reference)                              // Удаляем из структуры объектов
+					delete(rowOut.AssociationMap, reference)                              // Удаляем из структуры объектов
 
 					// Ссылка обязательная - ошибка
 					if reference.Required {
@@ -131,7 +134,7 @@ func (s *Service) processAssociations(ctx context.Context, requestID uint64, row
 			_log.Debug("ERROR - Reference Association: requestID, entityName, duration", requestID, entity.Name, time.Now().Sub(tic))
 			return errors.Error(requestID, fmt.Sprintf("Entity '%s', Keys [%s], Associations - error", entity.Name, rowOut.KeysValueString())), errors
 		} else {
-			_log.Debug("SUCCESS - Reference Association: requestID, entityName, duration", requestID, entity.Name, time.Now().Sub(tic))
+			//_log.Debug("SUCCESS - Reference Association: requestID, entityName, duration", requestID, entity.Name, time.Now().Sub(tic))
 			return nil, errors
 		}
 	}
@@ -151,7 +154,7 @@ func (s *Service) clearAssociations(ctx context.Context, requestID uint64, row *
 			}
 		}()
 
-		_log.Debug("START: requestID, entityName", requestID, entity.Name)
+		//_log.Debug("START: requestID, entityName", requestID, entity.Name)
 
 		tic := time.Now()
 		errors := _err.Errors{}
@@ -194,7 +197,7 @@ func (s *Service) clearAssociations(ctx context.Context, requestID uint64, row *
 			_log.Debug("ERROR - Reference: requestID, entityName, duration", requestID, entity.Name, time.Now().Sub(tic))
 			return errors.Error(requestID, fmt.Sprintf("Entity '%s', Keys [%s], Associations clear - error", entity.Name, row.KeysValueString()))
 		} else {
-			_log.Debug("SUCCESS - Reference: requestID, entityName, duration", requestID, entity.Name, time.Now().Sub(tic))
+			//_log.Debug("SUCCESS - Reference: requestID, entityName, duration", requestID, entity.Name, time.Now().Sub(tic))
 			return nil
 		}
 	}

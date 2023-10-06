@@ -36,20 +36,53 @@ type Options struct {
 	Global             *GlobalOptions       // глобальные опции расчета
 }
 
+func (opt *Options) Clone() (out *Options) {
+	if opt != nil {
+		out = &Options{}
+		*out = *opt
+
+		out.DbFieldsWhere = make(map[string]string, len(opt.DbFieldsWhere))
+		for key, val := range opt.DbFieldsWhere {
+			out.DbFieldsWhere[key] = val
+		}
+
+		out.FilterPostRefExprs = make(map[*Reference]*Expr, len(opt.FilterPostRefExprs))
+		for key, val := range opt.FilterPostRefExprs {
+			out.FilterPostRefExprs[key] = val
+		}
+
+		return out
+	}
+	return nil
+}
+
 // GlobalOptions глобальные опции расчета
 type GlobalOptions struct {
-	NameFormat       string // [name_format] формат именования полей в параметрах запроса 'json', 'yaml', 'xml', 'xsl', 'name'
-	OutFormat        string // [out_format] формат вывода результата 'json', 'yaml', 'xml', 'xsl'
-	TxExternal       uint64 // [tx] идентификатор внешней транзакции
-	SkipCache        bool   // [skip_cache] принудительно считать из внешнего источника
-	SkipCalculation  bool   // [skip_calculation] принудительно отключить все вычисления
-	UseCache         bool   // [use_cache] принудительно использовать кеширование - имеет приоритет над skip_cache
-	EmbedError       bool   // [embed_error] встраивать отдельные типы некритичных ошибок в текст ответа
-	IgnoreExtraField bool   // [ignore_extra_field] игнорировать лишние поля в параметрах запроса
-	Validate         bool   // [validate] проверка данных
-	OutTrace         bool   // [out_trace] вывод трассировки
-	MultiRow         bool   // [multi_row] признак многострочной обработки
-	StaticFiltering  bool   // [filter] признак статической фильтрации
-	Persist          bool   // [persist] признак, что отправлять данные в хранилище
-	KeepLock         bool   // признак блокировать данные в cache
+	NameFormat             string // [name_format] формат именования полей в параметрах запроса 'json', 'yaml', 'xml', 'xsl', 'name'
+	InFormat               string // [in_format] формат вывода результата 'json', 'yaml', 'xml', 'xsl'
+	OutFormat              string // [out_format] формат вывода результата 'json', 'yaml', 'xml', 'xsl'
+	TxExternal             uint64 // [tx] идентификатор внешней транзакции
+	SkipCache              bool   // [skip_cache] принудительно считать из внешнего источника
+	SkipCalculation        bool   // [skip_calculation] принудительно отключить все вычисления
+	UseCache               bool   // [use_cache] принудительно использовать кеширование - имеет приоритет над skip_cache
+	EmbedError             bool   // [embed_error] встраивать отдельные типы некритичных ошибок в текст ответа
+	IgnoreExtraField       bool   // [ignore_extra_field] игнорировать лишние поля в параметрах запроса
+	Validate               bool   // [validate] проверка данных
+	OutTrace               bool   // [out_trace] вывод трассировки
+	MultiRow               bool   // [multi_row] признак многострочной обработки
+	StaticFiltering        bool   // [filter] признак статической фильтрации
+	Persist                bool   // [persist] признак, что отправлять данные в хранилище
+	KeepLock               bool   // признак блокировать данные в cache
+	PersistRestrictFields  bool   // [persist_restrict_fields] ограничить поля сохранения, теми, что пришли на вход в JSON
+	PersistUseUK           bool   // [persist_use_uk] для сохранения использовать UK, если не заполнен PK
+	PersistUpdateAllFields bool   // [persist_update_all_fields] обновлять все поля объекта
+}
+
+func (opt *GlobalOptions) Clone() (out *GlobalOptions) {
+	if opt != nil {
+		out = &GlobalOptions{}
+		*out = *opt
+		return out
+	}
+	return nil
 }

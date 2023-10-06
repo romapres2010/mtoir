@@ -13,13 +13,13 @@ import (
 )
 
 // processPersist - создание одной строки и всех подчиненных объектов этой строки
-func (s *Service) processPersist(ctx context.Context, requestID uint64, action Action, exprAction _meta.ExprAction, rowIn *_meta.Object, rowOut *_meta.Object, cascadeUp int, cascadeDown int) (err error, errors _err.Errors) {
+func (s *Service) processPersist(ctx context.Context, requestID uint64, action Action, exprAction _meta.ExprAction, rowIn *_meta.Object, rowOut *_meta.Object, cascadeUp int, cascadeDown int, opt *processOptions) (err error, errors _err.Errors) {
 	if s != nil && rowIn != nil && rowOut != nil && rowIn.Options != nil {
 
-		tic := time.Now()
+		//tic := time.Now()
 		innerErrors := _err.Errors{} // Ошибки вложенных методов
 
-		_log.Debug("START: requestID, EntityName", requestID, rowOut.Entity.Name)
+		//_log.Debug("START: requestID, EntityName", requestID, rowOut.Entity.Name)
 
 		// Консолидируем все ошибки
 		defer func() {
@@ -37,7 +37,7 @@ func (s *Service) processPersist(ctx context.Context, requestID uint64, action A
 		//if rowOut.Entity.HasAssociations() && cascadeUp != 0 {
 		//    //  уровень уменьшаем на 1, 0 - означает только себя
 		//    localErrors := _err.Errors{} // локальные ошибки вложенного метода
-		//    if err, localErrors = s.processAssociations(ctx, requestID, rowIn, rowOut, _meta.EXPR_ACTION_NULL, cascadeUp-1, 0, false, false, s.createAssociation); err != nil {
+		//    if err, localErrors = s.processAssociations(ctx, requestID, rowIn, rowOut, _meta.EXPR_ACTION_NONE, cascadeUp-1, 0, false, false, s.createAssociation); err != nil {
 		//        errors.Append(requestID, err)
 		//    }
 		//    innerErrors.AppendErrors(localErrors)
@@ -47,29 +47,29 @@ func (s *Service) processPersist(ctx context.Context, requestID uint64, action A
 		if rowOut.Entity.HasCompositions() && cascadeDown != 0 {
 			//  уровень уменьшаем на 1, 0 - означает только себя
 			localErrors := _err.Errors{} // локальные ошибки вложенного метода
-			if err, localErrors = s.processCompositions(ctx, requestID, rowIn, rowOut, action, exprAction, cascadeUp, cascadeDown-1, false, false, s.pesistComposition); err != nil {
+			if err, localErrors = s.processCompositions(ctx, requestID, rowIn, rowOut, action, exprAction, cascadeUp, cascadeDown-1, opt, s.persistComposition); err != nil {
 				errors.Append(requestID, err)
 			}
 			innerErrors.AppendErrors(localErrors)
 		}
 
-		_log.Debug("END: requestID, rowOut.EntityName, duration, errors", requestID, rowOut.Entity.Name, time.Now().Sub(tic), len(errors))
+		//_log.Debug("END: requestID, rowOut.EntityName, duration, errors", requestID, rowOut.Entity.Name, time.Now().Sub(tic), len(errors))
 		err = s.processErrors(requestID, rowOut, errors, rowOut.Options.Global.EmbedError, "Create - process Composition")
 		return err, errors
 	}
 	return _err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, requestID, "if s != nil && rowIn != nil && rowOut != nil && rowIn.Options != nil {}", []interface{}{s, rowIn, rowOut}).PrintfError(), errors
 }
 
-func (s *Service) pesistComposition(ctx context.Context, requestID uint64, rowIn *_meta.Object, rowOut *_meta.Object, compositionField *_meta.Field, action Action, exprAction _meta.ExprAction, cascadeUp int, cascadeDown int, validate bool, calculate bool) (compositionOutRows *_meta.Object, keyArgs []interface{}, err error, errors _err.Errors) {
+func (s *Service) persistComposition(ctx context.Context, requestID uint64, rowIn *_meta.Object, rowOut *_meta.Object, compositionField *_meta.Field, action Action, exprAction _meta.ExprAction, cascadeUp int, cascadeDown int, opt *processOptions) (compositionOutRows *_meta.Object, keyArgs []interface{}, err error, errors _err.Errors) {
 	if s != nil && rowIn != nil && compositionField != nil && rowIn.Options != nil {
 
 		tic := time.Now()
 		innerErrors := _err.Errors{} // Ошибки вложенных методов
 		reference := compositionField.Reference()
 		toEntity := reference.ToEntity()
-		toKey := reference.ToKey()
+		//toKey := reference.ToKey()
 
-		_log.Debug("START: requestID, entityName, reference.Name, toEntity.Name, toEntity.Name, toKey.Name, toKey.fields", requestID, rowIn.Entity.Name, reference.Name, toEntity.Name, toKey.Name, toKey.FieldsString()) // Консолидируем все ошибки
+		//_log.Debug("START: requestID, entityName, reference.Name, toEntity.Name, toEntity.Name, toKey.Name, toKey.fields", requestID, rowIn.Entity.Name, reference.Name, toEntity.Name, toKey.Name, toKey.FieldsString()) // Консолидируем все ошибки
 
 		defer func() {
 			if innerErrors.HasError() {
@@ -83,7 +83,7 @@ func (s *Service) pesistComposition(ctx context.Context, requestID uint64, rowIn
 			if r != nil {
 				compositionOutRows = nil
 				keyArgs = nil
-				err = _recover.GetRecoverError(r, requestID, "pesistComposition", rowIn.Entity.Name)
+				err = _recover.GetRecoverError(r, requestID, "persistComposition", rowIn.Entity.Name)
 			}
 		}()
 
@@ -93,7 +93,7 @@ func (s *Service) pesistComposition(ctx context.Context, requestID uint64, rowIn
 			// Обрабатываем только непустые slice
 			if compositionInRowsLen := len(compositionInRows.Objects); compositionInRowsLen > 0 {
 
-				optionsRef, err := s.parseQueryOptions(ctx, requestID, rowIn.Options.Key+".composition."+toEntity.Name, toEntity, compositionField, rowIn.Options.QueryOptionsDown, rowIn.Options.Global)
+				optionsRef, err := s.ParseQueryOptions(ctx, requestID, rowIn.Options.Key+".composition."+toEntity.Name, toEntity, compositionField, rowIn.Options.QueryOptionsDown, rowIn.Options.Global)
 				if err != nil {
 					return nil, nil, err, errors
 				}
@@ -103,13 +103,14 @@ func (s *Service) pesistComposition(ctx context.Context, requestID uint64, rowIn
 					if !compositionInRows.IsSlice {
 						return nil, nil, _err.WithCauseTyped(_err.ERR_ERROR, requestID, err, fmt.Sprintf("Entity '%s', Keys [%s], Composition '%s' - must be an array for cardinality='%s'", rowOut.Entity.Name, rowOut.KeysValueString(), compositionField.Name, reference.Cardinality)), errors
 					} else {
-						// Создадим выходной slice composition под список полей
-						if compositionOutRows, err = s.newSliceRestrict(requestID, toEntity, optionsRef, 0, compositionInRowsLen); err != nil {
+						// Создадим выходной slice composition
+						//if compositionOutRows, err = s.newSliceRestrict(requestID, toEntity, optionsRef, 0, compositionInRowsLen); err != nil {
+						if compositionOutRows, err = s.newSliceAnyRestrict(requestID, toEntity, optionsRef, 0, compositionInRowsLen); err != nil {
 							return nil, nil, err, errors
 						}
 					}
 				} else {
-					// На вход НЕ получаем только указатели на slice
+					// На вход НЕ получаем slice
 					if compositionInRows.IsSlice {
 						return nil, nil, _err.WithCauseTyped(_err.ERR_ERROR, requestID, err, fmt.Sprintf("Entity '%s', Keys [%s], Composition '%s' - must NOT be an array for cardinality='%s'", rowOut.Entity.Name, rowOut.KeysValueString(), compositionField.Name, reference.Cardinality)), errors
 					}
@@ -156,7 +157,7 @@ func (s *Service) pesistComposition(ctx context.Context, requestID uint64, rowIn
 					_log.Debug("ERROR: requestID, entityName, duration", requestID, rowIn.Entity.Name, time.Now().Sub(tic))
 					return nil, nil, errors.Error(requestID, fmt.Sprintf("Entity '%s', Keys [%s], Composition '%s' - error 'Create'", rowIn.Entity.Name, rowIn.KeysValueString(), compositionField.Name)), errors
 				} else {
-					_log.Debug("SUCCESS: requestID, entityName, duration", requestID, rowIn.Entity.Name, time.Now().Sub(tic))
+					//_log.Debug("SUCCESS: requestID, entityName, duration", requestID, rowIn.Entity.Name, time.Now().Sub(tic))
 					return compositionOutRows, keyArgs, nil, errors
 				}
 			}

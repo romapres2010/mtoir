@@ -12,16 +12,16 @@ import (
 	_recover "github.com/romapres2010/meta_api/pkg/common/recover"
 )
 
-type processCompositionFn func(ctx context.Context, requestID uint64, rowIn *_meta.Object, rowOut *_meta.Object, compositionField *_meta.Field, action Action, exprAction _meta.ExprAction, cascadeUp int, cascadeDown int, validate bool, calculate bool) (compositionRows *_meta.Object, keyArgs []interface{}, err error, errors _err.Errors)
+type processCompositionFn func(ctx context.Context, requestID uint64, rowIn *_meta.Object, rowOut *_meta.Object, compositionField *_meta.Field, action Action, exprAction _meta.ExprAction, cascadeUp int, cascadeDown int, opt *processOptions) (compositionRows *_meta.Object, keyArgs []interface{}, err error, errors _err.Errors)
 
 // processCompositions - обработать все Composition обработчиком
-func (s *Service) processCompositions(ctx context.Context, requestID uint64, rowIn *_meta.Object, rowOut *_meta.Object, action Action, exprAction _meta.ExprAction, cascadeUp int, cascadeDown int, validate bool, calculate bool, processFn processCompositionFn) (err error, errors _err.Errors) {
+func (s *Service) processCompositions(ctx context.Context, requestID uint64, rowIn *_meta.Object, rowOut *_meta.Object, action Action, exprAction _meta.ExprAction, cascadeUp int, cascadeDown int, opt *processOptions, processFn processCompositionFn) (err error, errors _err.Errors) {
 	if s != nil && rowOut != nil && processFn != nil {
 
 		innerErrors := _err.Errors{} // Ошибки вложенных методов
 		entity := rowOut.Entity
 
-		_log.Debug("START: requestID, entityName", requestID, entity.Name)
+		//_log.Debug("START: requestID, entityName", requestID, entity.Name)
 
 		// Консолидируем все ошибки
 		defer func() {
@@ -80,7 +80,10 @@ func (s *Service) processCompositions(ctx context.Context, requestID uint64, row
 			}
 
 			// Обработаем Composition
-			compositionRows, keyArgs, err, localErrors := processFn(ctx, requestID, rowIn, rowOut, compositionField, action, exprAction, cascadeUp, cascadeDown, validate, calculate)
+			localOpt := opt.Clone()
+			localOpt.isComposition = true
+			localOpt.isAssociation = false
+			compositionRows, keyArgs, err, localErrors := processFn(ctx, requestID, rowIn, rowOut, compositionField, action, exprAction, cascadeUp, cascadeDown, localOpt)
 			innerErrors.AppendErrors(localErrors)
 			if err != nil {
 				errors.Append(requestID, err)
@@ -109,59 +112,61 @@ func (s *Service) processCompositions(ctx context.Context, requestID uint64, row
 							continue
 						}
 
-						{ // Добавить себя в реверсивную ссылку Composition-Association
-							if toReference := reference.ToReference(); toReference != nil {
+						{ // Добавить себя в реверсивную ссылку Composition-Association, кроме встраиваемых сущностей
+							if opt.addCrossRef && !reference.Embed {
 
-								// Реверсивная reference должна быть типа Association
-								if toReference.Type == _meta.REFERENCE_TYPE_ASSOCIATION {
+								if toReference := reference.ToReference(); toReference != nil {
 
-									// toReference.field - поле зеркального данному Composition-Association
-									if associationField := toReference.Field(); associationField != nil {
+									// Реверсивная reference должна быть типа Association
+									if toReference.Type == _meta.REFERENCE_TYPE_ASSOCIATION {
 
-										var rowAssociation *_meta.Object
+										// toReference.field - поле зеркального данному Composition-Association
+										if associationField := toReference.Field(); associationField != nil {
 
-										// Создать копию объекта без тегов, чтобы исключить рекурсии при выводе в JSON / XML
-										// Сформировать выходную структуру - все поля, но без tag
-										if reference.Embed {
-											// Если сущность встраивается, родителя можно не выводить полностью
-											rowAssociation, err = s.newRowAllEmptyTag(requestID, entity, rowOut.Options)
-										} else {
-											// Если НЕ встраивается, то удаляем только ref
-											rowAssociation, err = s.newRowAllEmptyRef(requestID, entity, rowOut.Options)
-										}
+											var rowAssociation *_meta.Object
 
-										if err != nil {
-											errors.Append(requestID, err)
-										} else {
-											_log.Debug("Deep CopyField Struct - rowAssociation: entityName", entity.Name)
-											if err = entity.CopyObjectStruct(rowOut, rowAssociation, rowOut.Fields); err != nil {
+											// Создать копию объекта без тегов, чтобы исключить рекурсии при выводе в JSON / XML
+											// Сформировать выходную структуру - все поля, но без tag
+											if reference.Embed {
+												// Если сущность встраивается, родителя можно не выводить полностью
+												rowAssociation, err = s.newRowAllEmptyTag(requestID, entity, rowOut.Options)
+											} else {
+												// Если НЕ встраивается, то удаляем только ref
+												rowAssociation, err = s.newRowAllEmptyRef(requestID, entity, rowOut.Options)
+											}
+
+											if err != nil {
 												errors.Append(requestID, err)
 											} else {
-												// По всем строкам Composition проставим ссылку на Association
-												for _, rowComposition := range compositionRows.Objects {
+												_log.Debug("Deep CopyField Struct - rowAssociation: entityName", entity.Name)
+												if err = entity.CopyObjectStruct(rowOut, rowAssociation, rowOut.Fields); err != nil {
+													errors.Append(requestID, err)
+												} else {
+													// По всем строкам Composition проставим ссылку на Association
+													for _, rowComposition := range compositionRows.Objects {
 
-													// найдем значение поля, в которое поместить структуру
-													associationFieldRV, err := rowComposition.FieldRV(associationField)
-													if err != nil {
-														errors.Append(requestID, _err.WithCauseTyped(_err.ERR_ERROR, requestID, err, fmt.Sprintf("Entity '%s', Composition ='%s' - FromEntityName '%s', ToReference '%s' ERROR get Association field='%s' value by in index", entity.Name, reference.Name, toEntity.Name, toReference.Name, associationField.Name)))
-														continue
-													}
+														// найдем значение поля, в которое поместить структуру
+														associationFieldRV, err := rowComposition.FieldRV(associationField)
+														if err != nil {
+															// Целевого поля может не быть - это нормальная ситуация
+															//errors.Append(requestID, _err.WithCauseTyped(_err.ERR_ERROR, requestID, err, fmt.Sprintf("Entity '%s', Composition ='%s' - FromEntityName '%s', ToReference '%s' ERROR get Association field='%s' value by in index", entity.Name, reference.Name, toEntity.Name, toReference.Name, associationField.Name)))
+														} else {
+															associationFieldRV.Set(rowAssociation.RV) // Встроим ссылку на структуру в структуру
 
-													associationFieldRV.Set(rowAssociation.RV) // Встроим ссылку на структуру в структуру
-
-													// Сохранить копию текущей строки как Association на поле
-													if err = rowComposition.SetAssociationUnsafe(associationField, rowAssociation); err != nil {
-														errors.Append(requestID, err)
-														continue
+															// Сохранить копию текущей строки как Association на поле
+															if err = rowComposition.SetAssociationUnsafe(associationField, rowAssociation); err != nil {
+																errors.Append(requestID, err)
+															}
+														}
 													}
 												}
 											}
+										} else {
+											errors.Append(requestID, _err.WithCauseTyped(_err.ERR_ERROR, requestID, err, fmt.Sprintf("Entity '%s', Composition ='%s' - FromEntityName '%s', ToReference '%s' empty field pointer", entity.Name, reference.Name, toEntity.Name, toReference.Name)))
 										}
 									} else {
-										errors.Append(requestID, _err.WithCauseTyped(_err.ERR_ERROR, requestID, err, fmt.Sprintf("Entity '%s', Composition ='%s' - FromEntityName '%s', ToReference '%s' empty field pointer", entity.Name, reference.Name, toEntity.Name, toReference.Name)))
+										errors.Append(requestID, _err.WithCauseTyped(_err.ERR_ERROR, requestID, err, fmt.Sprintf("Entity '%s', Composition ='%s' - FromEntityName '%s', ToReference '%s' incorrect reference type '%s'", entity.Name, reference.Name, toEntity.Name, toReference.Name, toReference.Type)))
 									}
-								} else {
-									errors.Append(requestID, _err.WithCauseTyped(_err.ERR_ERROR, requestID, err, fmt.Sprintf("Entity '%s', Composition ='%s' - FromEntityName '%s', ToReference '%s' incorrect reference type '%s'", entity.Name, reference.Name, toEntity.Name, toReference.Name, toReference.Type)))
 								}
 							}
 						} // Добавить себя в реверсивную ссылку Composition-Association
@@ -187,7 +192,7 @@ func (s *Service) processCompositions(ctx context.Context, requestID uint64, row
 			_log.Debug("ERROR - Reference: requestID, entityName, duration", requestID, entity.Name, time.Now().Sub(tic))
 			return errors.Error(requestID, fmt.Sprintf("Entity '%s', Keys [%s], Composition - error", entity.Name, rowOut.KeysValueString())), errors
 		} else {
-			_log.Debug("SUCCESS - Reference: requestID, entityName, duration", requestID, entity.Name, time.Now().Sub(tic))
+			//_log.Debug("SUCCESS - Reference: requestID, entityName, duration", requestID, entity.Name, time.Now().Sub(tic))
 			return nil, errors
 		}
 	}
@@ -207,7 +212,7 @@ func (s *Service) clearCompositions(ctx context.Context, requestID uint64, row *
 			}
 		}()
 
-		_log.Debug("START: requestID, entityName", requestID, entity.Name)
+		//_log.Debug("START: requestID, entityName", requestID, entity.Name)
 
 		tic := time.Now()
 		errors := _err.Errors{}
@@ -250,7 +255,7 @@ func (s *Service) clearCompositions(ctx context.Context, requestID uint64, row *
 			_log.Debug("ERROR - Reference: requestID, entityName, duration", requestID, entity.Name, time.Now().Sub(tic))
 			return errors.Error(requestID, fmt.Sprintf("Entity '%s', Keys [%s], Composition clear - error", entity.Name, row.KeysValueString()))
 		} else {
-			_log.Debug("SUCCESS - Reference: requestID, entityName, duration", requestID, entity.Name, time.Now().Sub(tic))
+			//_log.Debug("SUCCESS - Reference: requestID, entityName, duration", requestID, entity.Name, time.Now().Sub(tic))
 			return nil
 		}
 	}

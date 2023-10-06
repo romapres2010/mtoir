@@ -26,7 +26,7 @@ func (s *Service) UpdateEntityMeta(ctx context.Context, inBuf []byte, entityName
 	}
 
 	// Тестовый парсинг - определить ошибки во входных данных
-	err = s.unmarshal(requestID, inBuf, entityIn, "UpdateEntityMeta", entityIn.Name, format)
+	err = s.UnmarshalEntity(requestID, nil, inBuf, entityIn, "UpdateEntityMeta", entityIn.Name, format, false)
 	if err != nil {
 		return false, nil, err
 	}
@@ -70,7 +70,7 @@ func (s *Service) UpdateEntityMeta(ctx context.Context, inBuf []byte, entityName
 	}
 
 	// сформируем ответ
-	outBuf, err = s.marshal(requestID, entityOut, "UpdateEntityMeta", entityOut.Name, format)
+	outBuf, err = s.MarshalEntity(requestID, entityOut, "UpdateEntityMeta", entityOut.Name, format)
 	if err != nil {
 		return false, nil, err
 	}

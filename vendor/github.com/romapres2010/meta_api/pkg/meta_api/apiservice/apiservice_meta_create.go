@@ -26,7 +26,7 @@ func (s *Service) CreateEntityMeta(ctx context.Context, inBuf []byte, format str
 	}
 
 	// Тестовый парсинг - определить ошибки во входных данных
-	err = s.unmarshal(requestID, inBuf, entityIn, "CreateEntityMeta", entityIn.Name, format)
+	err = s.UnmarshalEntity(requestID, nil, inBuf, entityIn, "CreateEntityMeta", entityIn.Name, format, false)
 	if err != nil {
 		return false, nil, err
 	}
@@ -66,7 +66,7 @@ func (s *Service) CreateEntityMeta(ctx context.Context, inBuf []byte, format str
 	}
 
 	// сформируем ответ
-	outBuf, err = s.marshal(requestID, entityOut, "CreateEntityMeta", entityOut.Name, format)
+	outBuf, err = s.MarshalEntity(requestID, entityOut, "CreateEntityMeta", entityOut.Name, format)
 	if err != nil {
 		return false, nil, err
 	}

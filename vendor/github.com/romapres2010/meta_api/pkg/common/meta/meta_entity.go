@@ -29,6 +29,7 @@ type Entity struct {
 
 	KeysDef Keys    `yaml:"keys,omitempty" json:"keys,omitempty" xml:"keys,omitempty"` // Ключи сущности из определения
 	keys    Keys    // Ключи сущности, созданные и доступные
+	keysUk  Keys    // Ключи сущности, созданные и доступные
 	pkKey   *Key    // Первичный ключ сущности
 	keysMap KeysMap // Ключи сущности - map для быстрого поиска
 
@@ -170,6 +171,13 @@ func (entity *Entity) References() References {
 func (entity *Entity) Keys() Keys {
 	if entity != nil {
 		return entity.keys
+	}
+	return nil
+}
+
+func (entity *Entity) KeysUK() Keys {
+	if entity != nil {
+		return entity.keysUk
 	}
 	return nil
 }

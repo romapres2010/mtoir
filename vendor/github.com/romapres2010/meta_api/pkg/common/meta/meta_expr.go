@@ -23,19 +23,22 @@ const (
 type ExprAction string
 
 const (
-	EXPR_ACTION_NULL         ExprAction = "NULL"       // Фиктивная константа - ни чего не делать
-	EXPR_ACTION_ALL          ExprAction = "ALL"        // Выполнять все вычисления
-	EXPR_ACTION_GET          ExprAction = "GET"        // Срабатывает POST_GET и INSIDE_GET
-	EXPR_ACTION_POST_FETCH   ExprAction = "POST_FETCH" // Срабатывает сразу после извлечения одной строки из источника хранения
-	EXPR_ACTION_INSIDE_GET   ExprAction = "INSIDE_GET" // Срабатывает в самом конце извлечение полного дерева сущностей
-	EXPR_ACTION_POST_GET     ExprAction = "POST_GET"   // Срабатывает после извлечения данных из кэша или внешнего источника по данной сущности
-	EXPR_ACTION_PUT          ExprAction = "PUT"
-	EXPR_ACTION_PRE_PUT      ExprAction = "PRE_PUT"      // Срабатывает перед началом вставки на данных исходной записи
-	EXPR_ACTION_INSIDE_PUT   ExprAction = "INSIDE_PUT"   // Срабатывает перед началом вставки на данных исходной записи
-	EXPR_ACTION_POST_PUT     ExprAction = "POST_PUT"     // Срабатывает после вставки на данных вставленной записи
-	EXPR_ACTION_MARSHAL      ExprAction = "MARSHAL"      // Срабатывает после разбора одного объекта
-	EXPR_ACTION_PRE_MARSHAL  ExprAction = "PRE_MARSHAL"  // Срабатывает после начала разбора одного объекта
-	EXPR_ACTION_POST_MARSHAL ExprAction = "POST_MARSHAL" // Срабатывает после разбора всех объектов
+	EXPR_ACTION_NONE           ExprAction = "NULL"       // Фиктивная константа - ни чего не делать
+	EXPR_ACTION_ALL            ExprAction = "ALL"        // Выполнять все вычисления
+	EXPR_ACTION_GET            ExprAction = "GET"        // Срабатывает POST_GET и INSIDE_GET
+	EXPR_ACTION_POST_FETCH     ExprAction = "POST_FETCH" // Срабатывает сразу после извлечения одной строки из источника хранения
+	EXPR_ACTION_INSIDE_GET     ExprAction = "INSIDE_GET" // Срабатывает в самом конце извлечение полного дерева сущностей
+	EXPR_ACTION_POST_GET       ExprAction = "POST_GET"   // Срабатывает после извлечения данных из кэша или внешнего источника по данной сущности
+	EXPR_ACTION_PUT            ExprAction = "PUT"
+	EXPR_ACTION_PRE_CREATE     ExprAction = "PRE_CREATE"     // Срабатывает перед началом вставки на данных исходной записи
+	EXPR_ACTION_PRE_UPDATE     ExprAction = "PRE_UPDATE"     // Срабатывает перед началом обновления на данных исходной записи
+	EXPR_ACTION_PRE_PUT        ExprAction = "PRE_PUT"        // Срабатывает перед началом вставки на данных исходной записи
+	EXPR_ACTION_INSIDE_PUT     ExprAction = "INSIDE_PUT"     // Срабатывает перед началом вставки на данных исходной записи
+	EXPR_ACTION_POST_PUT       ExprAction = "POST_PUT"       // Срабатывает после вставки на данных вставленной записи
+	EXPR_ACTION_MARSHAL        ExprAction = "MARSHAL"        // Срабатывает после разбора одного объекта
+	EXPR_ACTION_PRE_MARSHAL    ExprAction = "PRE_MARSHAL"    // Срабатывает после начала разбора одного объекта
+	EXPR_ACTION_INSIDE_MARSHAL ExprAction = "INSIDE_MARSHAL" // Срабатывает после разбора всех объектов
+	EXPR_ACTION_POST_MARSHAL   ExprAction = "POST_MARSHAL"   // Срабатывает после разбора всех объектов
 )
 
 type Exprs []*Expr
@@ -179,6 +182,8 @@ func (ex *Expr) CheckAction(action ExprAction) bool {
 		if ex.Status != STATUS_ENABLED {
 			return false
 		}
+
+		return true
 
 		// Только выражения, которые применимы к типу запроса
 		switch action {

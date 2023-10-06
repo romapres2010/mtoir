@@ -135,10 +135,13 @@ func (ex *Expr) init(entity *Entity, field *Field) (err error) {
 			ex.Action != EXPR_ACTION_POST_GET &&
 			ex.Action != EXPR_ACTION_INSIDE_GET &&
 			ex.Action != EXPR_ACTION_PUT &&
+			ex.Action != EXPR_ACTION_PRE_CREATE &&
+			ex.Action != EXPR_ACTION_PRE_UPDATE &&
 			ex.Action != EXPR_ACTION_PRE_PUT &&
 			ex.Action != EXPR_ACTION_POST_PUT &&
 			ex.Action != EXPR_ACTION_MARSHAL &&
 			ex.Action != EXPR_ACTION_PRE_MARSHAL &&
+			ex.Action != EXPR_ACTION_INSIDE_MARSHAL &&
 			ex.Action != EXPR_ACTION_POST_MARSHAL &&
 			ex.Action != EXPR_ACTION_POST_FETCH {
 			return _err.NewTyped(_err.ERR_ERROR, _err.ERR_UNDEFINED_ID, fmt.Sprintf("Entity '%s' field '%s' Expression ['%s'] - incorrect 'action' '%s'", ex.entity.Name, baseFieldName, ex.Name, ex.Action))

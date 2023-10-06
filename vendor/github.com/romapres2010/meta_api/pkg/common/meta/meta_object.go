@@ -79,10 +79,36 @@ func (o *Object) NewFromRV(rv reflect.Value, isSlice bool) *Object {
 func (o *Object) SetFromRV(rv reflect.Value) {
 	if o != nil && o.Entity != nil {
 		o.Value = rv.Interface()
-		o.RV = rv
+		o.RV = rv // TODO Заменить на o.RV.Set(in.RV)?
 		return
 	}
 	_err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, _err.ERR_UNDEFINED_ID, "if o != nil {}", []interface{}{o}).PrintfError()
+}
+
+func (o *Object) SetFrom(in *Object, copyAssociation bool, copyComposition bool) {
+	if o != nil && in != nil && o.Entity == in.Entity {
+
+		o.StructType = in.StructType
+		o.StructPtrType = in.StructPtrType
+		o.Fields = in.Fields
+		o.OrgObject = in.OrgObject
+		o.Value = in.Value
+		o.RV = in.RV
+		//o.RV.Elem().Set(in.RV.Elem())
+		o.cacheInvalid = false
+		o.IsSlice = in.IsSlice
+
+		if copyAssociation && len(o.Entity.associationMap) > 0 {
+			o.CopyAssociationFrom(in)
+		}
+
+		if copyComposition && len(o.Entity.compositionMap) > 0 {
+			o.CopyCompositionFrom(in)
+		}
+
+		return
+	}
+	_err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, _err.ERR_UNDEFINED_ID, "if o != nil && in != nil && o.Entity == in.Entity{}", []interface{}{o, in}).PrintfError()
 }
 
 func (o *Object) PKKey() *Key {
@@ -134,11 +160,11 @@ func (o *Object) KeysValueString() string {
 
 		var keysValues []string
 
-		for _, key := range o.Entity.Keys() {
-			if key != nil && (key.Type == KEY_TYPE_PK || key.Type == KEY_TYPE_UK) {
-				keyValues := o.KeyValueString(key)
-				keysValues = append(keysValues, keyValues)
-			}
+		for _, key := range o.Entity.KeysUK() {
+			//if key != nil && (key.Type == KEY_TYPE_PK || key.Type == KEY_TYPE_UK) {
+			keyValues := o.KeyValueString(key)
+			keysValues = append(keysValues, keyValues)
+			//}
 		}
 
 		return strings.Join(keysValues, ",")
@@ -231,6 +257,13 @@ func (o *Object) SetFieldRV(field *Field, val reflect.Value) (err error) {
 	return _err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, _err.ERR_UNDEFINED_ID, "if o != nil && o.Entity != nil {}", []interface{}{o}).PrintfError()
 }
 
+func (o *Object) ZeroFieldsRV(fields Fields) (err error) {
+	if o != nil && o.Entity != nil {
+		return o.Entity.ZeroFieldsRV(fields, o)
+	}
+	return _err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, _err.ERR_UNDEFINED_ID, "if o != nil && o.Entity != nil {}", []interface{}{o}).PrintfError()
+}
+
 func (o *Object) ZeroFieldRV(field *Field) (err error) {
 	if o != nil && o.Entity != nil {
 		return o.Entity.ZeroFieldRV(field, o)
@@ -259,26 +292,28 @@ func (o *Object) FieldsValue(fields Fields) (values []interface{}, err error) {
 	return nil, _err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, _err.ERR_UNDEFINED_ID, "if o != nil && o.Entity != nil {}", []interface{}{o}).PrintfError()
 }
 
-func (o *Object) FieldsRV(fields Fields) (values []reflect.Value, err error) {
+func (o *Object) FieldsRV(fields Fields) (valuesRV []reflect.Value, err error) {
 	if o != nil && o.Entity != nil {
 		return o.Entity.FieldsRV(fields, o)
 	}
 	return nil, _err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, _err.ERR_UNDEFINED_ID, "if o != nil && o.Entity != nil {}", []interface{}{o}).PrintfError()
 }
 
-func (o *Object) SetKeyFieldsRV(key *Key, values []reflect.Value) (err error) {
+func (o *Object) SetFieldsRV(fields Fields, valuesRV []reflect.Value) (err error) {
+	if o != nil && o.Entity != nil {
+		return o.Entity.SetFieldsRV(fields, o, valuesRV)
+	}
+	return _err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, _err.ERR_UNDEFINED_ID, "if o != nil && o.Entity != nil {}", []interface{}{o}).PrintfError()
+}
+
+func (o *Object) SetKeyFieldsRV(key *Key, valuesRV []reflect.Value) (err error) {
 	if o != nil && o.Entity != nil && key != nil {
 
-		if len(values) != len(key.fields) {
-			return _err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, _err.ERR_UNDEFINED_ID, "if len(values) != len(key.fields) {}").PrintfError()
+		if len(valuesRV) != len(key.fields) {
+			return _err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, _err.ERR_UNDEFINED_ID, "if len(valuesRV) != len(key.fields) {}").PrintfError()
 		}
 
-		for i, field := range key.fields {
-			if err = o.SetFieldRV(field, values[i]); err != nil {
-				return err
-			}
-		}
-		return nil
+		return o.Entity.SetFieldsRV(key.fields, o, valuesRV)
 	}
 	return _err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, _err.ERR_UNDEFINED_ID, "if o != nil && o.Entity != nil && key != nil {}", []interface{}{o}).PrintfError()
 }
@@ -390,6 +425,13 @@ func (o *Object) SetAssociationUnsafe(field *Field, obj *Object) error {
 	return _err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, _err.ERR_UNDEFINED_ID, "if o != nil && field != nil && obj != nil && field.reference != nil {}", []interface{}{o, field, obj}).PrintfError()
 }
 
+func (o *Object) GetAssociationUnsafe(field *Field) (obj *Object) {
+	if o != nil && field != nil && field.reference != nil && o.AssociationMap != nil {
+		return o.AssociationMap[field.reference]
+	}
+	return nil
+}
+
 func (o *Object) SetCompositionUnsafe(field *Field, obj *Object) error {
 	if o != nil && field != nil && obj != nil && field.reference != nil {
 		if o.CompositionMap == nil { // Создадим при первом использовании
@@ -400,6 +442,13 @@ func (o *Object) SetCompositionUnsafe(field *Field, obj *Object) error {
 		return nil
 	}
 	return _err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, _err.ERR_UNDEFINED_ID, "if o != nil && field != nil && obj != nil && field.reference != nil {}", []interface{}{o, field, obj}).PrintfError()
+}
+
+func (o *Object) GetCompositionUnsafe(field *Field) (obj *Object) {
+	if o != nil && field != nil && field.reference != nil && o.CompositionMap != nil {
+		return o.CompositionMap[field.reference]
+	}
+	return nil
 }
 
 func (o *Object) Lock() {

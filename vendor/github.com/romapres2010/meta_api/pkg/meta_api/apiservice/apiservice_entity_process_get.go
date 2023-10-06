@@ -12,13 +12,13 @@ import (
 )
 
 // processGet - обработка одной строки при считывании данных, включая валидацию
-func (s *Service) processGet(ctx context.Context, requestID uint64, rowIn *_meta.Object, rowOut *_meta.Object, action Action, exprAction _meta.ExprAction, cascadeUp int, cascadeDown int, validate bool, calculate bool) (err error, errors _err.Errors) {
+func (s *Service) processGet(ctx context.Context, requestID uint64, rowIn *_meta.Object, rowOut *_meta.Object, action Action, exprAction _meta.ExprAction, cascadeUp int, cascadeDown int, opt *processOptions) (err error, errors _err.Errors) {
 	if s != nil && rowOut != nil && rowOut.Entity != nil {
 
-		tic := time.Now()
+		//tic := time.Now()
 		innerErrors := _err.Errors{} // Ошибки вложенных методов
 
-		_log.Debug("START: requestID, EntityName", requestID, rowOut.Entity.Name)
+		//_log.Debug("START: requestID, EntityName", requestID, rowOut.Entity.Name)
 
 		// Консолидируем все ошибки
 		defer func() {
@@ -34,26 +34,28 @@ func (s *Service) processGet(ctx context.Context, requestID uint64, rowIn *_meta
 
 		// Обработать FK M:1 - при отрицательном cascadeUp - обрабатываем все уровни без ограничений
 		if rowOut.Entity.HasAssociations() && cascadeUp != 0 {
+			//if !rowOut.Entity.Embed { // Для встроенных сущностей не выводим ассоциации
 			//  уровень уменьшаем на 1, 0 - означает только себя
 			localErrors := _err.Errors{} // локальные ошибки вложенного метода
-			if err, localErrors = s.processAssociations(ctx, requestID, rowIn, rowOut, action, exprAction, cascadeUp-1, 0, validate, calculate, s.getAssociation); err != nil {
+			if err, localErrors = s.processAssociations(ctx, requestID, rowIn, rowOut, action, exprAction, cascadeUp-1, 0, opt, s.getAssociation); err != nil {
 				errors.Append(requestID, err)
 			}
 			innerErrors.AppendErrors(localErrors)
+			//}
 		}
 
 		// Обработать FK 1:M - при отрицательном cascadeDown - обрабатываем все уровни без ограничений
 		if rowOut.Entity.HasCompositions() && cascadeDown != 0 {
 			//  уровень уменьшаем на 1, 0 - означает только себя
 			localErrors := _err.Errors{} // локальные ошибки вложенного метода
-			if err, localErrors = s.processCompositions(ctx, requestID, rowIn, rowOut, action, exprAction, 0, cascadeDown-1, validate, calculate, s.getComposition); err != nil {
+			if err, localErrors = s.processCompositions(ctx, requestID, rowIn, rowOut, action, exprAction, 0, cascadeDown-1, opt, s.getComposition); err != nil {
 				errors.Append(requestID, err)
 			}
 			innerErrors.AppendErrors(localErrors)
 		}
 
 		// Вычисляемые поля
-		if calculate {
+		if opt.calculate {
 			if !rowOut.Options.Global.SkipCalculation {
 				if err = s.processExprs(ctx, requestID, rowIn, rowOut, exprAction); err != nil {
 					errors.Append(requestID, err)
@@ -62,7 +64,7 @@ func (s *Service) processGet(ctx context.Context, requestID uint64, rowIn *_meta
 		}
 
 		// Валидация данных
-		if validate {
+		if opt.validate {
 			if rowOut.Options.Global.Validate && s.validator != nil {
 				if err = s.validator.ValidateObject(requestID, rowOut); err != nil {
 					errors.Append(requestID, err)
@@ -70,7 +72,7 @@ func (s *Service) processGet(ctx context.Context, requestID uint64, rowIn *_meta
 			}
 		}
 
-		_log.Debug("END: requestID, rowOut.EntityName, duration, errors", requestID, rowOut.Entity.Name, time.Now().Sub(tic), len(errors))
+		//_log.Debug("END: requestID, rowOut.EntityName, duration, errors", requestID, rowOut.Entity.Name, time.Now().Sub(tic), len(errors))
 		err = s.processErrors(requestID, rowOut, errors, rowOut.Options.Global.EmbedError, "Get")
 		return err, errors
 	}
@@ -78,7 +80,7 @@ func (s *Service) processGet(ctx context.Context, requestID uint64, rowIn *_meta
 }
 
 // getAssociation извлечь данные в struct - FK 1:M
-func (s *Service) getAssociation(ctx context.Context, requestID uint64, rowIn *_meta.Object, rowOut *_meta.Object, associationField *_meta.Field, action Action, exprAction _meta.ExprAction, cascadeUp int, cascadeDown int, validate bool, calculate bool) (associationRow *_meta.Object, keyArgs []interface{}, err error, errors _err.Errors) {
+func (s *Service) getAssociation(ctx context.Context, requestID uint64, rowIn *_meta.Object, rowOut *_meta.Object, associationField *_meta.Field, action Action, exprAction _meta.ExprAction, cascadeUp int, cascadeDown int, opt *processOptions) (associationRow *_meta.Object, keyArgs []interface{}, err error, errors _err.Errors) {
 	if s != nil && rowOut != nil && associationField != nil {
 
 		tic := time.Now()
@@ -87,7 +89,7 @@ func (s *Service) getAssociation(ctx context.Context, requestID uint64, rowIn *_
 		toEntity := reference.ToEntity()
 		toKey := reference.ToKey()
 
-		_log.Debug("START: requestID, rowOut.EntityName, reference.Name, toEntity.Name, toEntity.Name, toKey.Name, toKey.fields", requestID, rowOut.Entity.Name, reference.Name, toEntity.Name, toKey.Name, toKey.FieldsString())
+		//_log.Debug("START: requestID, rowOut.EntityName, reference.Name, toEntity.Name, toEntity.Name, toKey.Name, toKey.fields", requestID, rowOut.Entity.Name, reference.Name, toEntity.Name, toKey.Name, toKey.FieldsString())
 
 		defer func() {
 			if innerErrors.HasError() {
@@ -116,14 +118,14 @@ func (s *Service) getAssociation(ctx context.Context, requestID uint64, rowIn *_
 			return nil, nil, nil, errors
 		}
 
-		optionsRef, err := s.parseQueryOptions(ctx, requestID, rowOut.Options.Key+".association."+toEntity.Name, toEntity, associationField, rowOut.Options.QueryOptionsDown, rowOut.Options.Global)
+		optionsRef, err := s.ParseQueryOptions(ctx, requestID, rowOut.Options.Key+".association."+toEntity.Name, toEntity, associationField, rowOut.Options.QueryOptionsDown, rowOut.Options.Global)
 		if err != nil {
 			return nil, nil, err, errors
 		}
 
 		{ // Найти в globalCache или считать из внешнего сервиса
 			localErrors := _err.Errors{} // локальные ошибки вложенного метода
-			_, associationRow, err, localErrors = s.getUnsafe(ctx, requestID, optionsRef.Entity, optionsRef, cascadeUp, cascadeDown, toKey, keyArgs...)
+			_, associationRow, err, localErrors = s.GetSingleUnsafe(ctx, requestID, optionsRef.Entity, optionsRef, cascadeUp, cascadeDown, toKey, keyArgs...)
 			if err != nil {
 				errors.Append(requestID, err)
 			}
@@ -134,7 +136,7 @@ func (s *Service) getAssociation(ctx context.Context, requestID uint64, rowIn *_
 			_log.Debug("ERROR: requestID, entityName, duration", requestID, rowOut.Entity.Name, time.Now().Sub(tic))
 			return nil, nil, errors.Error(requestID, fmt.Sprintf("Entity '%s', Keys [%s], Association '%s' - error 'Get'", rowOut.Entity.Name, rowOut.KeysValueString(), associationField.Name)), errors
 		} else {
-			_log.Debug("SUCCESS: requestID, entityName, duration", requestID, rowOut.Entity.Name, time.Now().Sub(tic))
+			//_log.Debug("SUCCESS: requestID, entityName, duration", requestID, rowOut.Entity.Name, time.Now().Sub(tic))
 			return associationRow, keyArgs, nil, errors
 		}
 	}
@@ -142,7 +144,7 @@ func (s *Service) getAssociation(ctx context.Context, requestID uint64, rowIn *_
 }
 
 // getComposition извлечь данные в struct - FK 1:M
-func (s *Service) getComposition(ctx context.Context, requestID uint64, rowIn *_meta.Object, rowOut *_meta.Object, compositionField *_meta.Field, action Action, exprAction _meta.ExprAction, cascadeUp int, cascadeDown int, validate bool, calculate bool) (compositionRows *_meta.Object, keyArgs []interface{}, err error, errors _err.Errors) {
+func (s *Service) getComposition(ctx context.Context, requestID uint64, rowIn *_meta.Object, rowOut *_meta.Object, compositionField *_meta.Field, action Action, exprAction _meta.ExprAction, cascadeUp int, cascadeDown int, opt *processOptions) (compositionRows *_meta.Object, keyArgs []interface{}, err error, errors _err.Errors) {
 	if s != nil && rowOut != nil && compositionField != nil {
 
 		tic := time.Now()
@@ -151,7 +153,7 @@ func (s *Service) getComposition(ctx context.Context, requestID uint64, rowIn *_
 		toEntity := reference.ToEntity()
 		toKey := reference.ToKey()
 
-		_log.Debug("START: requestID, entityName, reference.Name, toEntity.Name, toEntity.Name, toKey.Name, toKey.fields", requestID, rowOut.Entity.Name, reference.Name, toEntity.Name, toKey.Name, toKey.FieldsString())
+		//_log.Debug("START: requestID, entityName, reference.Name, toEntity.Name, toEntity.Name, toKey.Name, toKey.fields", requestID, rowOut.Entity.Name, reference.Name, toEntity.Name, toKey.Name, toKey.FieldsString())
 
 		defer func() {
 			if innerErrors.HasError() {
@@ -180,7 +182,7 @@ func (s *Service) getComposition(ctx context.Context, requestID uint64, rowIn *_
 			return nil, nil, nil, errors
 		}
 
-		optionsRef, err := s.parseQueryOptions(ctx, requestID, rowOut.Options.Key+".composition."+toEntity.Name, toEntity, compositionField, rowOut.Options.QueryOptionsDown, rowOut.Options.Global)
+		optionsRef, err := s.ParseQueryOptions(ctx, requestID, rowOut.Options.Key+".composition."+toEntity.Name, toEntity, compositionField, rowOut.Options.QueryOptionsDown, rowOut.Options.Global)
 		if err != nil {
 			return nil, nil, err, errors
 		}
@@ -190,7 +192,7 @@ func (s *Service) getComposition(ctx context.Context, requestID uint64, rowIn *_
 			if reference.Cardinality == _meta.REFERENCE_CARDINALITY_M {
 				_, compositionRows, err, localErrors = s.selectUnsafe(ctx, requestID, optionsRef.Entity, optionsRef, cascadeUp, cascadeDown, toKey, keyArgs...)
 			} else {
-				_, compositionRows, err, localErrors = s.getUnsafe(ctx, requestID, optionsRef.Entity, optionsRef, cascadeUp, cascadeDown, toKey, keyArgs...)
+				_, compositionRows, err, localErrors = s.GetSingleUnsafe(ctx, requestID, optionsRef.Entity, optionsRef, cascadeUp, cascadeDown, toKey, keyArgs...)
 			}
 			if err != nil {
 				errors.Append(requestID, err)
@@ -202,7 +204,7 @@ func (s *Service) getComposition(ctx context.Context, requestID uint64, rowIn *_
 			_log.Debug("ERROR: requestID, entityName, duration", requestID, rowOut.Entity.Name, time.Now().Sub(tic))
 			return nil, nil, errors.Error(requestID, fmt.Sprintf("Entity '%s', Keys [%s], Composition '%s' - error 'Select'", rowOut.Entity.Name, rowOut.KeysValueString(), compositionField.Name)), errors
 		} else {
-			_log.Debug("SUCCESS: requestID, entityName, duration", requestID, rowOut.Entity.Name, time.Now().Sub(tic))
+			//_log.Debug("SUCCESS: requestID, entityName, duration", requestID, rowOut.Entity.Name, time.Now().Sub(tic))
 			return compositionRows, keyArgs, nil, errors
 		}
 	}

@@ -419,6 +419,9 @@ func (entity *Entity) initFieldTagMap(field *Field, errDetail *[]string) {
 func (entity *Entity) initKeys() error {
 	entity.keysMap = make(KeysMap, len(entity.KeysDef))
 	entity.keys = make(Keys, 0, len(entity.KeysDef))
+	entity.keysUk = make(Keys, 0, len(entity.KeysDef))
+
+	keysUk := make(Keys, 0, len(entity.KeysDef))
 
 	for _, key := range entity.KeysDef {
 
@@ -437,12 +440,20 @@ func (entity *Entity) initKeys() error {
 
 				if key.Type == KEY_TYPE_PK {
 					entity.pkKey = key
+					entity.keys = append(entity.keys, key)   // Первым в списке идет PK
+					entity.keysUk = append(entity.keys, key) // Первым в списке идет PK
+				} else if key.Type == KEY_TYPE_UK {
+					keysUk = append(keysUk, key) // UK собираем отдельно и добавим в список после PK
+				} else if key.Type == KEY_TYPE_FK {
+					entity.keys = append(entity.keys, key)
+				} else {
+					return _err.NewTyped(_err.ERR_ERROR, _err.ERR_UNDEFINED_ID, fmt.Sprintf("Entity '%s' - Key '%s' has invalide type '%s'", entity.Name, key.Name, key.Type)).PrintfError()
 				}
-
-				entity.keys = append(entity.keys, key)
 			}
 		}
 	}
+	entity.keys = append(entity.keys, keysUk...)   // UK добавим в список после PK
+	entity.keysUk = append(entity.keys, keysUk...) // UK добавим в список после PK
 	return nil
 }
 

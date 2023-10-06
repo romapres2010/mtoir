@@ -39,13 +39,14 @@ func (s *Service) GetMarshal(ctx context.Context, entityName string, inFormat st
 		s.metaRLock()
 		defer s.metaRUnLock()
 
-		if entity = s.getEntityUnsafe(entityName); entity == nil {
+		if entity = s.GetEntityUnsafe(entityName); entity == nil {
 			return false, nil, inFormat, _err.NewTyped(_err.ERR_ERROR, requestID, fmt.Sprintf("Entity with name '%s' does not exists", entityName)), errors
 		}
 
-		if options, err = s.parseQueryOptions(localCtx, requestID, entity.Name, entity, nil, queryOptions, nil); err != nil {
+		if options, err = s.ParseQueryOptions(localCtx, requestID, entity.Name, entity, nil, queryOptions, nil); err != nil {
 			return false, nil, inFormat, err, errors
 		}
+		options.Global.InFormat = inFormat
 
 		// Разрешено ли запрашивать
 		if entity.Modify.RetrieveRestrict {
@@ -62,7 +63,7 @@ func (s *Service) GetMarshal(ctx context.Context, entityName string, inFormat st
 
 		{ // Найти в globalCache или считать из внешнего сервиса
 			localErrors := _err.Errors{} // локальные ошибки вложенного метода
-			if exists, outObject, err, localErrors = s.Get(localCtx, requestID, entity, options, options.CascadeUp, options.CascadeDown, entity.PKKey(), keyArgs...); err != nil {
+			if exists, outObject, err, localErrors = s.GetSingle(localCtx, requestID, entity, options, options.CascadeUp, options.CascadeDown, entity.PKKey(), keyArgs...); err != nil {
 				errors.Append(requestID, err)
 			}
 			innerErrors.AppendErrors(localErrors)
@@ -71,9 +72,9 @@ func (s *Service) GetMarshal(ctx context.Context, entityName string, inFormat st
 		// сформируем ответ, возможно с уже встроенной ошибкой
 		if outObject != nil {
 			var errInner error
-			outBuf, errInner = s.marshal(requestID, outObject.Value, "Get", entityName, options.Global.OutFormat)
+			outBuf, errInner = s.MarshalEntity(requestID, outObject.Value, "Get", entityName, options.Global.OutFormat)
 			if errInner != nil {
-				_log.Debug("ERROR - marshal: requestID, entityName, duration", requestID, entityName, time.Now().Sub(tic))
+				_log.Debug("ERROR - MarshalEntity: requestID, entityName, duration", requestID, entityName, time.Now().Sub(tic))
 				errors.Append(requestID, errInner)
 				return false, nil, inFormat, errInner, errors
 			} else {
@@ -88,8 +89,8 @@ func (s *Service) GetMarshal(ctx context.Context, entityName string, inFormat st
 	return false, nil, inFormat, _err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, requestID, "if s != nil && entityName != '' {}", []interface{}{s, entityName}).PrintfError(), errors
 }
 
-// Get извлечь данные в struct - только запрошенные поля
-func (s *Service) Get(ctx context.Context, requestID uint64, entity *_meta.Entity, options *_meta.Options, cascadeUp int, cascadeDown int, key *_meta.Key, keyArgs ...interface{}) (exists bool, rowOut *_meta.Object, err error, errors _err.Errors) {
+// GetSingle извлечь данные в struct - только запрошенные поля
+func (s *Service) GetSingle(ctx context.Context, requestID uint64, entity *_meta.Entity, options *_meta.Options, cascadeUp int, cascadeDown int, key *_meta.Key, keyArgs ...interface{}) (exists bool, rowOut *_meta.Object, err error, errors _err.Errors) {
 	if s != nil && entity != nil && options != nil && key != nil {
 
 		tic := time.Now()
@@ -116,7 +117,7 @@ func (s *Service) Get(ctx context.Context, requestID uint64, entity *_meta.Entit
 
 		{ // Найти в globalCache или считать из внешнего сервиса
 			localErrors := _err.Errors{} // локальные ошибки вложенного метода
-			exists, rowOut, err, localErrors = s.getUnsafe(ctx, requestID, entity, options, cascadeUp, cascadeDown, key, keyArgs...)
+			exists, rowOut, err, localErrors = s.GetSingleUnsafe(ctx, requestID, entity, options, cascadeUp, cascadeDown, key, keyArgs...)
 			if err != nil {
 				errors.Append(requestID, err)
 			}
@@ -149,8 +150,8 @@ func (s *Service) Get(ctx context.Context, requestID uint64, entity *_meta.Entit
 	return false, nil, _err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, requestID, "if s != nil && entity != nil && options != nil  && key != nil {}", []interface{}{s, entity, options, key}).PrintfError(), errors
 }
 
-// getUnsafe извлечь данные в struct - только запрошенные поля
-func (s *Service) getUnsafe(ctx context.Context, requestID uint64, entity *_meta.Entity, options *_meta.Options, cascadeUp int, cascadeDown int, key *_meta.Key, keyArgs ...interface{}) (exists bool, rowOut *_meta.Object, err error, errors _err.Errors) {
+// GetSingleUnsafe извлечь данные в struct - только запрошенные поля
+func (s *Service) GetSingleUnsafe(ctx context.Context, requestID uint64, entity *_meta.Entity, options *_meta.Options, cascadeUp int, cascadeDown int, key *_meta.Key, keyArgs ...interface{}) (exists bool, rowOut *_meta.Object, err error, errors _err.Errors) {
 	if s != nil && entity != nil && options != nil && key != nil {
 
 		innerErrors := _err.Errors{} // Ошибки вложенных методов
@@ -219,7 +220,7 @@ func (s *Service) getUnsafe(ctx context.Context, requestID uint64, entity *_meta
 		if exists && !errors.HasError() && !innerErrors.HasError() {
 			// Пост обработка только для полей, которые нужно возвращать
 			localErrors := _err.Errors{} // локальные ошибки вложенного метода
-			if err, localErrors = s.processGet(ctx, requestID, nil, rowOut, PERSIST_ACTION_GET, _meta.EXPR_ACTION_POST_FETCH, 0, 0, false, true); err != nil {
+			if err, localErrors = s.processGet(ctx, requestID, nil, rowOut, PERSIST_ACTION_GET, _meta.EXPR_ACTION_POST_FETCH, 0, 0, &processOptions{validate: false, calculate: true, addCrossRef: false}); err != nil {
 				errors.Append(requestID, err)
 			}
 			innerErrors.AppendErrors(localErrors)
@@ -228,7 +229,7 @@ func (s *Service) getUnsafe(ctx context.Context, requestID uint64, entity *_meta
 		// Постобработка - каскадная обработка, вычисления, валидация
 		if exists && !errors.HasError() && !innerErrors.HasError() {
 			localErrors := _err.Errors{} // локальные ошибки вложенного метода
-			if err, localErrors = s.processGet(ctx, requestID, nil, rowOut, PERSIST_ACTION_GET, _meta.EXPR_ACTION_INSIDE_GET, cascadeUp, cascadeDown, rowOut.Options.Global.Validate, true); err != nil {
+			if err, localErrors = s.processGet(ctx, requestID, nil, rowOut, PERSIST_ACTION_GET, _meta.EXPR_ACTION_INSIDE_GET, cascadeUp, cascadeDown, &processOptions{validate: rowOut.Options.Global.Validate, calculate: true, addCrossRef: false}); err != nil {
 				errors.Append(requestID, err)
 			}
 			innerErrors.AppendErrors(localErrors)
@@ -245,8 +246,8 @@ func (s *Service) getUnsafe(ctx context.Context, requestID uint64, entity *_meta
 	return false, nil, _err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, requestID, "if s != nil && entity != nil && options != nil  && key != nil {}", []interface{}{s, entity, options, key}).PrintfError(), errors
 }
 
-// getByKeyUnsafe считать поля ключа
-func (s *Service) getByKeyUnsafe(ctx context.Context, requestID uint64, entity *_meta.Entity, options *_meta.Options, rowIn *_meta.Object, key *_meta.Key) (exists bool, rowOut *_meta.Object, keyArgs []interface{}, err error, errors _err.Errors) {
+// GetSingleByKeyUnsafe считать поля ключа
+func (s *Service) GetSingleByKeyUnsafe(ctx context.Context, requestID uint64, entity *_meta.Entity, options *_meta.Options, rowIn *_meta.Object, key *_meta.Key) (exists bool, rowOut *_meta.Object, keyArgs []interface{}, err error, errors _err.Errors) {
 	if s != nil && entity != nil && rowIn != nil && key != nil && options != nil {
 
 		innerErrors := _err.Errors{} // Ошибки вложенных методов
@@ -270,7 +271,7 @@ func (s *Service) getByKeyUnsafe(ctx context.Context, requestID uint64, entity *
 		} else {
 			{ // Найти в globalCache или считать из внешнего сервиса, возврат только полей ключа
 				localErrors := _err.Errors{} // локальные ошибки вложенного метода
-				exists, rowOut, err, localErrors = s.getUnsafe(ctx, requestID, entity, options, 0, 0, key, keyArgs...)
+				exists, rowOut, err, localErrors = s.GetSingleUnsafe(ctx, requestID, entity, options, 0, 0, key, keyArgs...)
 				if err != nil {
 					errors.Append(requestID, err)
 				}

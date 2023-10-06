@@ -41,13 +41,14 @@ func (s *Service) SelectMarshal(ctx context.Context, entityName string, inFormat
 		s.metaRLock()
 		defer s.metaRUnLock()
 
-		if entity = s.getEntityUnsafe(entityName); entity == nil {
+		if entity = s.GetEntityUnsafe(entityName); entity == nil {
 			return false, nil, inFormat, _err.NewTyped(_err.ERR_ERROR, requestID, fmt.Sprintf("Entity with name '%s' does not exists", entityName)), errors
 		}
 
-		if options, err = s.parseQueryOptions(localCtx, requestID, entity.Name, entity, nil, queryOptions, nil); err != nil {
+		if options, err = s.ParseQueryOptions(localCtx, requestID, entity.Name, entity, nil, queryOptions, nil); err != nil {
 			return false, nil, inFormat, err, errors
 		}
+		options.Global.InFormat = inFormat
 
 		// Разрешено ли запрашивать
 		if entity.Modify.RetrieveRestrict {
@@ -65,9 +66,9 @@ func (s *Service) SelectMarshal(ctx context.Context, entityName string, inFormat
 		// сформируем ответ, возможно с уже встроенной ошибкой
 		if outObject != nil {
 			var errInner error
-			outBuf, errInner = s.marshal(requestID, outObject.Value, "Select", entityName, options.Global.OutFormat)
+			outBuf, errInner = s.MarshalEntity(requestID, outObject.Value, "Select", entityName, options.Global.OutFormat)
 			if errInner != nil {
-				_log.Debug("ERROR - marshal: requestID, entityName, duration", requestID, entityName, time.Now().Sub(tic))
+				_log.Debug("ERROR - MarshalEntity: requestID, entityName, duration", requestID, entityName, time.Now().Sub(tic))
 				errors.Append(requestID, errInner)
 				return false, nil, inFormat, errInner, errors
 			} else {
@@ -223,7 +224,7 @@ func (s *Service) selectUnsafe(ctx context.Context, requestID uint64, entity *_m
 		if exists && !errors.HasError() && !innerErrors.HasError() {
 			for _, row := range rowsOut.Objects {
 				localErrors := _err.Errors{} // локальные ошибки вложенного метода
-				if err, localErrors = s.processGet(ctx, requestID, nil, row, PERSIST_ACTION_GET, _meta.EXPR_ACTION_POST_FETCH, 0, 0, false, true); err != nil {
+				if err, localErrors = s.processGet(ctx, requestID, nil, row, PERSIST_ACTION_GET, _meta.EXPR_ACTION_POST_FETCH, 0, 0, &processOptions{validate: false, calculate: true, addCrossRef: false}); err != nil {
 					errors.Append(requestID, err)
 				}
 				innerErrors.AppendErrors(localErrors)
@@ -255,7 +256,7 @@ func (s *Service) selectUnsafe(ctx context.Context, requestID uint64, entity *_m
 		if exists && !errors.HasError() && !innerErrors.HasError() {
 			for _, rowOut := range rowsOut.Objects {
 				localErrors := _err.Errors{} // локальные ошибки вложенного метода
-				if err, localErrors = s.processGet(ctx, requestID, nil, rowOut, PERSIST_ACTION_GET, _meta.EXPR_ACTION_INSIDE_GET, cascadeUp, cascadeDown, rowOut.Options.Global.Validate, true); err != nil {
+				if err, localErrors = s.processGet(ctx, requestID, nil, rowOut, PERSIST_ACTION_GET, _meta.EXPR_ACTION_INSIDE_GET, cascadeUp, cascadeDown, &processOptions{validate: rowOut.Options.Global.Validate, calculate: true, addCrossRef: false}); err != nil {
 					errors.Append(requestID, err)
 				}
 				innerErrors.AppendErrors(localErrors)

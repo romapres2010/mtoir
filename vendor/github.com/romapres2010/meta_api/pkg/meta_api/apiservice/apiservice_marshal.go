@@ -10,14 +10,13 @@ import (
 	"github.com/bytedance/sonic"
 
 	_err "github.com/romapres2010/meta_api/pkg/common/error"
-	_log "github.com/romapres2010/meta_api/pkg/common/logger"
 	_metrics "github.com/romapres2010/meta_api/pkg/common/metrics"
 	_xlsx "github.com/romapres2010/meta_api/pkg/common/xlsx"
 )
 
-// marshal трансформировать произвольную структуру в 'json', 'yaml', 'xml', 'xls'
-func (s *Service) marshal(requestID uint64, val any, operation, name string, format string) (buf []byte, myerr error) {
-	_log.Debug("START: requestID, name", requestID, name)
+// MarshalEntity трансформировать произвольную структуру в 'json', 'yaml', 'xml', 'xls'
+func (s *Service) MarshalEntity(requestID uint64, val any, operation, name string, format string) (buf []byte, myerr error) {
+	//_log.Debug("START: requestID, name", requestID, name)
 
 	var err error
 	var tic = time.Now()
@@ -80,6 +79,6 @@ func (s *Service) marshal(requestID uint64, val any, operation, name string, for
 	}
 	_metrics.IncMarshalingDurationVec(format, operation, name, time.Now().Sub(tic))
 
-	_log.Debug("SUCCESS: requestID, name, duration", requestID, name, time.Now().Sub(tic))
+	//_log.Debug("SUCCESS: requestID, name, duration", requestID, name, time.Now().Sub(tic))
 	return buf, nil
 }

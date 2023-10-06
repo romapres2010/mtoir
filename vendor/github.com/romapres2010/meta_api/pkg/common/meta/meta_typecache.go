@@ -243,7 +243,7 @@ func (entity *Entity) NewStruct(fields FieldsMap, typeCacheKey string) (cacheHit
 			// Использовать те типы, которые вернулись из кэша, могла возникнуть коллизия две горутины одновременно запросили новый тип
 			typeCacheEntry = entity.SetTypeCache(typeCacheKey, newRowType)
 		} else {
-			_log.Debug("Found Entity Object Type in Cache: entityName, typeCacheKey", entity.Name, typeCacheKey)
+			//_log.Debug("Found Entity Object Type in Cache: entityName, typeCacheKey", entity.Name, typeCacheKey)
 		}
 
 		rowPtrRV := reflect.New(typeCacheEntry.structType)
@@ -251,6 +251,41 @@ func (entity *Entity) NewStruct(fields FieldsMap, typeCacheKey string) (cacheHit
 		row = newObject(entity, fields, rowPtrRV.Interface(), rowPtrRV, typeCacheEntry.structType, typeCacheEntry.structPtrType, false)
 
 		return cacheHit, row, nil
+	}
+	return false, nil, _err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, _err.ERR_UNDEFINED_ID, "if entity != nil {}", []interface{}{entity}).PrintfError()
+}
+
+func (entity *Entity) NewSliceAny(fields FieldsMap, typeCacheKey string, len, cap int) (cacheHit bool, slice *Object, err error) {
+	if entity != nil {
+
+		var typeCacheEntry *TypeCacheEntry
+
+		// ищем определение структуры в cache
+		typeCacheEntry, cacheHit = entity.TypeCache(typeCacheKey)
+
+		if !cacheHit {
+
+			// Создать тип структуры
+			_log.Info("Not Found Entity Object Type Cache - create new one: entityName, typeCacheKey", entity.Name, typeCacheKey)
+			newRowType, err := entity.StructOf(fields, false, true, true, true, true, true, false, true)
+			if err != nil {
+				return false, nil, err
+			}
+
+			// Использовать те типы, которые вернулись из кэша, могла возникнуть коллизия две горутины одновременно запросили новый тип
+			typeCacheEntry = entity.SetTypeCache(typeCacheKey, newRowType)
+		} else {
+			//_log.Debug("Found Entity Object Type in Cache: entityName, typeCacheKey", entity.Name, typeCacheKey)
+		}
+
+		sliceRV := reflect.MakeSlice(typeCacheEntry.sliceAnyType, len, cap)
+		slicePtrRV := reflect.New(typeCacheEntry.sliceAnyType)
+		slicePtrRV.Elem().Set(sliceRV)
+
+		slice = newObject(entity, fields, slicePtrRV.Interface(), slicePtrRV, typeCacheEntry.structType, typeCacheEntry.structPtrType, true)
+
+		return cacheHit, slice, nil
+
 	}
 	return false, nil, _err.NewTyped(_err.ERR_INCORRECT_CALL_ERROR, _err.ERR_UNDEFINED_ID, "if entity != nil {}", []interface{}{entity}).PrintfError()
 }
@@ -275,7 +310,7 @@ func (entity *Entity) NewSlice(fields FieldsMap, typeCacheKey string, len, cap i
 			// Использовать те типы, которые вернулись из кэша, могла возникнуть коллизия две горутины одновременно запросили новый тип
 			typeCacheEntry = entity.SetTypeCache(typeCacheKey, newRowType)
 		} else {
-			_log.Debug("Found Entity Object Type in Cache: entityName, typeCacheKey", entity.Name, typeCacheKey)
+			//_log.Debug("Found Entity Object Type in Cache: entityName, typeCacheKey", entity.Name, typeCacheKey)
 		}
 
 		sliceRV := reflect.MakeSlice(typeCacheEntry.sliceType, len, cap)
@@ -310,6 +345,7 @@ type TypeCacheEntry struct {
 	structType    reflect.Type // struct{}
 	structPtrType reflect.Type // *struct{}
 	sliceType     reflect.Type // []*struct{}
+	sliceAnyType  reflect.Type // []interface{}
 }
 
 type TypeCache struct {
@@ -338,7 +374,8 @@ func (typeCache *TypeCache) Set(key string, inRowType reflect.Type) (typeCacheEn
 				structType:    inRowType,
 				structPtrType: reflect.PointerTo(inRowType),
 				//sliceType: reflect.SliceOf(inRowType),
-				sliceType: reflect.SliceOf(reflect.PointerTo(inRowType)),
+				sliceType:    reflect.SliceOf(reflect.PointerTo(inRowType)),
+				sliceAnyType: FIELD_TYPE_SLICE_ANY_RT,
 			}
 			typeCache.cache[key] = entry
 		}

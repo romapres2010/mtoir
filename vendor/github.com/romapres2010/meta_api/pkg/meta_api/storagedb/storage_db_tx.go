@@ -88,6 +88,7 @@ func (s *Storage) Begin(ctx context.Context, requestID uint64) (txId uint64, err
 	if s != nil && s.db != nil {
 		if s.txCache != nil {
 			if tx, err := s.db.BeginTxx(ctx, requestID, nil); err != nil {
+				//if tx, err := s.db.Beginx(requestID); err != nil {
 				return 0, err
 			} else {
 				txId = getNextTxID()
@@ -108,7 +109,7 @@ func (s *Storage) Commit(requestID uint64, txId uint64) (err error) {
 				s.txCache.Del(txId)
 				return err
 			} else {
-				return _err.NewTyped(_err.ERR_ERROR, requestID, fmt.Sprintf("DB '%s' - transaction ID='%v' does not exists", s.db.Name, txId))
+				return _err.NewTyped(_err.ERR_ERROR, requestID, fmt.Sprintf("DB '%s' - transaction ID='%v' does not exists or already commited", s.db.Name, txId))
 			}
 		}
 		return nil
@@ -124,7 +125,7 @@ func (s *Storage) Rollback(requestID uint64, txId uint64) (err error) {
 				s.txCache.Del(txId)
 				return err
 			} else {
-				return _err.NewTyped(_err.ERR_ERROR, requestID, fmt.Sprintf("DB '%s' - transaction ID='%v' does not exists", s.db.Name, txId))
+				return _err.NewTyped(_err.ERR_ERROR, requestID, fmt.Sprintf("DB '%s' - transaction ID='%v' does not exists or already rollbacked", s.db.Name, txId))
 			}
 		}
 		return nil
